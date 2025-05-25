@@ -2,7 +2,7 @@ import { useState } from 'react';
 class XNotification {
   static permissionState: NotificationPermission;
   static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>>;
-  static permissionMap: Map<string, any>;
+  static permissionMap: Map<string, any> = new Map();
   get permission() {
     return Notification?.permission;
   }
@@ -10,6 +10,7 @@ class XNotification {
     const { title, key, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
     const notification: Notification = new Notification(title, config || {});
     const close = notification.close.bind(notification);
+    if (XNotification.permissionMap.has(key)) return;
     if (typeof duration === 'number') {
       setTimeout(() => {
         close();
@@ -50,6 +51,11 @@ class XNotification {
         requestPermission: this.requestPermission,
       },
     ];
+  }
+  public destroy() {
+    Array.from(XNotification.permissionMap.keys()).forEach((key) => {
+      XNotification.permissionMap.get(key)?.close?.();
+    });
   }
 }
 

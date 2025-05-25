@@ -14,7 +14,6 @@ const App = () => {
       body: '11',
       key: 'key_123',
       icon: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
-      duration: 2,
       onClick: (event, close) => {
         console.log('onClick', event, close);
         close?.();
@@ -37,6 +36,13 @@ const App = () => {
       </Button>
       <Button type="primary" onClick={open}>
         Open a notification
+      </Button>
+      <Button
+        onClick={() => {
+          notification.destroy();
+        }}
+      >
+        Destroy All
       </Button>
     </Flex>
   );
