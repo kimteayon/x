@@ -2,15 +2,15 @@ import { useState } from 'react';
 class XNotification {
   static permissionState: NotificationPermission;
   static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>>;
-  static permissionMap: Map<string, any> = new Map();
+  static permissionMap: Map<string | number, any> = new Map();
   get permission() {
     return Notification?.permission;
   }
-  public open(arg: ContentType): void {
+  public open(arg: TypeOpen): void {
     const { title, key, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
     const notification: Notification = new Notification(title, config || {});
     const close = notification.close.bind(notification);
-    if (XNotification.permissionMap.has(key)) return;
+    if (key && XNotification.permissionMap.has(key)) return;
     if (typeof duration === 'number') {
       setTimeout(() => {
         close();
@@ -21,13 +21,14 @@ class XNotification {
     };
     notification.onclose = (event) => {
       onClose?.(event);
-      XNotification.permissionMap.delete(key);
+      key && XNotification.permissionMap.delete(key);
     };
     notification.onshow = (event) => {
       onShow?.(event);
-      XNotification.permissionMap.set(key, {
-        close,
-      });
+      key &&
+        XNotification.permissionMap.set(key, {
+          close,
+        });
     };
     notification.onerror = (event) => {
       onError?.(event);
@@ -45,14 +46,14 @@ class XNotification {
     XNotification.permissionState = permission;
     XNotification.setPermissionState = setPermission;
     return [
-      { permission },
       {
+        permission,
         open: this.open,
         requestPermission: this.requestPermission,
       },
     ];
   }
-  public destroy() {
+  public close() {
     Array.from(XNotification.permissionMap.keys()).forEach((key) => {
       XNotification.permissionMap.get(key)?.close?.();
     });

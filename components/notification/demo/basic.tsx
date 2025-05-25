@@ -3,13 +3,13 @@ import { Button, Flex } from 'antd';
 import React from 'react';
 
 const App = () => {
+  const [{ permission, open, requestPermission }] = notification.useNotification();
   const info = () => {
-    notification.requestPermission();
+    requestPermission();
   };
-  const [{ permission }] = notification.useNotification();
 
-  const open = () => {
-    notification.open({
+  const openClick = () => {
+    open({
       title: '你好',
       body: '11',
       key: 'key_123',
@@ -34,12 +34,12 @@ const App = () => {
       <Button type="primary" onClick={info}>
         Request Permission ({permission})
       </Button>
-      <Button type="primary" onClick={open}>
+      <Button type="primary" onClick={openClick}>
         Open a notification
       </Button>
       <Button
         onClick={() => {
-          notification.destroy();
+          notification.close();
         }}
       >
         Destroy All
