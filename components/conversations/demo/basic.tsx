@@ -7,7 +7,7 @@ const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 4 }).ma
   key: `item${index + 1}`,
   label:
     index + 1 === 3
-      ? "This's Conversation Item 2, you can click me!"
+      ? "This's Conversation Item 3, you can click me!"
       : `Conversation Item ${index + 1}`,
   disabled: index === 3,
 }));
