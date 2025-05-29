@@ -35,8 +35,9 @@ demo:
 ## 代码演示
 
 <!-- prettier-ignore -->
-<code src="./demo/use.tsx" background="grey">使用</code>
-
+<code src="./demo/direction.tsx" background="grey">方向</code>
+<code src="./demo/theme.tsx" background="grey">主题</code>
+<code src="./demo/shortcutKeys.tsx" background="grey">快捷键</code>
 ## API
 
 `XProvider` 完全继承 `antd` 的 `ConfigProvider`, 属性参考：[Antd ConfigProvider](https://ant-design.antgroup.com/components/config-provider-cn#api)

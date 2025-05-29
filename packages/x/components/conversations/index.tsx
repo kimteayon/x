@@ -13,6 +13,8 @@ import useStyle from './style';
 
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { Conversation, Groupable } from './interface';
+import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
+import { ShortcutKeys } from '../_util/type';
 
 /**
  * @desc 会话列表组件参数
@@ -78,11 +80,19 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom class name
    */
   rootClassName?: string;
+  /**
+   * @desc 自定义快捷键
+   * @descEN Custom Shortcut Keys
+   */
+  shortcutKeys?: {
+    items?: ShortcutKeys<'index'> | ShortcutKeys<number>[]
+  }
 }
 
 const Conversations: React.FC<ConversationsProps> = (props) => {
   const {
     prefixCls: customizePrefixCls,
+    shortcutKeys: customizeShortcutKeys,
     rootClassName,
     items,
     activeKey,
@@ -96,6 +106,7 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     style,
     ...restProps
   } = props;
+
 
   const domProps = pickAttrs(restProps, {
     attr: true,
@@ -137,6 +148,9 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     },
   );
 
+  // ============================ Short Key =========================
+  const mergeShortKeys = useShortcutKeys('conversations', customizeShortcutKeys);
+
   // ============================ Events ============================
   const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
     setMergedActiveKey(info.key);
@@ -176,7 +190,7 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
           return (
             <li key={groupInfo.name || `key-${groupIndex}`}>
               <GroupTitleContext.Provider value={{ prefixCls }}>
-                {groupInfo.title?.(groupInfo.name!, { components: { GroupTitle } }) || (
+                {groupInfo.title?.(groupInfo.name || '', { components: { GroupTitle } }) || (
                   <GroupTitle key={groupInfo.name}>{groupInfo.name}</GroupTitle>
                 )}
               </GroupTitleContext.Provider>

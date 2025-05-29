@@ -19,5 +19,7 @@ export default () => {
     borderRadius: token.borderRadius,
   };
 
-  return <Conversations items={items} defaultActiveKey="item1" style={style} />;
+  return <Conversations items={items} defaultActiveKey="item1" shortcutKeys={{
+    items: [['Meta', 0], ['Meta', 1]],
+  }} style={style} />;
 };
