@@ -24,8 +24,6 @@ tag: vVERSION
 - 🐛 修复 Conversations 列表标题溢出截断失效问题。[#877](https://github.com/ant-design/x/pull/877) 由 [kimteayon](https://github.com/kimteayon) 提交
 - 📖 优化官网站点提升用户体验。[#816](https://github.com/ant-design/x/pull/816) 由 [@Rain120](https://github.com/Rain120) 提交、[#880](https://github.com/ant-design/x/pull/880) 由 [@kimteayon](https://github.com/kimteayon) 提交
 
--
-
 ## 1.3.0
 
 `2025-05-21`
