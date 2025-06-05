@@ -48,9 +48,6 @@ export default defineConfig({
   define: {
     antdReproduceVersion: version,
   },
-  monorepoRedirect: {
-    peerDeps: true,
-  },
   externals: {
     // optimize build of GPT-Vis
     'mapbox-gl': 'mapboxgl',
