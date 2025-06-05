@@ -275,8 +275,8 @@ const Independent: React.FC = () => {
 
   // ==================== Runtime ====================
   const [agent] = useXAgent<BubbleDataType>({
-    baseURL: 'https://api.x.ant.design/api/llm_siliconflow_deepseekr1',
-    model: 'deepseek-ai/DeepSeek-R1',
+    baseURL: 'https://api.x.ant.design/api/llm_siliconflow_deepSeek-r1-distill-1wen-7b',
+    model: 'DeepSeek-R1-Distill-Qwen-7B',
     dangerouslyApiKey: 'Bearer sk-xxxxxxxxxxxxxxxxxxxx',
   });
   const loading = agent.isRequesting();
@@ -365,6 +365,13 @@ const Independent: React.FC = () => {
       {/* 🌟 添加会话 */}
       <Button
         onClick={() => {
+          if (agent.isRequesting()) {
+            message.error(
+              'Message is Requesting, you can create a new conversation after request done or abort it right now...',
+            );
+            return;
+          }
+
           const now = dayjs().valueOf().toString();
           setConversations([
             {

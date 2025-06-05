@@ -1,5 +1,10 @@
 import React from 'react';
 
+<<<<<<< HEAD
+=======
+import type { AnyObject } from '../_util/type';
+import type { ActionsProps } from '../actions';
+>>>>>>> 3257f71abf87566d186bb3fb7f1f6bbb0606070a
 import { AttachmentsProps } from '../attachments';
 import type { AnyObject, ShortcutKeys } from '../_util/type';
 import type { BubbleProps } from '../bubble';
@@ -26,6 +31,7 @@ type ComponentConfig<
 > = Pick<CompProps, PickType | DefaultPickType>;
 
 export interface XComponentsConfig {
+<<<<<<< HEAD
   bubble?: ComponentConfig<BubbleProps>;
   conversations?: ComponentConfig<ConversationsProps>;
   prompts?: ComponentConfig<PromptsProps>;
@@ -34,6 +40,17 @@ export interface XComponentsConfig {
   thoughtChain?: ComponentConfig<ThoughtChainProps>;
   attachments?: ComponentConfig<AttachmentsProps>;
   welcome?: ComponentConfig<WelcomeProps>;
+=======
+  bubble?: ComponentStyleConfig<BubbleProps>;
+  conversations?: ComponentStyleConfig<ConversationsProps>;
+  prompts?: ComponentStyleConfig<PromptsProps>;
+  sender?: ComponentStyleConfig<SenderProps>;
+  suggestion?: ComponentStyleConfig<SuggestionProps>;
+  thoughtChain?: ComponentStyleConfig<ThoughtChainProps>;
+  attachments?: ComponentStyleConfig<AttachmentsProps>;
+  welcome?: ComponentStyleConfig<WelcomeProps>;
+  actions?: ComponentStyleConfig<ActionsProps>;
+>>>>>>> 3257f71abf87566d186bb3fb7f1f6bbb0606070a
 }
 
 export interface XProviderProps extends XComponentsConfig {
