@@ -15,7 +15,7 @@ export const findItem = (keyPath: string[], items: ActionItem[]): ActionItem | n
 
       // If it is a SubItemType, recurse to find in its children
       if ('children' in item) {
-        return findItem(keyPath.slice(1), item.children!);
+        return findItem(keyPath.slice(1), item?.children!);
       }
     }
   }
