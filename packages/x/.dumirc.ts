@@ -33,7 +33,11 @@ export default defineConfig({
     'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
   ],
   resolve: {
-    docDirs: [{ type: 'doc', dir: 'docs' }],
+    docDirs: [
+      { type: 'doc', dir: 'docs' },
+      { type: 'sdk', dir: 'docs/x-sdk' },
+      { type: 'markdown', dir: 'docs/x-markdown' },
+    ],
     atomDirs: [{ type: 'component', dir: 'components' }],
     codeBlockMode: 'passive',
   },
@@ -43,6 +47,9 @@ export default defineConfig({
   ],
   define: {
     antdReproduceVersion: version,
+  },
+  monorepoRedirect: {
+    peerDeps: true,
   },
   externals: {
     // optimize build of GPT-Vis
