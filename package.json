@@ -13,7 +13,8 @@
   ],
   "devDependencies": {
     "size-limit": "^11.1.5",
-    "@size-limit/file": "^11.1.5"
+    "@size-limit/file": "^11.1.5",
+    "lint-staged": "^16.1.0"
   },
   "size-limit": [
     {
