@@ -1,4 +1,4 @@
-## zh-CNAdd commentMore actions
+## zh-CN
 
 这里列出了支持 `rtl` 方向的组件，您可以在演示中切换方向。
 

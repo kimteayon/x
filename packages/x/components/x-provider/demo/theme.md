@@ -1,4 +1,4 @@
-## zh-CNAdd commentMore actions
+## zh-CN
 
 通过 `theme` 修改主题。
 

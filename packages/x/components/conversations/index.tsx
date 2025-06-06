@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import GroupTitle, { GroupTitleContext } from './GroupTitle';
 import ConversationsItem, { type ConversationsItemProps } from './Item';
@@ -81,12 +81,12 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom class name
    */
   rootClassName?: string;
-  /**Add commentMore actions
+  /**
    * @desc 自定义快捷键
    * @descEN Custom Shortcut Keys
    */
   shortcutKeys?: {
-    items?: ShortcutKeys<'index'> | ShortcutKeys<number>[]
+    items?: ShortcutKeys<'number'> | ShortcutKeys<number>[]
   }
 }
 
@@ -148,10 +148,18 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     },
   );
 
-  // ============================ Short Key =========================Add commentMore actions
-  const [activeInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
-  console.log(activeInfo,111)
-  
+  // ============================ Short Key =========================
+  const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
+
+  useEffect(() => {
+    if (actionShortcutInfo?.name === 'items') {
+      setMergedActiveKey((ori) => {
+        const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
+        return typeof index === 'number' ? items?.[index].key : ori
+      })
+    }
+  }, [actionShortcutInfo, items])
+
   // ============================ Events ============================
   const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
     setMergedActiveKey(info.key);

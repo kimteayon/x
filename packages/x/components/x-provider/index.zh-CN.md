@@ -35,7 +35,7 @@ demo:
 ## 代码演示
 
 <!-- prettier-ignore -->
-<code src="./demo/direction.tsx" background="grey">方向</code>Add commentMore actions
+<code src="./demo/direction.tsx" background="grey">方向</code>
 <code src="./demo/theme.tsx" background="grey">主题</code>
 <code src="./demo/shortcutKeys.tsx" background="grey">快捷键</code>
 
