@@ -34,7 +34,9 @@ If you are already using `ConfigProvider` from `antd`, please make the following
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/use.tsx" background="grey">Use</code>
+<code src="./demo/direction.tsx" background="grey">Direction</code>
+<code src="./demo/theme.tsx" background="grey">Theme</code>
+<code src="./demo/shortcutKeys.tsx" background="grey">ShortcutKe</code>
 
 ## API
 

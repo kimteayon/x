@@ -14,6 +14,9 @@ import useStyle from './style';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { Conversation, Groupable } from './interface';
 
+import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
+import { ShortcutKeys } from '../_util/type';
+
 /**
  * @desc 会话列表组件参数
  * @descEN Props for the conversation list component
@@ -78,11 +81,19 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom class name
    */
   rootClassName?: string;
+  /**Add commentMore actions
+   * @desc 自定义快捷键
+   * @descEN Custom Shortcut Keys
+   */
+  shortcutKeys?: {
+    items?: ShortcutKeys<'index'> | ShortcutKeys<number>[]
+  }
 }
 
 const Conversations: React.FC<ConversationsProps> = (props) => {
   const {
     prefixCls: customizePrefixCls,
+    shortcutKeys: customizeShortcutKeys,
     rootClassName,
     items,
     activeKey,
@@ -137,6 +148,10 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     },
   );
 
+  // ============================ Short Key =========================Add commentMore actions
+  const [activeInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
+  console.log(activeInfo,111)
+  
   // ============================ Events ============================
   const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
     setMergedActiveKey(info.key);
