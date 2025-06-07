@@ -58,7 +58,7 @@ const waringConfig = (flattenShortcutKeys: FlattenShortcutKeys, shortcutKey: Sho
 }
 
 // =================== Flatten shortcut key data ====================
-const getFlattenShortcutKeys = ( component: keyof XComponentsConfig,contextShortcutKeys: Record<string, ShortcutKeys | ShortcutKeys[]>, componentShortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>): FlattenShortcutKeys => {
+const getFlattenShortcutKeys = (component: keyof XComponentsConfig, contextShortcutKeys: Record<string, ShortcutKeys | ShortcutKeys[]>, componentShortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>): FlattenShortcutKeys => {
     const mergeShortcutKeys = Object.assign({}, contextShortcutKeys || {}, componentShortcutKeys);
     return Object.keys(mergeShortcutKeys).reduce((flattenShortcutKeys, subName) => {
         const subShortcutKeys = mergeShortcutKeys[subName];
@@ -76,7 +76,7 @@ const getFlattenShortcutKeys = ( component: keyof XComponentsConfig,contextShort
             const copyShortcutKey = [...subShortcutKeys];
             const keyCode = copyShortcutKey.pop();
             const signKeys = copyShortcutKey as (keyof SignKeysType)[];
-            const mergeKeyCodeDict = subShortcutKeys.includes('number') ? [...NumberKeyCode] : [keyCode];
+            const mergeKeyCodeDict = keyCode === 'number' ? [...NumberKeyCode] : [keyCode];
             mergeKeyCodeDict.forEach((keyCode) => {
                 waringConfig(flattenShortcutKeys, [...signKeys, keyCode] as ShortcutKeys<number>, component);
                 flattenShortcutKeys.push({
@@ -93,7 +93,7 @@ const getFlattenShortcutKeys = ( component: keyof XComponentsConfig,contextShort
 // ================== Monitor shortcut key triggering ======================
 const useShortcutKeys = <C extends keyof XComponentsConfig>(component: C, shortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>): [ActionShortcutInfo?] => {
     const contextConfig = useXComponentConfig(component);
-    const flattenShortcutKeys = getFlattenShortcutKeys(component,contextConfig.shortcutKeys, shortcutKeys);
+    const flattenShortcutKeys = getFlattenShortcutKeys(component, contextConfig.shortcutKeys, shortcutKeys);
     const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
     useEffect(() => {
         if (Object.keys(flattenShortcutKeys).length === 0) return;
