@@ -5,4 +5,4 @@ export type SignKeysType = {
     Meta: keyof KeyboardEvent,
     Shift: keyof KeyboardEvent
 }
-export type ShortcutKeys<CustomKey = number> = [keyof SignKeysType, keyof SignKeysType, CustomKey] | [keyof SignKeysType, CustomKey]
+export type ShortcutKeys<CustomKey = number | 'number'> = [keyof SignKeysType, keyof SignKeysType, CustomKey] | [keyof SignKeysType, CustomKey]

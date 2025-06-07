@@ -11,15 +11,11 @@ import type { SuggestionProps } from '../suggestion';
 import type { ThoughtChainProps } from '../thought-chain';
 import type { WelcomeProps } from '../welcome';
 interface BaseComponentConfig {
-  classNames: Record<string, string>;
+  style: React.CSSProperties;
   styles: Record<string, React.CSSProperties>;
   className: string;
-  style: React.CSSProperties;
+  classNames: Record<string, string>;
 }
-export interface XComponentConfig extends BaseComponentConfig {
-  shortcutKeys: Record<string, ShortcutKeys>,
-}
-
 
 type ComponentConfig<
   CompProps extends AnyObject,
@@ -28,7 +24,7 @@ type ComponentConfig<
 
 export interface XComponentsConfig {
   bubble?: ComponentConfig<BubbleProps>;
-  conversations?: ComponentConfig<ConversationsProps, keyof XComponentConfig>;
+  conversations?: ComponentConfig<ConversationsProps, keyof BaseComponentConfig | 'shortcutKeys'>;
   prompts?: ComponentConfig<PromptsProps>;
   sender?: ComponentConfig<SenderProps>;
   suggestion?: ComponentConfig<SuggestionProps>;
