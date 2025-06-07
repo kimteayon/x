@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { XComponentsConfig } from "../../x-provider/context";
 import useXComponentConfig from "./use-x-component-config";
 import { SignKeysType, ShortcutKeys } from "../type";
-import { isTwoDimensionalArray } from "../array";
 import KeyCode from 'rc-util/lib/KeyCode';
+
+
+
 export const NumberKeyCode = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
 type ActionShortcutInfo = {
     actionShortcutKey: ShortcutKeys<number>;
@@ -24,25 +26,22 @@ const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number | 'number'>, eve
     const copyShortcutKey = [...shortcutKey];
     const keyCode = copyShortcutKey.pop();
     const signKeys = copyShortcutKey as (keyof SignKeysType)[];
-
     const mergeKeyCodeDict = shortcutKey.includes('number') ? [keyCode, ...NumberKeyCode] : [keyCode];
 
-    const isHit = signKeys.reduce((value, signKey) => {
+    const hitKey = signKeys.reduce((value, signKey) => {
         if (!value) return value;
         return event[(SignKeys?.[signKey])] as boolean || false;
     }, mergeKeyCodeDict.includes(event.keyCode));
 
-    if (isHit) return {
+    if (hitKey) return {
         actionShortcutKey: [...signKeys, event.keyCode] as ShortcutKeys<number>,
         actionKeyCodeNumber: shortcutKey.includes('number') ? NumberKeyCode.indexOf(event.keyCode) : false,
         actionKeyCode: event.keyCode,
         timeStamp: event.timeStamp,
-
     };
     return false;
 
 };
-
 
 const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, ShortcutKeys | ShortcutKeys[]>>(component: C, shortcutKeys: S): [ActionShortcutInfo?] => {
     const contextConfig = useXComponentConfig(component);
@@ -50,11 +49,12 @@ const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, S
     const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
     useEffect(() => {
         if (Object.keys(mergeShortcutKeys).length === 0) return;
-
         const onKeydown = (event: KeyboardEvent) => {
             for (const name of Object.keys(mergeShortcutKeys || [])) {
-                if (isTwoDimensionalArray(mergeShortcutKeys[name])) {
-                    (mergeShortcutKeys[name] as ShortcutKeys[]).forEach((shortcutKey, index) => {
+                const subShortcutKeys = mergeShortcutKeys[name];
+                if (!Array.isArray(subShortcutKeys)) return;
+                if (subShortcutKeys.every(item => Array.isArray(item))) {
+                    subShortcutKeys.forEach((shortcutKey, index) => {
                         const activeKeyInfo = getActionShortcutInfo(shortcutKey, event);
                         if (activeKeyInfo) setActionShortcutInfo({
                             ...activeKeyInfo,
@@ -64,7 +64,7 @@ const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, S
                     });
 
                 } else {
-                    const activeKeyInfo = getActionShortcutInfo(mergeShortcutKeys[name] as ShortcutKeys, event);
+                    const activeKeyInfo = getActionShortcutInfo(subShortcutKeys, event);
                     if (activeKeyInfo) setActionShortcutInfo({
                         ...activeKeyInfo,
                         name,
@@ -73,7 +73,6 @@ const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, S
             }
         };
         document.addEventListener('keydown', onKeydown);
-
         return () => {
             document.removeEventListener('keydown', onKeydown);
         };
