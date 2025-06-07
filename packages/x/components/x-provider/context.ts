@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { AnyObject, ShortcutKeys } from '../_util/type';
+import type { AnyObject } from '../_util/type';
 import type { ActionsProps } from '../actions';
 import { AttachmentsProps } from '../attachments';
 import type { BubbleProps } from '../bubble';
@@ -10,7 +10,7 @@ import type { SenderProps } from '../sender';
 import type { SuggestionProps } from '../suggestion';
 import type { ThoughtChainProps } from '../thought-chain';
 import type { WelcomeProps } from '../welcome';
-interface BaseComponentConfig {
+export interface BaseComponentConfig {
   style: React.CSSProperties;
   styles: Record<string, React.CSSProperties>;
   className: string;
