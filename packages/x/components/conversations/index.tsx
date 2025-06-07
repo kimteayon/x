@@ -148,17 +148,6 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     },
   );
 
-  // ============================ Short Key =========================
-  const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
-
-  useEffect(() => {
-    if (actionShortcutInfo?.name === 'items') {
-      setMergedActiveKey((ori) => {
-        const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
-        return typeof index === 'number' ? items?.[index].key : ori
-      })
-    }
-  }, [actionShortcutInfo, items])
 
   // ============================ Events ============================
   const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
@@ -168,6 +157,20 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
       onActiveChange(info.key);
     }
   };
+
+  // ============================ Short Key =========================
+  const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
+
+  useEffect(() => {
+    if (actionShortcutInfo?.name === 'items') {
+      const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
+      const itemKey = typeof index === 'number' ? items?.[index]?.key : mergedActiveKey;
+      itemKey && onConversationItemClick({
+        key: itemKey
+      })
+    }
+  }, [actionShortcutInfo, items])
+
 
   // ============================ Render ============================
   return wrapCSSVar(

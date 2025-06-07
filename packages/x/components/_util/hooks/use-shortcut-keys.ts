@@ -96,8 +96,10 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(component: C, shortc
     const flattenShortcutKeys = getFlattenShortcutKeys(component, contextConfig.shortcutKeys, shortcutKeys);
     const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
     useEffect(() => {
+        
         if (Object.keys(flattenShortcutKeys).length === 0) return;
         const onKeydown = (event: KeyboardEvent) => {
+            console.log(event)
             for (const shortcutKeyInfo of flattenShortcutKeys) {
                 const activeKeyInfo = getActionShortcutInfo(shortcutKeyInfo.shortcutKey, event);
                 if (activeKeyInfo) setActionShortcutInfo({
