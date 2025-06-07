@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { AnyObject } from '../_util/type';
+import type { AnyObject, ShortcutKeys } from '../_util/type';
 import type { ActionsProps } from '../actions';
 import { AttachmentsProps } from '../attachments';
 import type { BubbleProps } from '../bubble';
@@ -10,12 +10,16 @@ import type { SenderProps } from '../sender';
 import type { SuggestionProps } from '../suggestion';
 import type { ThoughtChainProps } from '../thought-chain';
 import type { WelcomeProps } from '../welcome';
-export interface BaseComponentConfig {
+interface BaseComponentConfig {
   style: React.CSSProperties;
   styles: Record<string, React.CSSProperties>;
   className: string;
   classNames: Record<string, string>;
 }
+export interface XComponentConfig extends BaseComponentConfig {
+  shortcutKeys: Record<string, ShortcutKeys>,
+}
+
 
 type ComponentConfig<
   CompProps extends AnyObject,
@@ -24,7 +28,7 @@ type ComponentConfig<
 
 export interface XComponentsConfig {
   bubble?: ComponentConfig<BubbleProps>;
-  conversations?: ComponentConfig<ConversationsProps, keyof BaseComponentConfig | 'shortcutKeys'>;
+  conversations?: ComponentConfig<ConversationsProps, keyof XComponentConfig>;
   prompts?: ComponentConfig<PromptsProps>;
   sender?: ComponentConfig<SenderProps>;
   suggestion?: ComponentConfig<SuggestionProps>;

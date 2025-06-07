@@ -30,7 +30,7 @@ const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number | 'number'>, eve
 
     const hitKey = signKeys.reduce((value, signKey) => {
         if (!value) return value;
-        return event[(SignKeys?.[signKey])] as boolean || false;
+        return event[(SignKeys[signKey])] as boolean || false;
     }, mergeKeyCodeDict.includes(event.keyCode));
 
     if (hitKey) return {
