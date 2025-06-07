@@ -55,7 +55,7 @@ const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, S
                 if (!Array.isArray(subShortcutKeys)) return;
                 if (subShortcutKeys.every(item => Array.isArray(item))) {
                     subShortcutKeys.forEach((shortcutKey, index) => {
-                        const activeKeyInfo = getActionShortcutInfo(shortcutKey, event);
+                        const activeKeyInfo = getActionShortcutInfo(shortcutKey as ShortcutKeys, event);
                         if (activeKeyInfo) setActionShortcutInfo({
                             ...activeKeyInfo,
                             name,
@@ -64,7 +64,7 @@ const useShortcutKeys = <C extends keyof XComponentsConfig, S = Record<string, S
                     });
 
                 } else {
-                    const activeKeyInfo = getActionShortcutInfo(subShortcutKeys, event);
+                    const activeKeyInfo = getActionShortcutInfo(subShortcutKeys as ShortcutKeys, event);
                     if (activeKeyInfo) setActionShortcutInfo({
                         ...activeKeyInfo,
                         name,
