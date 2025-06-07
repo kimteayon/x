@@ -1,7 +1,6 @@
 import { CodeOutlined, FileImageOutlined, FileSearchOutlined, SignatureOutlined } from '@ant-design/icons';
 import { Conversations} from '@ant-design/x';
 import { Card, Tag } from 'antd';
-import KeyCode from 'rc-util/lib/KeyCode';
 import React from 'react';
 
 const App = () => {
@@ -14,7 +13,7 @@ const App = () => {
                     style={{ width: 200 }}
                     defaultActiveKey="write"
                     shortcutKeys={{
-                         items: [['Alt', 49],['Alt', 50],['Alt', 51]]
+                        items: ['Alt', 'number'],
                     }}
                     items={[
                         {
