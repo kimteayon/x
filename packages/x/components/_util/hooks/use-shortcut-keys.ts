@@ -7,7 +7,7 @@ import warning from "../warning";
 
 
 
-export const NumberKeyCode = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
+export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
 type ActionShortcutInfo = {
     actionShortcutKey: ShortcutKeys<number>;
     actionKeyCode: number;
@@ -29,7 +29,7 @@ type FlattenShortcutKeys = {
     index?: number;
 }[]
 
-// ======= Determine if the shortcut key has been hit, And return the corresponding data ======
+// ======================== Determine if the shortcut key has been hit, And return the corresponding data ========================
 
 const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number>, event: KeyboardEvent): false | Omit<ActionShortcutInfo, 'name' | 'index'> => {
     const copyShortcutKey = [...shortcutKey];
@@ -51,13 +51,24 @@ const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number>, event: Keyboar
 
 };
 
-// =============== Use shortcut keys with the same configuration to waring========
+// ======================== Get the decomposed shortcut keys ========================
+const getDecomposedShortcutKeys = (shortcutKeys: ShortcutKeys): { prefixKeys: (keyof SignKeysType)[], keyCodeDict: number[] } => {
+    const copyShortcutKey = [...shortcutKeys];
+    const keyCode = copyShortcutKey.pop() as number | 'number';
+    const prefixKeys = copyShortcutKey as (keyof SignKeysType)[];
+    const keyCodeDict = keyCode === 'number' ? NumberKeyCode : [keyCode];
+    return {
+        keyCodeDict,
+        prefixKeys,
+    }
+}
+// ======================== Use shortcut keys with the same configuration to waring ========================
 const waringConfig = (flattenShortcutKeys: FlattenShortcutKeys, shortcutKey: ShortcutKeys<number>, component: keyof XComponentsConfig) => {
     const sameShortcutKeys = !!flattenShortcutKeys.find(({ shortcutKey: oriShortcutKey }) => oriShortcutKey.toString() === shortcutKey.toString());
     sameShortcutKeys && warning(false, component, `Same shortcutKey ${shortcutKey.toString()}`)
 }
 
-// =================== Flatten shortcut key data ====================
+// ======================== Flatten shortcut key data ========================
 const getFlattenShortcutKeys = (component: keyof XComponentsConfig, contextShortcutKeys: Record<string, ShortcutKeys | ShortcutKeys[]>, componentShortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>): FlattenShortcutKeys => {
     const mergeShortcutKeys = Object.assign({}, contextShortcutKeys || {}, componentShortcutKeys);
     return Object.keys(mergeShortcutKeys).reduce((flattenShortcutKeys, subName) => {
@@ -73,15 +84,12 @@ const getFlattenShortcutKeys = (component: keyof XComponentsConfig, contextShort
                 })
             });
         } else {
-            const copyShortcutKey = [...subShortcutKeys];
-            const keyCode = copyShortcutKey.pop();
-            const signKeys = copyShortcutKey as (keyof SignKeysType)[];
-            const mergeKeyCodeDict = keyCode === 'number' ? [...NumberKeyCode] : [keyCode];
-            mergeKeyCodeDict.forEach((keyCode) => {
-                waringConfig(flattenShortcutKeys, [...signKeys, keyCode] as ShortcutKeys<number>, component);
+            const { keyCodeDict, prefixKeys } = getDecomposedShortcutKeys(subShortcutKeys)
+            keyCodeDict.forEach((keyCode) => {
+                waringConfig(flattenShortcutKeys, [...prefixKeys, keyCode] as ShortcutKeys<number>, component);
                 flattenShortcutKeys.push({
                     name: subName,
-                    shortcutKey: [...signKeys, keyCode] as ShortcutKeys<number>,
+                    shortcutKey: [...prefixKeys, keyCode] as ShortcutKeys<number>,
                 })
             })
 
@@ -96,10 +104,8 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(component: C, shortc
     const flattenShortcutKeys = getFlattenShortcutKeys(component, contextConfig.shortcutKeys, shortcutKeys);
     const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
     useEffect(() => {
-        
         if (Object.keys(flattenShortcutKeys).length === 0) return;
         const onKeydown = (event: KeyboardEvent) => {
-            console.log(event)
             for (const shortcutKeyInfo of flattenShortcutKeys) {
                 const activeKeyInfo = getActionShortcutInfo(shortcutKeyInfo.shortcutKey, event);
                 if (activeKeyInfo) setActionShortcutInfo({
