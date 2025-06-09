@@ -1,5 +1,5 @@
 export type AnyObject = Record<PropertyKey, any>;
-export type SignKeysType = {
+export type PrefixKeysType = {
     Ctrl: keyof KeyboardEvent,
     Alt: keyof KeyboardEvent,
     Meta: keyof KeyboardEvent,

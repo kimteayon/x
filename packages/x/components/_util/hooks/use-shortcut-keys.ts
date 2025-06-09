@@ -3,7 +3,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import warning from "../warning";
 import { XComponentsConfig } from "../../x-provider/context";
 import useXComponentConfig from "./use-x-component-config";
-import type { SignKeysType, ShortcutKeys } from "../type";
+import type { PrefixKeysType, ShortcutKeys } from "../type";
 
 export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
 
@@ -16,7 +16,7 @@ type ActionShortcutInfo = {
     index?: number;
 }
 
-const SignKeys: SignKeysType = {
+const PrefixKeys: PrefixKeysType = {
     "Alt": "altKey",
     "Ctrl": "ctrlKey",
     "Meta": "metaKey",
@@ -34,11 +34,11 @@ type FlattenShortcutKeys = {
 const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number>, event: KeyboardEvent): false | Omit<ActionShortcutInfo, 'name' | 'index'> => {
     const copyShortcutKey = [...shortcutKey];
     const keyCode = copyShortcutKey.pop();
-    const signKeys = copyShortcutKey as (keyof SignKeysType)[];
+    const signKeys = copyShortcutKey as (keyof PrefixKeysType)[];
 
     const hitKey = signKeys.reduce((value, signKey) => {
         if (!value) return value;
-        return event[(SignKeys[signKey])] as boolean || false;
+        return event[(PrefixKeys[signKey])] as boolean || false;
     }, keyCode === event.keyCode);
 
     if (hitKey) return {
@@ -52,10 +52,10 @@ const getActionShortcutInfo = (shortcutKey: ShortcutKeys<number>, event: Keyboar
 };
 
 // ======================== Get the decomposed shortcut keys ========================
-const getDecomposedShortcutKeys = (shortcutKeys: ShortcutKeys): { prefixKeys: (keyof SignKeysType)[], keyCodeDict: number[] } => {
+const getDecomposedShortcutKeys = (shortcutKeys: ShortcutKeys): { prefixKeys: (keyof PrefixKeysType)[], keyCodeDict: number[] } => {
     const copyShortcutKey = [...shortcutKeys];
     const keyCode = copyShortcutKey.pop() as number | 'number';
-    const prefixKeys = copyShortcutKey as (keyof SignKeysType)[];
+    const prefixKeys = copyShortcutKey as (keyof PrefixKeysType)[];
     const keyCodeDict = keyCode === 'number' ? NumberKeyCode : [keyCode];
     return {
         keyCodeDict,
