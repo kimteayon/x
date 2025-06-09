@@ -86,8 +86,8 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom Shortcut Keys
    */
   shortcutKeys?: {
-    items?: ShortcutKeys<'number'> | ShortcutKeys<number>[]
-  }
+    items?: ShortcutKeys<'number'> | ShortcutKeys<number>[];
+  };
 }
 
 const Conversations: React.FC<ConversationsProps> = (props) => {
@@ -148,7 +148,6 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     },
   );
 
-
   // ============================ Events ============================
   const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
     setMergedActiveKey(info.key);
@@ -165,12 +164,12 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     if (actionShortcutInfo?.name === 'items') {
       const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
       const itemKey = typeof index === 'number' ? items?.[index]?.key : mergedActiveKey;
-      itemKey && onConversationItemClick({
-        key: itemKey
-      })
+      itemKey &&
+        onConversationItemClick({
+          key: itemKey,
+        });
     }
-  }, [actionShortcutInfo, items])
-
+  }, [actionShortcutInfo, items]);
 
   // ============================ Render ============================
   return wrapCSSVar(
