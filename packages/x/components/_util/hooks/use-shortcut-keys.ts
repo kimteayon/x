@@ -68,6 +68,7 @@ const getDecomposedShortcutKeys = (
     prefixKeys,
   };
 };
+
 // ======================== Use shortcut keys with the same configuration to waring ========================
 const waringConfig = (
   flattenShortcutKeys: FlattenShortcutKeys,
