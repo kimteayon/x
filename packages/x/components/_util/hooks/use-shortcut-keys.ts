@@ -151,7 +151,7 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(
     return () => {
       document.removeEventListener('keydown', onKeydown);
     };
-  }, [flattenShortcutKeys]);
+  }, [flattenShortcutKeys?.length]);
   return [actionShortcutInfo];
 };
 
