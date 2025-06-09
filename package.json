@@ -5,8 +5,7 @@
   "scripts": {
     "site": "npm run site --workspace packages/x && cp -rf packages/x/_site ./_site",
     "compile": "npm run compile --workspace packages/x",
-    "start": "npm run start --workspace packages/x",
-    "prepare":"husky"
+    "start": "npm run start --workspace packages/x"
   },
   "license": "MIT",
   "workspaces": [
@@ -15,8 +14,7 @@
   "devDependencies": {
     "size-limit": "^11.1.5",
     "@size-limit/file": "^11.1.5",
-    "lint-staged": "^16.1.0",
-    "husky": "^9.1.6"
+    "lint-staged": "^16.1.0"
   },
   "size-limit": [
     {
