@@ -83,7 +83,7 @@
       }
     },
     {
-      "include": ["packages/x/components/*/demo/*"],
+      "include": ["components/*/demo/*"],
       "linter": {
         "rules": {
           "correctness": {
