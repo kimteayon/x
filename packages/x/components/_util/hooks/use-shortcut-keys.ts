@@ -30,7 +30,6 @@ type FlattenShortcutKeys = {
 }[];
 
 // ======================== Determine if the shortcut key has been hit, And return the corresponding data ========================
-
 const getActionShortcutInfo = (
   shortcutKey: ShortcutKeys<number>,
   event: KeyboardEvent,
