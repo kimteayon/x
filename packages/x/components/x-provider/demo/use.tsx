@@ -21,12 +21,6 @@ import {
 } from '@ant-design/icons';
 import type { ConfigProviderProps, GetProp } from 'antd';
 
-export class A {
-  f(): void {
-    return undefined;
-  }
-}
-
 export default () => {
   const [value, setValue] = React.useState('');
   const [direction, setDirection] =
