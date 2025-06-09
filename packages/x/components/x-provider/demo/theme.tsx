@@ -152,23 +152,21 @@ export default () => {
               />
 
               <Suggestion items={[{ label: 'Write a report', value: 'report' }]}>
-                {({ onTrigger, onKeyDown }) => {
-                  return (
-                    <Sender
-                      value={value}
-                      onChange={(nextVal) => {
-                        if (nextVal === '/') {
-                          onTrigger();
-                        } else if (!nextVal) {
-                          onTrigger(false);
-                        }
-                        setValue(nextVal);
-                      }}
-                      onKeyDown={onKeyDown}
-                      placeholder='Type "/" to trigger suggestion'
-                    />
-                  );
-                }}
+                {({ onTrigger, onKeyDown }) => (
+                  <Sender
+                    value={value}
+                    onChange={(nextVal) => {
+                      if (nextVal === '/') {
+                        onTrigger();
+                      } else if (!nextVal) {
+                        onTrigger(false);
+                      }
+                      setValue(nextVal);
+                    }}
+                    onKeyDown={onKeyDown}
+                    placeholder='Type "/" to trigger suggestion'
+                  />
+                )}
               </Suggestion>
             </Flex>
           </Flex>
