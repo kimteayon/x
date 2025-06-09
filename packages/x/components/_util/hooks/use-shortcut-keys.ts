@@ -11,6 +11,7 @@ type ActionShortcutInfo = {
   actionShortcutKey: ShortcutKeys<number>;
   actionKeyCode: number;
   name: string;
+
   timeStamp: number;
   actionKeyCodeNumber: number | false;
   index?: number;
