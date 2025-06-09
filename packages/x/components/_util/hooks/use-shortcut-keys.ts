@@ -77,7 +77,8 @@ const waringConfig = (
   const sameShortcutKeys = !!flattenShortcutKeys.find(
     ({ shortcutKey: oriShortcutKey }) => oriShortcutKey.toString() === shortcutKey.toString(),
   );
-  warning(!!sameShortcutKeys, component, `Same shortcutKey ${shortcutKey.toString()}`);
+
+  warning(!sameShortcutKeys, component, `Same shortcutKey ${shortcutKey.toString()}`);
 };
 
 // ======================== Flatten shortcut key data ========================
@@ -133,8 +134,9 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(
     shortcutKeys,
   );
   const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
+
   useEffect(() => {
-    if (Object.keys(flattenShortcutKeys).length === 0) return;
+    if (flattenShortcutKeys.length === 0) return;
     const onKeydown = (event: KeyboardEvent) => {
       for (const shortcutKeyInfo of flattenShortcutKeys) {
         const activeKeyInfo = getActionShortcutInfo(shortcutKeyInfo.shortcutKey, event);
