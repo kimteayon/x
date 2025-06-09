@@ -1,6 +1,6 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import { useEffect, useState } from 'react';
-import { XComponentsConfig } from '../../x-provider/context';
+import type { XComponentsConfig } from '../../x-provider/context';
 import type { PrefixKeysType, ShortcutKeys } from '../type';
 import warning from '../warning';
 import useXComponentConfig from './use-x-component-config';
