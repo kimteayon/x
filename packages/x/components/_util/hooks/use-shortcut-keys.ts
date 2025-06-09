@@ -6,6 +6,7 @@ import useXComponentConfig from "./use-x-component-config";
 import type { SignKeysType, ShortcutKeys } from "../type";
 
 export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
+
 type ActionShortcutInfo = {
     actionShortcutKey: ShortcutKeys<number>;
     actionKeyCode: number;
@@ -14,6 +15,7 @@ type ActionShortcutInfo = {
     actionKeyCodeNumber: number | false;
     index?: number;
 }
+
 const SignKeys: SignKeysType = {
     "Alt": "altKey",
     "Ctrl": "ctrlKey",
