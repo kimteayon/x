@@ -60,10 +60,12 @@ demo:
 
 ```ts
 type SignKeysType = {
-    Ctrl: keyof KeyboardEvent,
-    Alt: keyof KeyboardEvent,
-    Meta: keyof KeyboardEvent,
-    Shift: keyof KeyboardEvent
-}
-type ShortcutKeys<CustomKey = number|'number'> = [keyof SignKeysType, keyof SignKeysType, CustomKey] | [keyof SignKeysType, CustomKey]
+  Ctrl: keyof KeyboardEvent;
+  Alt: keyof KeyboardEvent;
+  Meta: keyof KeyboardEvent;
+  Shift: keyof KeyboardEvent;
+};
+type ShortcutKeys<CustomKey = number | 'number'> =
+  | [keyof SignKeysType, keyof SignKeysType, CustomKey]
+  | [keyof SignKeysType, CustomKey];
 ```
