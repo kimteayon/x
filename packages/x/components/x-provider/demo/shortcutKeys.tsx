@@ -14,6 +14,7 @@ export default () => {
       You can switch sessions using the shortcut key: <Tag>Alt/⌥</Tag> + <Tag>number</Tag>
     </div>
   );
+
   return (
     <>
       {conversationsText}
