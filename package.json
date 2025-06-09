@@ -5,7 +5,8 @@
   "scripts": {
     "site": "npm run site --workspace packages/x && cp -rf packages/x/_site ./_site",
     "compile": "npm run compile --workspace packages/x",
-    "start": "npm run start --workspace packages/x"
+    "start": "npm run start --workspace packages/x",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "workspaces": [
