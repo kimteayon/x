@@ -87,7 +87,7 @@
       "linter": {
         "rules": {
           "correctness": {
-            "noVoidTypeReturn": "off"
+            "noVoidTypeReturn": "error"
           },
           "a11y": {
             "useValidAnchor": "off",
