@@ -15,7 +15,7 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { Conversation, Groupable } from './interface';
 
 import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
-import { ShortcutKeys } from '../_util/type';
+import type { ShortcutKeys } from '../_util/type';
 
 /**
  * @desc 会话列表组件参数
