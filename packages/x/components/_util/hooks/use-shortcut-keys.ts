@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { XComponentsConfig } from "../../x-provider/context";
-import useXComponentConfig from "./use-x-component-config";
-import { SignKeysType, ShortcutKeys } from "../type";
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from "../warning";
-
-
+import { XComponentsConfig } from "../../x-provider/context";
+import useXComponentConfig from "./use-x-component-config";
+import type { SignKeysType, ShortcutKeys } from "../type";
 
 export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
 type ActionShortcutInfo = {
