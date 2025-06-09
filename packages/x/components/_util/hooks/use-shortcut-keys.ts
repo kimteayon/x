@@ -139,19 +139,20 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(
     const onKeydown = (event: KeyboardEvent) => {
       for (const shortcutKeyInfo of flattenShortcutKeys) {
         const activeKeyInfo = getActionShortcutInfo(shortcutKeyInfo.shortcutKey, event);
-        if (activeKeyInfo)
+        if (activeKeyInfo) {
           setActionShortcutInfo({
             ...activeKeyInfo,
             name: shortcutKeyInfo.name,
             index: shortcutKeyInfo?.index,
           });
+        }
       }
     };
     document.addEventListener('keydown', onKeydown);
     return () => {
       document.removeEventListener('keydown', onKeydown);
     };
-  }, [flattenShortcutKeys?.length]);
+  }, [flattenShortcutKeys.length]);
   return [actionShortcutInfo];
 };
 
