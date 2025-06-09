@@ -77,7 +77,7 @@ const waringConfig = (
   const sameShortcutKeys = !!flattenShortcutKeys.find(
     ({ shortcutKey: oriShortcutKey }) => oriShortcutKey.toString() === shortcutKey.toString(),
   );
-  sameShortcutKeys && warning(false, component, `Same shortcutKey ${shortcutKey.toString()}`);
+  warning(!!sameShortcutKeys, component, `Same shortcutKey ${shortcutKey.toString()}`);
 };
 
 // ======================== Flatten shortcut key data ========================
