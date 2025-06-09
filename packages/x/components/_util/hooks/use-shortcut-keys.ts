@@ -90,7 +90,9 @@ const getFlattenShortcutKeys = (
   const mergeShortcutKeys = Object.assign({}, contextShortcutKeys || {}, componentShortcutKeys);
   return Object.keys(mergeShortcutKeys).reduce((flattenShortcutKeys, subName) => {
     const subShortcutKeys = mergeShortcutKeys[subName];
-    if (!Array.isArray(subShortcutKeys)) return flattenShortcutKeys;
+    if (!Array.isArray(subShortcutKeys)) {
+      return flattenShortcutKeys;
+    }
     if (subShortcutKeys.every((item) => Array.isArray(item))) {
       subShortcutKeys.forEach((shortcutKey, index) => {
         waringConfig(flattenShortcutKeys, shortcutKey as ShortcutKeys<number>, component);
