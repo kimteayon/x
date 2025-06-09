@@ -86,7 +86,9 @@
       "include": ["packages/x/components/*/demo/*"],
       "linter": {
         "rules": {
-          "correctness": {},
+          "correctness": {
+            "noVoidTypeReturn": "error"
+          },
           "a11y": {
             "useValidAnchor": "off",
             "useAnchorContent": "off",
