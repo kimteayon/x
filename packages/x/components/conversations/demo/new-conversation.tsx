@@ -2,10 +2,12 @@ import {
   CodeOutlined,
   FileImageOutlined,
   FileSearchOutlined,
+  PlusOutlined,
   SignatureOutlined,
 } from '@ant-design/icons';
-import { Conversations, ConversationsProps } from '@ant-design/x';
-import { Card, GetProp, Tag } from 'antd';
+import { Conversations } from '@ant-design/x';
+import type { ConversationsProps } from '@ant-design/x';
+import { type GetProp, theme } from 'antd';
 import React from 'react';
 
 const items: GetProp<ConversationsProps, 'items'> = [
@@ -30,27 +32,28 @@ const items: GetProp<ConversationsProps, 'items'> = [
     icon: <FileSearchOutlined />,
   },
 ];
-const conversationsText = (
-  <div style={{ marginBottom: 10 }}>
-    You can switch sessions using the shortcut key: <Tag>Alt/⌥</Tag> + <Tag>number</Tag>
-  </div>
-);
 
 const App: React.FC = () => {
+  const { token } = theme.useToken();
+
+  // Customize the style of the container
+  const style = {
+    width: 256,
+    background: token.colorBgContainer,
+    borderRadius: token.borderRadius,
+  };
+
   return (
-    <>
-      {conversationsText}
-      <Card>
-        <Conversations
-          style={{ width: 200 }}
-          defaultActiveKey="write"
-          shortcutKeys={{
-            items: ['Alt', 'number'],
-          }}
-          items={items}
-        />
-      </Card>
-    </>
+    <Conversations
+      creation={{
+        icon: <PlusOutlined />,
+        label: '新对话',
+        onClick: () => {},
+      }}
+      items={items}
+      defaultActiveKey="item1"
+      style={style}
+    />
   );
 };
 

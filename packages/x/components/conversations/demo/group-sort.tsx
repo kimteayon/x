@@ -15,7 +15,7 @@ const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 6 }).ma
   };
 });
 
-const App = () => {
+const App: React.FC = () => {
   const { token } = theme.useToken();
 
   // Customize the style of the container

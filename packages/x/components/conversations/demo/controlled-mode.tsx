@@ -7,7 +7,7 @@ const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 3 }).ma
   label: `Conversation Item ${index + 1}`,
 }));
 
-const App = () => {
+const App: React.FC = () => {
   const [activeKey, setActiveKey] = useState<string>('item1');
 
   const { token } = theme.useToken();

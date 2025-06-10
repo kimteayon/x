@@ -20,6 +20,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" background="grey">Basic</code>
+<code src="./demo/new-conversation.tsx" background="grey">New Conversation</code>
 <code src="./demo/with-menu.tsx" background="grey">Operations</code>
 <code src="./demo/menu-trigger.tsx" background="grey">Custom Operations</code>
 <code src="./demo/controlled-mode.tsx" background="grey">Controlled Mode</code>

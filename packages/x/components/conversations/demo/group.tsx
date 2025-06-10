@@ -12,7 +12,7 @@ const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 4 }).ma
   group: index === 3 ? 'Group2' : 'Group1',
 }));
 
-const App = () => {
+const App: React.FC = () => {
   const { token } = theme.useToken();
 
   // Customize the style of the container

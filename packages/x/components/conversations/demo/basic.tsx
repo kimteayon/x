@@ -12,7 +12,7 @@ const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 4 }).ma
   disabled: index === 3,
 }));
 
-export default () => {
+const App: React.FC = () => {
   const { token } = theme.useToken();
 
   // Customize the style of the container
@@ -24,3 +24,5 @@ export default () => {
 
   return <Conversations items={items} defaultActiveKey="item1" style={style} />;
 };
+
+export default App;

@@ -17,6 +17,8 @@ import type { Conversation, Groupable } from './interface';
 import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
 
+import Creation from './components/Creation';
+import type { CreationProps } from './components/Creation';
 /**
  * @desc 会话列表组件参数
  * @descEN Props for the conversation list component
@@ -88,9 +90,18 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
   shortcutKeys?: {
     items?: ShortcutKeys<'number'> | ShortcutKeys<number>[];
   };
+  /**
+   * @desc 是否展示新建对话按钮
+   * @descEN  Display of the new conversation button
+   */
+  creation?: CreationProps;
 }
 
-const Conversations: React.FC<ConversationsProps> = (props) => {
+type CompoundedComponent = {
+  Creation: typeof Creation;
+};
+
+const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props) => {
   const {
     prefixCls: customizePrefixCls,
     shortcutKeys: customizeShortcutKeys,
@@ -105,6 +116,7 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     groupable,
     className,
     style,
+    creation,
     ...restProps
   } = props;
 
@@ -181,6 +193,7 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
       }}
       className={mergedCls}
     >
+      {!!creation && <Creation {...creation} />}
       {groupList.map((groupInfo, groupIndex) => {
         const convItems = groupInfo.data.map((convInfo: Conversation, convIndex: number) => (
           <ConversationsItem
@@ -221,5 +234,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export type { Conversation };
-
+Conversations.Creation = Creation;
 export default Conversations;
