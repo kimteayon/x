@@ -8,6 +8,7 @@
     "start": "npm run start --workspace packages/x",
     "prepare": "husky install",
     "size-limit": "size-limit",
+    "lint": "npm run lint --workspaces",
     "tsc": "npm run tsc --workspaces"
   },
   "license": "MIT",
