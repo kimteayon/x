@@ -1,7 +1,7 @@
 ## zh-CN
 
-新对话。
+新对话，并支持快捷键能力。
 
 ## en-US
 
-New conversation.
+New conversation, support for shortcut key capability.
