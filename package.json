@@ -7,7 +7,7 @@
     "compile": "npm run compile --workspaces",
     "start": "npm run start --workspace packages/x",
     "prepare": "husky install",
-    "size-limit":"size-limit",
+    "size-limit": "size-limit",
     "tsc": "npm run tsc --workspaces"
   },
   "license": "MIT",
@@ -34,7 +34,7 @@
       "path": "./packages/x-card/dist/antdxcard.min.js",
       "limit": "350 KiB"
     },
-        {
+    {
       "path": "./packages/x-card/dist/antdxmarkdown.min.js",
       "limit": "350 KiB"
     },
