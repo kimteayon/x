@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "site": "npm run site --workspace packages/x && cp -rf packages/x/_site ./_site",
+<<<<<<< HEAD
     "compile": "npm run compile --workspaces",
     "start": "npm run start --workspace packages/x",
     "prepare": "husky install",
@@ -13,6 +14,11 @@
     "test": "npm run test --workspaces",
     "coverage": "npm run test --workspaces",
     "test:dekko": "npm run test:dekko --workspaces"
+=======
+    "compile": "npm run compile --workspace packages/x",
+    "start": "npm run start --workspace packages/x",
+    "prepare": "husky"
+>>>>>>> f4794b3bd470148e1c5d5553edeea50b0c019172
   },
   "license": "MIT",
   "workspaces": [
