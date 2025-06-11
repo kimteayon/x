@@ -1,1 +1,1 @@
-export const XMarkdown = () => {};
+export { default as XMarkdown } from './XMarkdown';

@@ -1,1 +1,1 @@
-export const XCard = () => {};
+export { default as Card } from './Card';

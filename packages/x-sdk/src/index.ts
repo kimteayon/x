@@ -1,1 +1,3 @@
-export const XSdk = () => {};
+export const XSdk = () => {
+  return 'XSdk';
+};

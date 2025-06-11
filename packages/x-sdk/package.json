@@ -8,7 +8,9 @@
     "lint:deps": "antd-tools run deps-lint",
     "lint:md": "remark . -f -q",
     "lint:script": "biome lint",
-    "test": "echo \"Success: no test specified\" && exit 0"
+    "test": "jest --config .jest.js --no-cache --collect-coverage",
+    "coverage": "jest --config .jest.js --no-cache --collect-coverage --coverage",
+    "test:dekko": "tsx ./tests/dekko/index.test.ts"
   },
   "sideEffects": false,
   "main": "lib/index.js",

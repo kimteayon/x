@@ -13,7 +13,7 @@ jobs:
       - run: ut lint
       - run: ut tsc
       - run: ut compile
-      - run: ut coverage --workspaces
+      - run: ut coverage
       - uses: codecov/codecov-action@v5
         with:
           directories:
