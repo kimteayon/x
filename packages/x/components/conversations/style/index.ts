@@ -25,10 +25,40 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         padding: 0,
         listStyle: 'none',
       },
+      [`${componentCls}-creation`]: {
+        backgroundColor: token.colorPrimaryBg,
+        color: token.colorPrimary,
+        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.colorPrimaryBorder}`,
+        fontWeight: 500,
+        paddingBlock: token.paddingXS,
+        paddingInline: token.paddingSM,
+        fontSize: token.fontSize,
+        cursor: 'pointer',
+        display: 'flex',
+        lineHeight: token.lineHeight,
+        borderRadius: token.borderRadiusLG,
+        transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
+        '&:hover': {
+          color: token.colorPrimaryActive,
+          background: token.colorPrimaryBgHover,
+        },
+        '> span': {
+          gap: token.marginXS,
+          display: 'flex',
+        },
+        [`&${componentCls}-creation-start`]: {
+          justifyContent: 'flex-start',
+        },
+        [`&${componentCls}-creation-center`]: {
+          justifyContent: 'center',
+        },
+        [`&${componentCls}-creation-end`]: {
+          justifyContent: 'flex-end',
+        },
+      },
       [`&${componentCls}-rtl`]: {
         direction: 'rtl',
       },
-      // 会话列表
       [`& ${componentCls}-list`]: {
         display: 'flex',
         gap: token.paddingXXS,
@@ -44,7 +74,6 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           whiteSpace: 'nowrap',
         },
       },
-      // 会话列表项
       [`& ${componentCls}-item`]: {
         display: 'flex',
         height: token.controlHeightLG,
@@ -55,25 +84,21 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         borderRadius: token.borderRadiusLG,
         cursor: 'pointer',
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
-        // 悬浮样式
         '&:hover': {
           backgroundColor: token.colorBgTextHover,
         },
-        // 选中样式
         '&-active': {
           backgroundColor: token.colorBgTextHover,
           [`& ${componentCls}-label, ${componentCls}-menu-icon`]: {
             color: token.colorText,
           },
         },
-        // 禁用样式
         '&-disabled': {
           cursor: 'not-allowed',
           [`& ${componentCls}-label`]: {
             color: token.colorTextDisabled,
           },
         },
-        // 悬浮、选中时激活操作菜单
         '&:hover, &-active': {
           [`& ${componentCls}-menu-icon`]: {
             opacity: 0.6,
@@ -84,7 +109,6 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           opacity: 1,
         },
       },
-      // 会话名
       [`& ${componentCls}-label`]: {
         flex: 1,
         color: token.colorText,
@@ -92,12 +116,10 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
       },
-      // 会话操作菜单
       [`& ${componentCls}-menu-icon`]: {
         opacity: 0,
         fontSize: token.fontSizeXL,
       },
-      // 会话图标
       [`& ${componentCls}-group-title`]: {
         display: 'flex',
         alignItems: 'center',

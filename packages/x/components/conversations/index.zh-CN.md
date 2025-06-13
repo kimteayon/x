@@ -21,7 +21,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" background="grey">基本</code>
-<code src="./demo/new-conversation.tsx" background="grey">新对话</code>
+<code src="./demo/new-conversation.tsx" background="grey">新会话</code>
 <code src="./demo/with-menu.tsx" background="grey">会话操作</code>
 <code src="./demo/menu-trigger.tsx" background="grey">自定义操作</code>
 <code src="./demo/controlled-mode.tsx" background="grey">受控模式</code>

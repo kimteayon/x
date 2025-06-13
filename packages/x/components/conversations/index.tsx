@@ -193,7 +193,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
       }}
       className={mergedCls}
     >
-      {!!creation && <Creation {...creation} />}
+      {!!creation && <Creation prefixCls={`${prefixCls}-creation`} {...creation} />}
       {groupList.map((groupInfo, groupIndex) => {
         const convItems = groupInfo.data.map((convInfo: Conversation, convIndex: number) => (
           <ConversationsItem

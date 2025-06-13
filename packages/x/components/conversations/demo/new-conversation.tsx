@@ -47,7 +47,11 @@ const App: React.FC = () => {
     <Conversations
       creation={{
         icon: <PlusOutlined />,
-        label: '新对话',
+        label: {
+          text: '新对话',
+          align: 'center',
+        },
+
         onClick: () => {},
       }}
       items={items}
