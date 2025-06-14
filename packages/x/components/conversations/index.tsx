@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import GroupTitle, { GroupTitleContext } from './GroupTitle';
 import ConversationsItem, { type ConversationsItemProps } from './Item';
@@ -13,6 +13,9 @@ import useStyle from './style';
 
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { Conversation, Groupable } from './interface';
+
+import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
+import type { ShortcutKeys } from '../_util/type';
 
 /**
  * @desc 会话列表组件参数
@@ -78,11 +81,19 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom class name
    */
   rootClassName?: string;
+  /**
+   * @desc 自定义快捷键
+   * @descEN Custom Shortcut Keys
+   */
+  shortcutKeys?: {
+    items?: ShortcutKeys<'number'> | ShortcutKeys<number>[];
+  };
 }
 
 const Conversations: React.FC<ConversationsProps> = (props) => {
   const {
     prefixCls: customizePrefixCls,
+    shortcutKeys: customizeShortcutKeys,
     rootClassName,
     items,
     activeKey,
@@ -146,6 +157,20 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
     }
   };
 
+  // ============================ Short Key =========================
+  const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
+
+  useEffect(() => {
+    if (actionShortcutInfo?.name === 'items') {
+      const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
+      const itemKey = typeof index === 'number' ? items?.[index]?.key : mergedActiveKey;
+      itemKey &&
+        onConversationItemClick({
+          key: itemKey,
+        });
+    }
+  }, [actionShortcutInfo, items]);
+
   // ============================ Render ============================
   return wrapCSSVar(
     <ul
@@ -157,19 +182,27 @@ const Conversations: React.FC<ConversationsProps> = (props) => {
       className={mergedCls}
     >
       {groupList.map((groupInfo, groupIndex) => {
-        const convItems = groupInfo.data.map((convInfo: Conversation, convIndex: number) => (
-          <ConversationsItem
-            key={convInfo.key || `key-${convIndex}`}
-            info={convInfo}
-            prefixCls={prefixCls}
-            direction={direction}
-            className={classnames(classNames.item, contextConfig.classNames.item)}
-            style={{ ...contextConfig.styles.item, ...styles.item }}
-            menu={typeof menu === 'function' ? menu(convInfo) : menu}
-            active={mergedActiveKey === convInfo.key}
-            onClick={onConversationItemClick}
-          />
-        ));
+        const convItems = groupInfo.data.map((convInfo: Conversation, convIndex: number) => {
+          const { label: _, disabled: __, icon: ___, ...restInfo } = convInfo;
+          return (
+            <ConversationsItem
+              {...restInfo}
+              key={convInfo.key || `key-${convIndex}`}
+              info={convInfo}
+              prefixCls={prefixCls}
+              direction={direction}
+              className={classnames(
+                classNames.item,
+                contextConfig.classNames.item,
+                convInfo.className,
+              )}
+              style={{ ...contextConfig.styles.item, ...styles.item, ...convInfo.style }}
+              menu={typeof menu === 'function' ? menu(convInfo) : menu}
+              active={mergedActiveKey === convInfo.key}
+              onClick={onConversationItemClick}
+            />
+          );
+        });
 
         // With group to show the title
         if (enableGroup) {
