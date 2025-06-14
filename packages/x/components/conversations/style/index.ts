@@ -1,11 +1,18 @@
 import { unit } from '@ant-design/cssinjs';
 import { mergeToken } from '@ant-design/cssinjs-utils';
+import { FastColor } from '@ant-design/fast-color';
 import type { FullToken, GenerateStyle, GetDefaultToken } from '../../theme/cssinjs-utils';
 import { genStyleHooks } from '../../theme/genStyleUtils';
 
-// biome-ignore lint/suspicious/noEmptyInterface: ComponentToken need to be empty by default
-export interface ComponentToken {}
-
+export interface ComponentToken {
+  /**
+   * @desc 新会话按钮背景颜色
+   * @descEN New conversation button background color
+   */
+  creationBgColor: string;
+  creationBorderColor: string;
+  creationHoverColor: string;
+}
 export interface ConversationsToken extends FullToken<'Conversations'> {}
 
 const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
@@ -26,9 +33,9 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         listStyle: 'none',
       },
       [`${componentCls}-creation`]: {
-        backgroundColor: token.colorPrimaryBg,
+        backgroundColor: token.creationBgColor,
         color: token.colorPrimary,
-        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.colorPrimaryBorder}`,
+        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
         fontWeight: 500,
         paddingBlock: token.paddingXS,
         paddingInline: token.paddingSM,
@@ -39,8 +46,8 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         borderRadius: token.borderRadiusLG,
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
         '&:hover': {
-          color: token.colorPrimaryActive,
-          background: token.colorPrimaryBgHover,
+          color: token.colorPrimary,
+          background: token.creationHoverColor,
         },
         '> span': {
           gap: token.marginXS,
@@ -131,7 +138,16 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
   };
 };
 
-export const prepareComponentToken: GetDefaultToken<'Conversations'> = () => ({});
+export const prepareComponentToken: GetDefaultToken<'Conversations'> = (token) => {
+  const creationBgColor = new FastColor(token.colorPrimary).setA(0.15);
+  const creationBorderColor = new FastColor(token.colorPrimary).setA(0.22);
+  const creationHoverColor = new FastColor(token.colorPrimary).setA(0.25);
+  return {
+    creationBgColor: creationBgColor.toRgbString(),
+    creationBorderColor: creationBorderColor.toRgbString(),
+    creationHoverColor: creationHoverColor.toRgbString(),
+  };
+};
 
 export default genStyleHooks(
   'Conversations',

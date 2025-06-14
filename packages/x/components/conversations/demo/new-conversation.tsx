@@ -43,6 +43,10 @@ const App: React.FC = () => {
     borderRadius: token.borderRadius,
   };
 
+  const newConversationClick = () => {
+    console.log('New conversation click');
+  };
+
   return (
     <Conversations
       creation={{
@@ -51,8 +55,7 @@ const App: React.FC = () => {
           text: '新对话',
           align: 'center',
         },
-
-        onClick: () => {},
+        onClick: newConversationClick,
       }}
       items={items}
       defaultActiveKey="item1"

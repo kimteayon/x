@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
-
+import { useLocale } from '../../locale';
+import enUS from '../../locale/en_US';
 type LabelObject = {
   text: string;
   align?: 'start' | 'center' | 'end';
@@ -15,13 +16,16 @@ export interface CreationProps {
   icon?: React.ReactNode | (() => React.ReactNode);
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
+
 const isLabelObject = (label: Label): label is LabelObject => {
   return typeof label === 'object' && label !== null && 'text' in label;
 };
 
 export function Creation(props: CreationProps, ref: React.Ref<HTMLButtonElement>) {
   const { className, icon, label, disabled, onClick, prefixCls } = props;
-  let labelNode = label as React.ReactNode;
+  const [contextLocale] = useLocale('Conversations', enUS.Conversations);
+
+  let labelNode: React.ReactNode = contextLocale.create;
   let mergeAlign = 'start';
 
   if (isLabelObject(label)) {
