@@ -44,7 +44,7 @@ const main = async () => {
   const app = await Application.bootstrap(
     {
       // typedoc options here
-      entryPoints: ['components/*/style/index.{ts,tsx}'],
+      entryPoints: ['components/theme/interface/index.ts', 'components/*/style/index.{ts,tsx}'],
       skipErrorChecking: true,
       logLevel: 'Error',
     },
@@ -68,6 +68,7 @@ const main = async () => {
       // Global Token
       if (file.name === 'theme/interface') {
         let presetColors: string[] = [];
+
         file.children?.forEach((type: any) => {
           if (type.name === 'SeedToken') {
             tokenMeta.seed = getTokenList(type.children, 'seed');
@@ -124,6 +125,9 @@ const main = async () => {
       } else {
         acc.components = value;
       }
+      // if(!acc.global){
+      //   acc.global = {};
+      // }
       return acc;
     }, {} as any);
 
