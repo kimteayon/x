@@ -6,21 +6,24 @@ import React from 'react';
 
 import type { DirectionType } from 'antd/es/config-provider';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { Conversation } from './interface';
+import type { BaseConversation, Conversation } from './interface';
 
 export interface ConversationsItemProps
   extends Omit<React.HTMLAttributes<HTMLLIElement>, 'onClick'> {
-  info: Conversation;
+  info: BaseConversation;
   prefixCls?: string;
   direction?: DirectionType;
   menu?: MenuProps & {
     trigger?:
       | React.ReactNode
-      | ((conversation: Conversation, info: { originNode: React.ReactNode }) => React.ReactNode);
+      | ((
+          conversation: BaseConversation,
+          info: { originNode: React.ReactNode },
+        ) => React.ReactNode);
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   };
   active?: boolean;
-  onClick?: (info: Conversation) => void;
+  onClick?: (info: BaseConversation) => void;
 }
 
 const stopPropagation: React.MouseEventHandler<HTMLSpanElement> = (e) => {
@@ -60,7 +63,7 @@ const ConversationsItem: React.FC<ConversationsItemProps> = (props) => {
 
   const getPopupContainer = dropdownMenu?.getPopupContainer;
 
-  const renderMenuTrigger = (conversation: Conversation) => {
+  const renderMenuTrigger = (conversation: BaseConversation) => {
     const originTriggerNode = (
       <EllipsisOutlined onClick={stopPropagation} className={`${prefixCls}-menu-icon`} />
     );

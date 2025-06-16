@@ -20,12 +20,12 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" background="grey">Basic</code>
-<code src="./demo/new-conversation.tsx" background="grey">New Conversation</code>
+<code src="./demo/controlled-mode.tsx" background="grey">Controlled Mode</code>
 <code src="./demo/with-menu.tsx" background="grey">Operations</code>
 <code src="./demo/menu-trigger.tsx" background="grey">Custom Operations</code>
-<code src="./demo/controlled-mode.tsx" background="grey">Controlled Mode</code>
-<code src="./demo/shortcutKeys.tsx" background="grey">Shortcut key Operation</code>
+<code src="./demo/new-chat.tsx" background="grey">New Chat</code>
 <code src="./demo/group.tsx" background="grey">Group</code>
+<code src="./demo/shortcutKeys.tsx" background="grey">Shortcut key Operation</code>
 <code src="./demo/group-sort.tsx" background="grey">Group Sort</code>
 <code src="./demo/infinite-load.tsx" background="grey">Scrolling loaded</code>
 
@@ -61,7 +61,7 @@ Common props ref：[Common props](/docs/react/common-props)
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| `sort` | Group sorter | (a: string, b: string) => number | - | - |
+| `sort` | Group sorter | (a: Conversation, b: Conversation) => number | - | - |
 | `title` | Semantic custom rendering | ((group: string, info: { components: { GroupTitle: React.ComponentType } }) => React.ReactNode) | - | - |
 
 ### MenuProps

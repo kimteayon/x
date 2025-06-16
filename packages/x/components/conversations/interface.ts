@@ -1,14 +1,13 @@
 import type React from 'react';
+import { CollapsibleOptions } from '../_util/hooks/use-collapsible';
 import type { AnyObject } from '../_util/type';
-import type { GroupTitleProps } from './GroupTitle';
-
-type GroupType = string;
+import type { GroupType } from './hooks/useGroupable';
 
 /**
  * @desc 会话数据
  * @descEN Conversation data
  */
-export interface Conversation
+export interface BaseConversation
   extends AnyObject,
     Omit<React.HTMLAttributes<HTMLLIElement>, 'onClick'> {
   /**
@@ -33,7 +32,7 @@ export interface Conversation
    * @desc 会话分组类型，与 {@link ConversationsProps.groupable} 联动
    * @descEN Conversation type
    */
-  group?: GroupType;
+  group?: string;
 
   /**
    * @desc 会话图标
@@ -48,18 +47,27 @@ export interface Conversation
   disabled?: boolean;
 }
 
-export type GroupSorter = Parameters<GroupType[]['sort']>[0];
+export type Conversation =
+  | BaseConversation
+  | {
+      type: 'divider';
+    };
 
-export type GroupTitleRenderComponents = {
-  components: {
-    GroupTitle: React.ComponentType<GroupTitleProps>;
-  };
+export type GroupSorter = Parameters<BaseConversation[]['sort']>[0];
+
+export type GroupLabelComponents = {
+  data: GroupType;
 };
 
-export type GroupTitleRender =
-  | ((group: GroupType, info: GroupTitleRenderComponents) => React.ReactNode)
+export type GroupLabel =
+  | React.ReactNode
+  | ((group: string, info: GroupLabelComponents) => React.ReactNode)
   | undefined;
 
+export type Collapsible =
+  | boolean
+  | CollapsibleOptions
+  | ((group: string) => CollapsibleOptions | boolean);
 export interface Groupable {
   /**
    * @desc 分组排序函数
@@ -70,5 +78,6 @@ export interface Groupable {
    * @desc 自定义分组标签渲染
    * @descEN Semantic custom rendering
    */
-  title?: GroupTitleRender;
+  label?: GroupLabel;
+  collapsible?: Collapsible;
 }

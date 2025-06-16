@@ -1,20 +1,17 @@
+import {
+  CodeOutlined,
+  FileImageOutlined,
+  FileSearchOutlined,
+  SignatureOutlined,
+} from '@ant-design/icons';
 import { Conversations } from '@ant-design/x';
 import type { ConversationsProps } from '@ant-design/x';
-import { type GetProp, theme } from 'antd';
-import React from 'react';
-
-const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 4 }).map((_, index) => ({
-  key: `item${index + 1}`,
-  label:
-    index + 1 === 3
-      ? "This's Conversation Item 3, you can click me!"
-      : `Conversation Item ${index + 1}`,
-  disabled: index === 3,
-}));
+import { Flex, type GetProp, Switch, theme } from 'antd';
+import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const { token } = theme.useToken();
-
+  const [deepSearchChecked, setDeepSearchChecked] = useState(false);
   // Customize the style of the container
   const style = {
     width: 256,
@@ -22,7 +19,36 @@ const App: React.FC = () => {
     borderRadius: token.borderRadius,
   };
 
-  return <Conversations items={items} defaultActiveKey="item1" style={style} />;
+  const items: GetProp<ConversationsProps, 'items'> = [
+    {
+      key: 'write',
+      label: 'Help Me Write',
+      icon: <SignatureOutlined />,
+    },
+    {
+      key: 'coding',
+      label: 'AI Coding',
+      icon: <CodeOutlined />,
+    },
+    {
+      key: 'createImage',
+      label: 'Create Image',
+      icon: <FileImageOutlined />,
+    },
+    {
+      key: 'deepSearch',
+      disabled: !deepSearchChecked,
+      label: (
+        <Flex gap="small" align="center">
+          Deep Search{' '}
+          <Switch size="small" checked={deepSearchChecked} onChange={setDeepSearchChecked} />{' '}
+        </Flex>
+      ),
+      icon: <FileSearchOutlined />,
+    },
+  ];
+
+  return <Conversations items={items} defaultActiveKey="write" style={style} />;
 };
 
 export default App;

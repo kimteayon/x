@@ -1,11 +1,35 @@
+import {
+  CodeOutlined,
+  FileImageOutlined,
+  FileSearchOutlined,
+  SignatureOutlined,
+} from '@ant-design/icons';
 import { Conversations, type ConversationsProps } from '@ant-design/x';
 import { Button, Flex, type GetProp, theme } from 'antd';
 import React, { useState } from 'react';
 
-const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 3 }).map((_, index) => ({
-  key: `item${index + 1}`,
-  label: `Conversation Item ${index + 1}`,
-}));
+const items: GetProp<ConversationsProps, 'items'> = [
+  {
+    key: 'write',
+    label: 'Help Me Write',
+    icon: <SignatureOutlined />,
+  },
+  {
+    key: 'coding',
+    label: 'AI Coding',
+    icon: <CodeOutlined />,
+  },
+  {
+    key: 'createImage',
+    label: 'Create Image',
+    icon: <FileImageOutlined />,
+  },
+  {
+    key: 'deepSearch',
+    label: 'Deep Search',
+    icon: <FileSearchOutlined />,
+  },
+];
 
 const App: React.FC = () => {
   const [activeKey, setActiveKey] = useState<string>('item1');

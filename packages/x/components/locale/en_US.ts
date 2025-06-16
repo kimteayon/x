@@ -7,7 +7,7 @@ const localeValues: Locale = {
     close: 'Close',
   },
   Conversations: {
-    create: '新对话',
+    create: 'New chat',
   },
 };
 

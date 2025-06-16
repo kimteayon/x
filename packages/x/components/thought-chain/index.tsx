@@ -2,8 +2,8 @@ import classnames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
 
+import useCollapsible from '../_util/hooks/use-collapsible';
 import { useXProviderContext } from '../x-provider';
-import useCollapsible from './hooks/useCollapsible';
 import useStyle from './style';
 
 import useXComponentConfig from '../_util/hooks/use-x-component-config';

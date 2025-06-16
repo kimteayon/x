@@ -42,6 +42,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         fontSize: token.fontSize,
         cursor: 'pointer',
         display: 'flex',
+        marginBlockEnd: token.marginSM,
         lineHeight: token.lineHeight,
         borderRadius: token.borderRadiusLG,
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
@@ -66,21 +67,6 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
       [`&${componentCls}-rtl`]: {
         direction: 'rtl',
       },
-      [`& ${componentCls}-list`]: {
-        display: 'flex',
-        gap: token.paddingXXS,
-        flexDirection: 'column',
-
-        [`& ${componentCls}-item`]: {
-          paddingInlineStart: token.paddingXL,
-        },
-        [`& ${componentCls}-label`]: {
-          color: token.colorTextDescription,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        },
-      },
       [`& ${componentCls}-item`]: {
         display: 'flex',
         height: token.controlHeightLG,
@@ -102,7 +88,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         },
         '&-disabled': {
           cursor: 'not-allowed',
-          [`& ${componentCls}-label`]: {
+          [`& ${componentCls}-label, ${componentCls}-icon, ${componentCls}-menu-icon`]: {
             color: token.colorTextDisabled,
           },
         },
@@ -127,12 +113,45 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         opacity: 0,
         fontSize: token.fontSizeXL,
       },
+      [`& ${componentCls}-list`]: {
+        display: 'flex',
+        gap: token.paddingXXS,
+        flexDirection: 'column',
+      },
+      [`& ${componentCls}-group-collapsible-list`]: {
+        // [`& ${componentCls}-item`]: {
+        //   paddingInlineStart: token.paddingXL
+        // },
+      },
       [`& ${componentCls}-group-title`]: {
         display: 'flex',
         alignItems: 'center',
+        color: token.colorTextDescription,
         height: token.controlHeightLG,
         minHeight: token.controlHeightLG,
         padding: `0 ${unit(token.paddingXS)}`,
+      },
+
+      [`& ${componentCls}-group-title-collapsible`]: {
+        justifyContent: 'space-between',
+        cursor: 'pointer',
+        color: token.colorText,
+        borderRadius: token.borderRadiusLG,
+        transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
+        '&:hover': {
+          backgroundColor: token.colorBgTextHover,
+        },
+      },
+      [`& ${componentCls}-group-collapse-trigger`]: {
+        transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
+        transform: 'rotate(0deg)',
+        transformOrigin: 'center center',
+      },
+      [`& ${componentCls}-group-collapse-trigger-open`]: {
+        transform: 'rotate(90deg)',
+      },
+      [`& ${componentCls}-group-collapse-trigger-close`]: {
+        transform: 'rotate(0deg)',
       },
     },
   };

@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React, { useEffect } from 'react';
 
-import GroupTitle, { GroupTitleContext } from './GroupTitle';
+import GroupNode, { GroupNodeContext } from './GroupNode';
 import ConversationsItem, { type ConversationsItemProps } from './Item';
 
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -12,11 +12,12 @@ import useGroupable from './hooks/useGroupable';
 import useStyle from './style';
 
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { Conversation, Groupable } from './interface';
+import type { BaseConversation, Conversation, Groupable } from './interface';
 
 import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
 
+import { Divider } from 'antd';
 import Creation from './components/Creation';
 import type { CreationProps } from './components/Creation';
 /**
@@ -34,13 +35,13 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 当前选中的值
    * @descEN Currently selected value
    */
-  activeKey?: Conversation['key'];
+  activeKey?: BaseConversation['key'];
 
   /**
    * @desc 默认选中值
    * @descEN Default selected value
    */
-  defaultActiveKey?: Conversation['key'];
+  defaultActiveKey?: BaseConversation['key'];
 
   /**
    * @desc 选中变更回调
@@ -52,7 +53,9 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 会话操作菜单
    * @descEN Operation menu for conversations
    */
-  menu?: ConversationsItemProps['menu'] | ((value: Conversation) => ConversationsItemProps['menu']);
+  menu?:
+    | ConversationsItemProps['menu']
+    | ((value: BaseConversation) => ConversationsItemProps['menu']);
 
   /**
    * @desc 是否支持分组, 开启后默认按 {@link Conversation.group} 字段分组
@@ -88,6 +91,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @descEN Custom Shortcut Keys
    */
   shortcutKeys?: {
+    creation?: ShortcutKeys<number>;
     items?: ShortcutKeys<'number'> | ShortcutKeys<number>[];
   };
   /**
@@ -135,7 +139,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   );
 
   // ============================ Groupable ============================
-  const [groupList, enableGroup] = useGroupable(groupable, items);
+  const [groupList] = useGroupable(groupable, items);
 
   // ============================ Prefix ============================
   const { getPrefixCls, direction } = useXProviderContext();
@@ -172,14 +176,30 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   // ============================ Short Key =========================
   const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
 
+  const baseItems = (items || [])?.filter(
+    (item) => item.type !== 'divider',
+  ) as unknown as BaseConversation;
+
   useEffect(() => {
-    if (actionShortcutInfo?.name === 'items') {
-      const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
-      const itemKey = typeof index === 'number' ? items?.[index]?.key : mergedActiveKey;
-      itemKey &&
-        onConversationItemClick({
-          key: itemKey,
-        });
+    switch (actionShortcutInfo?.name) {
+      case 'items':
+        {
+          const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
+          const itemKey = typeof index === 'number' ? baseItems?.[index]?.key : mergedActiveKey;
+          itemKey &&
+            onConversationItemClick({
+              key: itemKey,
+            });
+        }
+
+        break;
+      case 'creation':
+        {
+          if (typeof creation?.onClick === 'function') {
+            creation.onClick();
+          }
+        }
+        break;
     }
   }, [actionShortcutInfo, items]);
 
@@ -195,43 +215,55 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
     >
       {!!creation && <Creation prefixCls={`${prefixCls}-creation`} {...creation} />}
       {groupList.map((groupInfo, groupIndex) => {
-        const convItems = groupInfo.data.map((convInfo: Conversation, convIndex: number) => {
-          const { label: _, disabled: __, icon: ___, ...restInfo } = convInfo;
+        const ItemNode = groupInfo.data.map((conversationInfo: Conversation, convIndex: number) => {
+          if (conversationInfo.type === 'divider') {
+            return <Divider />;
+          }
+          const baseConversationInfo = conversationInfo as BaseConversation;
+          const { label: _, disabled: __, icon: ___, ...restInfo } = baseConversationInfo;
           return (
             <ConversationsItem
               {...restInfo}
-              key={convInfo.key || `key-${convIndex}`}
-              info={convInfo}
+              key={baseConversationInfo.key || `key-${convIndex}`}
+              info={baseConversationInfo}
               prefixCls={prefixCls}
               direction={direction}
               className={classnames(
                 classNames.item,
                 contextConfig.classNames.item,
-                convInfo.className,
+                baseConversationInfo.className,
               )}
-              style={{ ...contextConfig.styles.item, ...styles.item, ...convInfo.style }}
-              menu={typeof menu === 'function' ? menu(convInfo) : menu}
-              active={mergedActiveKey === convInfo.key}
+              style={{
+                ...contextConfig.styles.item,
+                ...styles.item,
+                ...baseConversationInfo.style,
+              }}
+              menu={typeof menu === 'function' ? menu(baseConversationInfo) : menu}
+              active={mergedActiveKey === baseConversationInfo.key}
               onClick={onConversationItemClick}
             />
           );
         });
 
-        // With group to show the title
-        if (enableGroup) {
-          return (
-            <li key={groupInfo.name || `key-${groupIndex}`}>
-              <GroupTitleContext.Provider value={{ prefixCls }}>
-                {groupInfo.title?.(groupInfo.name!, { components: { GroupTitle } }) || (
-                  <GroupTitle key={groupInfo.name}>{groupInfo.name}</GroupTitle>
-                )}
-              </GroupTitleContext.Provider>
-              <ul className={`${prefixCls}-list`}>{convItems}</ul>
-            </li>
-          );
-        }
-
-        return convItems;
+        return groupInfo.enableGroup ? (
+          <GroupNodeContext.Provider
+            key={groupInfo.name || `key-${groupIndex}`}
+            value={{ prefixCls, groupInfo }}
+          >
+            <GroupNode key={groupInfo.name || `key-${groupIndex}`}>
+              <ul
+                key={groupInfo.name || `key-${groupIndex}`}
+                className={classnames(`${prefixCls}-list`, {
+                  [`${prefixCls}-group-collapsible-list`]: groupInfo.enableGroup,
+                })}
+              >
+                {ItemNode}
+              </ul>
+            </GroupNode>
+          </GroupNodeContext.Provider>
+        ) : (
+          ItemNode
+        );
       })}
     </ul>,
   );

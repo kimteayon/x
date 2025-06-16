@@ -2,15 +2,15 @@ import {
   CodeOutlined,
   FileImageOutlined,
   FileSearchOutlined,
-  PlusOutlined,
   SignatureOutlined,
 } from '@ant-design/icons';
 import { Conversations } from '@ant-design/x';
 import type { ConversationsProps } from '@ant-design/x';
-import { type GetProp, theme } from 'antd';
-import React from 'react';
+import type { GetProp } from 'antd';
+import { theme } from 'antd';
+import React, { useState } from 'react';
 
-const items: GetProp<ConversationsProps, 'items'> = [
+const agentItems: GetProp<ConversationsProps, 'items'> = [
   {
     key: 'write',
     label: 'Help Me Write',
@@ -35,7 +35,6 @@ const items: GetProp<ConversationsProps, 'items'> = [
 
 const App: React.FC = () => {
   const { token } = theme.useToken();
-
   // Customize the style of the container
   const style = {
     width: 256,
@@ -43,22 +42,40 @@ const App: React.FC = () => {
     borderRadius: token.borderRadius,
   };
 
-  const newConversationClick = () => {
-    console.log('New conversation click');
+  const [historicalItems, setHistoricalItems] = useState<GetProp<ConversationsProps, 'items'>>([
+    {
+      type: 'divider',
+    },
+    {
+      key: `item1`,
+      label: 'Conversation Item 1',
+      group: 'Today',
+    },
+  ]);
+
+  const items = [...agentItems, ...historicalItems];
+
+  const newChatClick = () => {
+    console.log('New Chat click');
+    setHistoricalItems((ori) => {
+      return [
+        ...ori,
+        {
+          key: `item${ori.length + 1}`,
+          label: `Conversation Item ${ori.length + 1}`,
+          group: 'Today',
+        },
+      ];
+    });
   };
 
   return (
     <Conversations
       creation={{
-        icon: <PlusOutlined />,
-        label: {
-          text: '新对话',
-          align: 'center',
-        },
-        onClick: newConversationClick,
+        onClick: newChatClick,
       }}
       items={items}
-      defaultActiveKey="item1"
+      defaultActiveKey="write"
       style={style}
     />
   );

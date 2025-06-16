@@ -27,9 +27,8 @@ const App: React.FC = () => {
 
   const groupable: GetProp<typeof Conversations, 'groupable'> = {
     sort(a, b) {
-      if (a === b) return 0;
-
-      return a === 'Today' ? -1 : 1;
+      if (a.name === b.name) return 0;
+      return a.name === 'Today' ? 2 : 1;
     },
     title: (group, { components: { GroupTitle } }) =>
       group ? (
