@@ -250,9 +250,8 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
             key={groupInfo.name || `key-${groupIndex}`}
             value={{ prefixCls, groupInfo }}
           >
-            <GroupNode key={groupInfo.name || `key-${groupIndex}`}>
+            <GroupNode>
               <ul
-                key={groupInfo.name || `key-${groupIndex}`}
                 className={classnames(`${prefixCls}-list`, {
                   [`${prefixCls}-group-collapsible-list`]: groupInfo.enableGroup,
                 })}
