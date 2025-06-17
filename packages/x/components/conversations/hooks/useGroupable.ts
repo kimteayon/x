@@ -52,7 +52,7 @@ const useGroupable = (
 
   return React.useMemo(() => {
     const groupList = items.reduce<GroupList>((currentGroupList, item) => {
-      if (item.type === 'divider' || !(item as BaseConversation).group) {
+      if (item?.type === 'divider' || !(item as BaseConversation).group || !groupable) {
         currentGroupList.push({
           data: [item],
           name: '',

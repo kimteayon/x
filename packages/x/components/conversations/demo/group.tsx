@@ -21,7 +21,7 @@ const App: React.FC = () => {
     borderRadius: token.borderRadius,
   };
 
-  return <Conversations items={items} defaultActiveKey="item1" style={style} groupable />;
+  return <Conversations items={items} defaultActiveKey="item1" style={style} groupable={false} />;
 };
 
 export default App;
