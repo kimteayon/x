@@ -54,7 +54,6 @@ Common props ref：[Common props](/docs/react/common-props)
 | --- | --- | --- | --- | --- |
 | key | Unique identifier | string | - | - |
 | label | Conversation name | React.ReactNode | - | - |
-| timestamp | Conversation timestamp | number | - | - |
 | group | Conversation type, linked to `ConversationsProps.groupable` | string | - | - |
 | icon | Conversation icon | React.ReactNode | - | - |
 | disabled | Whether to disable | boolean | - | - |
@@ -63,7 +62,6 @@ Common props ref：[Common props](/docs/react/common-props)
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| `sort` | Group sorter | (a: Conversation, b: Conversation) => number | - | - |
 | `title` | Semantic custom rendering | ((group: string, info: { components: { GroupTitle: React.ComponentType } }) => React.ReactNode) | - | - |
 
 ### MenuProps
