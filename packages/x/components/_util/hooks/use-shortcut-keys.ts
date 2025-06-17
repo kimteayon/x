@@ -129,11 +129,6 @@ const useObservable = (): [React.RefObject<Observer | undefined>, Subscribe] => 
   const subscribe = (fn: Observer) => {
     observer.current = fn;
   };
-  useEffect(() => {
-    return () => {
-      observer.current = undefined;
-    };
-  }, []);
   return [observer, subscribe];
 };
 // ================== Monitor shortcut key triggering ======================

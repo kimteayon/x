@@ -186,16 +186,17 @@ describe('Conversations Component', () => {
         code: 'Digit3',
         altKey: true,
       });
-      // expect(
-      //   (await getByText('In Docker, use 🐑 Ollama and initialize')).parentElement,
-      // ).toHaveClass('ant-conversations-item-active');
-      // expect(onActiveChange).toHaveBeenCalledWith('demo4');
+      expect(
+        (await getByText('In Docker, use 🐑 Ollama and initialize')).parentElement,
+      ).toHaveClass('ant-conversations-item-active');
+      expect(onActiveChange).toHaveBeenCalledWith('demo4');
     });
     it('shortcut keys of items width number', async () => {
       const onActiveChange = jest.fn();
       const { getByText, container } = render(
         <Conversations
           items={items}
+          onActiveChange={onActiveChange}
           shortcutKeys={{
             items: [
               ['Alt', 49],
@@ -203,9 +204,6 @@ describe('Conversations Component', () => {
               ['Alt', 51],
             ],
           }}
-          menu={menu}
-          onActiveChange={onActiveChange}
-          defaultActiveKey="demo1"
         />,
       );
       fireEvent.keyDown(container, {
@@ -214,10 +212,10 @@ describe('Conversations Component', () => {
         code: 'Digit3',
         altKey: true,
       });
-      // expect(
-      //   (await getByText('In Docker, use 🐑 Ollama and initialize')).parentElement,
-      // ).toHaveClass('ant-conversations-item-active');
-      // expect(onActiveChange).toHaveBeenCalledWith('demo4');
+      expect(
+        (await getByText('In Docker, use 🐑 Ollama and initialize')).parentElement,
+      ).toHaveClass('ant-conversations-item-active');
+      expect(onActiveChange).toHaveBeenCalledWith('demo4');
     });
     it('shortcut keys of items width error number', async () => {
       render(
@@ -229,7 +227,6 @@ describe('Conversations Component', () => {
               ['Alt', KeyCode.ONE],
             ],
           }}
-          menu={menu}
           defaultActiveKey="demo1"
         />,
       );
