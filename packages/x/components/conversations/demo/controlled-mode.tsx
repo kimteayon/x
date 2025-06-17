@@ -47,7 +47,10 @@ const App: React.FC = () => {
     <Flex vertical gap="small" align="flex-start">
       <Conversations
         activeKey={activeKey}
-        onActiveChange={(v) => setActiveKey(v)}
+        onActiveChange={(v) => {
+          setActiveKey(v);
+          console.log(v);
+        }}
         items={items}
         style={style}
       />
@@ -55,14 +58,14 @@ const App: React.FC = () => {
       <Flex gap="small">
         <Button
           onClick={() => {
-            setActiveKey('item1');
+            setActiveKey('write');
           }}
         >
           Active First
         </Button>
         <Button
           onClick={() => {
-            setActiveKey('item3');
+            setActiveKey('deepSearch');
           }}
         >
           Active Last

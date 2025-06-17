@@ -40,15 +40,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Conversations
-      items={items}
-      shortcutKeys={{
-        items: ['Alt', 'number'],
-      }}
-      defaultActiveKey="item1"
-      style={style}
-      groupable={groupable}
-    />
+    <Conversations items={items} defaultActiveKey="item1" style={style} groupable={groupable} />
   );
 };
 

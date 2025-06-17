@@ -49,7 +49,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 选中变更回调
    * @descEN Callback for selection change
    */
-  onActiveChange?: (value: string) => void;
+  onActiveChange?: (value?: string) => void;
 
   /**
    * @desc 会话操作菜单
@@ -133,10 +133,14 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   });
 
   // ============================ ActiveKey ============================
+
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<ConversationsProps['activeKey']>(
     defaultActiveKey,
     {
       value: activeKey,
+      onChange: (key) => {
+        onActiveChange?.(key);
+      },
     },
   );
 
@@ -167,12 +171,8 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   );
 
   // ============================ Events ============================
-  const onConversationItemClick: ConversationsItemProps['onClick'] = (info) => {
-    setMergedActiveKey(info.key);
-
-    if (onActiveChange) {
-      onActiveChange(info.key);
-    }
+  const onConversationItemClick: ConversationsItemProps['onClick'] = (key) => {
+    setMergedActiveKey(key);
   };
 
   // ============================ Short Key =========================
@@ -184,12 +184,8 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
         {
           const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
           const itemKey = typeof index === 'number' ? keyList?.[index] : mergedActiveKey;
-          itemKey &&
-            onConversationItemClick({
-              key: itemKey,
-            });
+          itemKey && setMergedActiveKey(itemKey);
         }
-
         break;
       case 'creation':
         {

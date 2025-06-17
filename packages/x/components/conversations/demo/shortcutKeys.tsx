@@ -80,6 +80,9 @@ const App: React.FC = () => {
         }}
         style={style}
         defaultActiveKey="write"
+        onActiveChange={(value) => {
+          console.log(value);
+        }}
         shortcutKeys={{
           creation: ['Meta', KeyCode.K],
           items: ['Alt', 'number'],

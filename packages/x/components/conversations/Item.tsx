@@ -6,6 +6,7 @@ import React from 'react';
 
 import type { DirectionType } from 'antd/es/config-provider';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import { ConversationsProps } from '.';
 import type { BaseConversation } from './interface';
 
 export interface ConversationsItemProps
@@ -23,7 +24,7 @@ export interface ConversationsItemProps
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   };
   active?: boolean;
-  onClick?: (info: BaseConversation) => void;
+  onClick?: ConversationsProps['onActiveChange'];
 }
 
 const stopPropagation: React.MouseEventHandler<HTMLSpanElement> = (e) => {
@@ -53,7 +54,7 @@ const ConversationsItem: React.FC<ConversationsItemProps> = (props) => {
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = () => {
     if (!disabled && onClick) {
-      onClick(info);
+      onClick(info.key);
     }
   };
 
