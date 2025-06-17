@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import GroupNode, { GroupNodeContext } from './GroupNode';
 import ConversationsItem, { type ConversationsItemProps } from './Item';
@@ -14,12 +14,14 @@ import useStyle from './style';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { BaseConversation, Conversation, Groupable } from './interface';
 
-import useShortcutKeys from '../_util/hooks/use-shortcut-keys';
+import useShortcutKeys, { ActionShortcutInfo } from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
 
 import { Divider } from 'antd';
+import useCollapsible from '../_util/hooks/use-collapsible';
 import Creation from './components/Creation';
 import type { CreationProps } from './components/Creation';
+
 /**
  * @desc 会话列表组件参数
  * @descEN Props for the conversation list component
@@ -139,7 +141,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   );
 
   // ============================ Groupable ============================
-  const [groupList] = useGroupable(groupable, items);
+  const [groupList, collapsibleOptions, keyList] = useGroupable(groupable, items);
 
   // ============================ Prefix ============================
   const { getPrefixCls, direction } = useXProviderContext();
@@ -174,18 +176,14 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   };
 
   // ============================ Short Key =========================
-  const [actionShortcutInfo] = useShortcutKeys('conversations', customizeShortcutKeys);
+  const [_, subscribe] = useShortcutKeys('conversations', customizeShortcutKeys);
 
-  const baseItems = (items || [])?.filter(
-    (item) => item.type !== 'divider',
-  ) as unknown as BaseConversation;
-
-  useEffect(() => {
+  const shortKeyAction = (actionShortcutInfo: ActionShortcutInfo) => {
     switch (actionShortcutInfo?.name) {
       case 'items':
         {
           const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
-          const itemKey = typeof index === 'number' ? baseItems?.[index]?.key : mergedActiveKey;
+          const itemKey = typeof index === 'number' ? keyList?.[index] : mergedActiveKey;
           itemKey &&
             onConversationItemClick({
               key: itemKey,
@@ -201,7 +199,48 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
         }
         break;
     }
-  }, [actionShortcutInfo, items]);
+  };
+
+  subscribe(shortKeyAction);
+
+  // ============================ Item Node ============================
+  const getItemNode = (itemData: Conversation[]) =>
+    itemData.map((conversationInfo: Conversation, conversationIndex: number) => {
+      if (conversationInfo.type === 'divider') {
+        return <Divider className={`${prefixCls}-divider`} dashed={conversationInfo.dashed} />;
+      }
+      const baseConversationInfo = conversationInfo as BaseConversation;
+      const { label: _, disabled: __, icon: ___, ...restInfo } = baseConversationInfo;
+      return (
+        <ConversationsItem
+          {...restInfo}
+          key={baseConversationInfo.key || `key-${conversationIndex}`}
+          info={baseConversationInfo}
+          prefixCls={prefixCls}
+          direction={direction}
+          className={classnames(
+            classNames.item,
+            contextConfig.classNames.item,
+            baseConversationInfo.className,
+          )}
+          style={{
+            ...contextConfig.styles.item,
+            ...styles.item,
+            ...baseConversationInfo.style,
+          }}
+          menu={typeof menu === 'function' ? menu(baseConversationInfo) : menu}
+          active={mergedActiveKey === baseConversationInfo.key}
+          onClick={onConversationItemClick}
+        />
+      );
+    });
+
+  //  ============================ Item Collapsible ============================
+
+  const [enableCollapse, expandedKeys, onItemExpand, collapseMotion] = useCollapsible(
+    collapsibleOptions,
+    prefixCls,
+  );
 
   // ============================ Render ============================
   return wrapCSSVar(
@@ -215,53 +254,31 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
     >
       {!!creation && <Creation prefixCls={`${prefixCls}-creation`} {...creation} />}
       {groupList.map((groupInfo, groupIndex) => {
-        const ItemNode = groupInfo.data.map((conversationInfo: Conversation, convIndex: number) => {
-          if (conversationInfo.type === 'divider') {
-            return <Divider />;
-          }
-          const baseConversationInfo = conversationInfo as BaseConversation;
-          const { label: _, disabled: __, icon: ___, ...restInfo } = baseConversationInfo;
-          return (
-            <ConversationsItem
-              {...restInfo}
-              key={baseConversationInfo.key || `key-${convIndex}`}
-              info={baseConversationInfo}
-              prefixCls={prefixCls}
-              direction={direction}
-              className={classnames(
-                classNames.item,
-                contextConfig.classNames.item,
-                baseConversationInfo.className,
-              )}
-              style={{
-                ...contextConfig.styles.item,
-                ...styles.item,
-                ...baseConversationInfo.style,
-              }}
-              menu={typeof menu === 'function' ? menu(baseConversationInfo) : menu}
-              active={mergedActiveKey === baseConversationInfo.key}
-              onClick={onConversationItemClick}
-            />
-          );
-        });
-
+        const itemNode = getItemNode(groupInfo.data);
         return groupInfo.enableGroup ? (
           <GroupNodeContext.Provider
             key={groupInfo.name || `key-${groupIndex}`}
-            value={{ prefixCls, groupInfo }}
+            value={{
+              prefixCls,
+              groupInfo,
+              enableCollapse,
+              expandedKeys,
+              onItemExpand,
+              collapseMotion,
+            }}
           >
             <GroupNode>
               <ul
                 className={classnames(`${prefixCls}-list`, {
-                  [`${prefixCls}-group-collapsible-list`]: groupInfo.enableGroup,
+                  [`${prefixCls}-group-collapsible-list`]: groupInfo.collapsible,
                 })}
               >
-                {ItemNode}
+                {itemNode}
               </ul>
             </GroupNode>
           </GroupNodeContext.Provider>
         ) : (
-          ItemNode
+          itemNode
         );
       })}
     </ul>,

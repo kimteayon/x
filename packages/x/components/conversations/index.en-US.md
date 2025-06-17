@@ -24,9 +24,11 @@ demo:
 <code src="./demo/with-menu.tsx" background="grey">Operations</code>
 <code src="./demo/menu-trigger.tsx" background="grey">Custom Operations</code>
 <code src="./demo/new-chat.tsx" background="grey">New Chat</code>
-<code src="./demo/group.tsx" background="grey">Group</code>
+<code src="./demo/custom-new-chat.tsx" background="grey">Custom New Chat</code>
 <code src="./demo/shortcutKeys.tsx" background="grey">Shortcut key Operation</code>
-<code src="./demo/group-sort.tsx" background="grey">Group Sort</code>
+<code src="./demo/group.tsx" background="grey">Group</code>
+<code src="./demo/group-collapsible.tsx" background="grey">Group collapsible</code>
+<code src="./demo/controlled-collapsible.tsx" background="grey"> controlled collapsible mode</code>
 <code src="./demo/infinite-load.tsx" background="grey">Scrolling loaded</code>
 
 ## API

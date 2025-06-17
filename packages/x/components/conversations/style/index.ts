@@ -64,8 +64,11 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           justifyContent: 'flex-end',
         },
       },
-      [`&${componentCls}-rtl`]: {
+      [`& ${componentCls}-rtl`]: {
         direction: 'rtl',
+      },
+      [`& ${componentCls}-divider`]: {
+        marginBlock: token.marginXXS,
       },
       [`& ${componentCls}-item`]: {
         display: 'flex',
@@ -119,9 +122,9 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         flexDirection: 'column',
       },
       [`& ${componentCls}-group-collapsible-list`]: {
-        // [`& ${componentCls}-item`]: {
-        //   paddingInlineStart: token.paddingXL
-        // },
+        [`& ${componentCls}-item`]: {
+          paddingInlineStart: token.paddingXL,
+        },
       },
       [`& ${componentCls}-group-title`]: {
         display: 'flex',

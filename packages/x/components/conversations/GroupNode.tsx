@@ -2,37 +2,46 @@ import { RightOutlined } from '@ant-design/icons';
 import type { ConfigProviderProps, GetProp } from 'antd';
 import classnames from 'classnames';
 import CSSMotion from 'rc-motion';
+import type { CSSMotionProps } from 'rc-motion';
 import React from 'react';
-import useCollapsible, { CollapsibleOptions } from '../_util/hooks/use-collapsible';
 import { GroupType } from './hooks/useGroupable';
 
 export interface GroupTitleProps {
   children?: React.ReactNode;
   enableGroup?: boolean;
 }
-
-export const GroupNodeContext = React.createContext<{
+interface GroupNodeContextType {
   prefixCls?: GetProp<ConfigProviderProps, 'prefixCls'>;
-  groupInfo: Omit<GroupType, 'collapsible'> & { collapsibleOptions: CollapsibleOptions };
-}>(null!);
+  enableCollapse: boolean;
+  expandedKeys: string[];
+  onItemExpand: ((curKey: string) => void) | undefined;
+  collapseMotion: CSSMotionProps;
+
+  groupInfo: Omit<GroupType, 'collapsible'> & { collapsible: boolean };
+}
+export const GroupNodeContext = React.createContext<GroupNodeContextType>(null!);
 
 const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
-  const { prefixCls, groupInfo } = React.useContext(GroupNodeContext) || {};
-  const { label, name } = groupInfo || {};
+  const { prefixCls, groupInfo, enableCollapse, expandedKeys, onItemExpand, collapseMotion } =
+    React.useContext(GroupNodeContext) || {};
+  const { label, name, collapsible } = groupInfo || {};
 
   const labelNode =
     typeof label === 'function'
       ? label(name, {
-          data: groupInfo,
+          groupInfo,
         })
       : label || name;
 
-  const [enableCollapse, expandedKeys, onItemExpand, collapseMotion] = useCollapsible(
-    groupInfo?.collapsibleOptions,
-    prefixCls,
-  );
+  const mergeCollapsible = collapsible && enableCollapse;
+  const expandFun = () => {
+    if (mergeCollapsible) {
+      onItemExpand?.(groupInfo.name);
+    }
+  };
 
-  const groupOpen = !!expandedKeys.includes(name);
+  const groupOpen = mergeCollapsible && !!expandedKeys?.includes?.(name);
+
   const arrowRender = () => {
     return (
       <>
@@ -41,7 +50,6 @@ const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
             `${prefixCls}-group-collapse-trigger `,
             `${prefixCls}-group-collapse-trigger-${groupOpen ? 'open' : 'close'}`,
           )}
-          onClick={() => onItemExpand?.(groupInfo.name)}
         >
           <RightOutlined />
         </div>
@@ -54,14 +62,15 @@ const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
       <li>
         <div
           className={classnames(`${prefixCls}-group-title`, {
-            [`${prefixCls}-group-title-collapsible`]: enableCollapse,
+            [`${prefixCls}-group-title-collapsible`]: mergeCollapsible,
           })}
+          onClick={expandFun}
         >
           {labelNode && labelNode}
-          {enableCollapse && arrowRender()}
+          {mergeCollapsible && arrowRender()}
         </div>
       </li>
-      <CSSMotion {...collapseMotion} visible={enableCollapse ? groupOpen : true}>
+      <CSSMotion {...collapseMotion} visible={mergeCollapsible ? groupOpen : true}>
         {({ className: motionClassName, style }, motionRef) => (
           <div className={classnames(motionClassName)} ref={motionRef} style={style}>
             {children}

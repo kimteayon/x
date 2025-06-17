@@ -1,7 +1,7 @@
 import type React from 'react';
 import { CollapsibleOptions } from '../_util/hooks/use-collapsible';
 import type { AnyObject } from '../_util/type';
-import type { GroupType } from './hooks/useGroupable';
+import type { GroupInfoType } from './hooks/useGroupable';
 
 /**
  * @desc 会话数据
@@ -47,33 +47,24 @@ export interface BaseConversation
   disabled?: boolean;
 }
 
-export type Conversation =
-  | BaseConversation
-  | {
-      type: 'divider';
-    };
+type DividerConversation = {
+  type: 'divider';
+  dashed?: boolean;
+};
 
-export type GroupSorter = Parameters<BaseConversation[]['sort']>[0];
+export type Conversation = BaseConversation | DividerConversation;
 
-export type GroupLabelComponents = {
-  data: GroupType;
+export type GroupLabelInfo = {
+  groupInfo: GroupInfoType;
 };
 
 export type GroupLabel =
   | React.ReactNode
-  | ((group: string, info: GroupLabelComponents) => React.ReactNode)
+  | ((group: string, info: GroupLabelInfo) => React.ReactNode)
   | undefined;
 
-export type Collapsible =
-  | boolean
-  | CollapsibleOptions
-  | ((group: string) => CollapsibleOptions | boolean);
-export interface Groupable {
-  /**
-   * @desc 分组排序函数
-   * @descEN Group sorter
-   */
-  sort?: GroupSorter;
+export type Collapsible = boolean | ((group: string) => boolean);
+export interface Groupable extends CollapsibleOptions {
   /**
    * @desc 自定义分组标签渲染
    * @descEN Semantic custom rendering

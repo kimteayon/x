@@ -1,91 +1,102 @@
 import React, { useMemo } from 'react';
 import type { ConversationsProps } from '..';
-import { CollapsibleOptions } from '../../_util/hooks/use-collapsible';
-import type { Collapsible, Conversation, GroupSorter, Groupable } from '../interface';
+import type { CollapsibleOptions } from '../../_util/hooks/use-collapsible';
+import type { BaseConversation, Collapsible, Conversation, Groupable } from '../interface';
 
 interface GroupConfig {
-  sort: GroupSorter | undefined;
   label: Groupable['label'];
-  collapsibleOptionsHandle: Collapsible;
+  collapsibleHandle: Collapsible;
+  collapsibleOptions: CollapsibleOptions;
 }
-export interface GroupType {
+export interface GroupInfoType {
   data: Conversation[];
   name: string;
   label: Groupable['label'];
   enableGroup: boolean;
-  collapsibleOptions: false | CollapsibleOptions;
+  collapsible: boolean;
 }
-type GroupList = GroupType[];
+type GroupList = GroupInfoType[];
 
 const useGroupable = (
   groupable?: ConversationsProps['groupable'],
   items: Conversation[] = [],
-): [groupList: GroupList] => {
-  const [sort, label, collapsibleOptionsHandle] = useMemo<
-    [GroupConfig['sort'], GroupConfig['label'], GroupConfig['collapsibleOptions']]
+): [groupList: GroupList, collapsibleOptions: CollapsibleOptions, keyList: string[]] => {
+  const [label, collapsibleHandle, collapsibleOptions] = useMemo<
+    [GroupConfig['label'], GroupConfig['collapsibleHandle'], collapsibleOptions: CollapsibleOptions]
   >(() => {
     let baseConfig: GroupConfig = {
-      sort: undefined,
       label: '',
-      collapsibleOptionsHandle: false,
+      collapsibleHandle: false,
+      collapsibleOptions: {},
     };
     if (!groupable) {
-      return [undefined, '', baseConfig.collapsibleOptionsHandle];
+      return ['', baseConfig.collapsibleHandle, baseConfig.collapsibleOptions];
     }
 
     if (typeof groupable === 'object') {
-      const { collapsible, ...other } = groupable;
+      const { collapsible, defaultExpandedKeys, expandedKeys, onExpand, ...other } = groupable;
       baseConfig = {
         ...baseConfig,
         ...other,
-        collapsibleOptionsHandle: collapsible!,
+        collapsibleHandle: collapsible!,
+        collapsibleOptions: {
+          defaultExpandedKeys,
+          expandedKeys,
+          onExpand,
+        },
       };
     }
 
-    return [baseConfig.sort, baseConfig.label, baseConfig.collapsibleOptionsHandle];
+    return [baseConfig.label, baseConfig.collapsibleHandle, baseConfig.collapsibleOptions];
   }, [groupable]);
 
   return React.useMemo(() => {
     const groupList = items.reduce<GroupList>((currentGroupList, item) => {
-      if (!item.group) {
+      if (item.type === 'divider' || !(item as BaseConversation).group) {
         currentGroupList.push({
           data: [item],
           name: '',
           label: '',
           enableGroup: false,
-          collapsibleOptions: false,
+          collapsible: false,
         });
         return currentGroupList;
       }
 
+      const baseItem = item as Required<BaseConversation>;
       const isSome = currentGroupList.some((group, index) => {
-        if (group.name === item.group) {
-          currentGroupList[index].data.push(item);
-          currentGroupList[index].data = sort
-            ? currentGroupList[index].data.sort(sort)
-            : currentGroupList[index].data;
+        if (group.name === baseItem?.group) {
+          currentGroupList[index].data.push(baseItem);
           return true;
         }
         return false;
       });
-      const collapsibleOptions =
-        typeof collapsibleOptionsHandle === 'function'
-          ? collapsibleOptionsHandle?.(item.group)
-          : collapsibleOptionsHandle;
+      const collapsible =
+        typeof collapsibleHandle === 'function'
+          ? collapsibleHandle?.(baseItem?.group)
+          : collapsibleHandle;
 
       if (!isSome) {
         currentGroupList.push({
-          data: [item],
+          data: [baseItem],
           enableGroup: true,
-          name: item.group,
+          name: baseItem?.group,
           label,
-          collapsibleOptions,
+          collapsible,
         });
       }
       return currentGroupList;
     }, []);
-    return [groupList];
-  }, [items]);
+    const keyList = groupList.reduce<string[]>((currentKeyList, group) => {
+      group.data.forEach((item) => {
+        if (item.type !== 'divider') {
+          currentKeyList.push((item as BaseConversation).key);
+        }
+      });
+      return currentKeyList;
+    }, []);
+    return [groupList, collapsibleOptions, keyList];
+  }, [items, collapsibleOptions]);
 };
 
 export default useGroupable;

@@ -31,6 +31,9 @@ const agentItems: GetProp<ConversationsProps, 'items'> = [
     label: 'Deep Search',
     icon: <FileSearchOutlined />,
   },
+  {
+    type: 'divider',
+  },
 ];
 
 const App: React.FC = () => {
@@ -44,9 +47,6 @@ const App: React.FC = () => {
 
   const [historicalItems, setHistoricalItems] = useState<GetProp<ConversationsProps, 'items'>>([
     {
-      type: 'divider',
-    },
-    {
       key: `item1`,
       label: 'Conversation Item 1',
       group: 'Today',
@@ -56,7 +56,6 @@ const App: React.FC = () => {
   const items = [...agentItems, ...historicalItems];
 
   const newChatClick = () => {
-    console.log('New Chat click');
     setHistoricalItems((ori) => {
       return [
         ...ori,

@@ -1,12 +1,14 @@
 import {
+  AppstoreAddOutlined,
   CodeOutlined,
   FileImageOutlined,
   FileSearchOutlined,
   SignatureOutlined,
 } from '@ant-design/icons';
-import { Conversations, ConversationsProps } from '@ant-design/x';
-import { GetProp, Tag, theme } from 'antd';
-import KeyCode from 'rc-util/lib/KeyCode';
+import { Conversations } from '@ant-design/x';
+import type { ConversationsProps } from '@ant-design/x';
+import type { GetProp } from 'antd';
+import { theme } from 'antd';
 import React, { useState } from 'react';
 
 const agentItems: GetProp<ConversationsProps, 'items'> = [
@@ -30,14 +32,10 @@ const agentItems: GetProp<ConversationsProps, 'items'> = [
     label: 'Deep Search',
     icon: <FileSearchOutlined />,
   },
+  {
+    type: 'divider',
+  },
 ];
-
-const conversationsText = (
-  <div style={{ marginBottom: 16 }}>
-    You can switch sessions using the shortcut key: <Tag>Alt/⌥</Tag> + <Tag>number</Tag>, and create
-    new chat using the shortcut key: <Tag>Win/⌘</Tag> + <Tag>K</Tag>.
-  </div>
-);
 
 const App: React.FC = () => {
   const { token } = theme.useToken();
@@ -72,21 +70,17 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      {conversationsText}
-      <Conversations
-        creation={{
-          onClick: newChatClick,
-        }}
-        style={style}
-        defaultActiveKey="write"
-        shortcutKeys={{
-          creation: ['Meta', KeyCode.K],
-          items: ['Alt', 'number'],
-        }}
-        items={items}
-      />
-    </>
+    <Conversations
+      creation={{
+        label: 'Create a new chat',
+        align: 'start',
+        icon: <AppstoreAddOutlined />,
+        onClick: newChatClick,
+      }}
+      items={items}
+      defaultActiveKey="write"
+      style={style}
+    />
   );
 };
 

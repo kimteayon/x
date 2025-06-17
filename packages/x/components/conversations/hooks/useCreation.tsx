@@ -2,12 +2,12 @@ import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useLocale } from '../../locale';
 import enUS from '../../locale/en_US';
-import { CreationProps, Label, LabelObject } from '../components/Creation';
+import type { CreationProps } from '../components/Creation';
 
 interface BaseConfig {
   label: React.ReactNode;
   icon: React.ReactNode;
-  align: LabelObject['align'];
+  align: CreationProps['align'];
 }
 
 const useCreation = ({

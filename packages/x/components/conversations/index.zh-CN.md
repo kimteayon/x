@@ -26,10 +26,12 @@ demo:
 <code src="./demo/with-menu.tsx" background="grey">会话操作</code>
 <code src="./demo/menu-trigger.tsx" background="grey">自定义操作</code>
 <code src="./demo/new-chat.tsx" background="grey">新会话</code>
-<code src="./demo/group.tsx" background="grey">分组展示</code>
+<code src="./demo/custom-new-chat.tsx" background="grey">自定义新会话</code>
 <code src="./demo/shortcutKeys.tsx" background="grey">快捷键操作</code>
-
-<code src="./demo/group-sort.tsx" background="grey">分组排序</code> <code src="./demo/infinite-load.tsx" background="grey">滚动加载</code>
+<code src="./demo/group.tsx" background="grey">分组展示</code>
+<code src="./demo/group-collapsible.tsx" background="grey">分组折叠展示</code>
+<code src="./demo/controlled-collapsible.tsx" background="grey">折叠受控模式</code>
+<code src="./demo/infinite-load.tsx" background="grey">滚动加载</code>
 
 ## API
 

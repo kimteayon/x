@@ -1,5 +1,5 @@
 import KeyCode from 'rc-util/lib/KeyCode';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { XComponentsConfig } from '../../x-provider/context';
 import type { PrefixKeysType, ShortcutKeys } from '../type';
 import warning from '../warning';
@@ -7,14 +7,14 @@ import useXComponentConfig from './use-x-component-config';
 
 export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
 
-type ActionShortcutInfo = {
+export type ActionShortcutInfo = {
   actionShortcutKey: ShortcutKeys<number>;
   actionKeyCode: number;
   name: string;
   timeStamp: number;
   actionKeyCodeNumber: number | false;
   index?: number;
-};
+} | null;
 
 const PrefixKeys: PrefixKeysType = {
   Alt: 'altKey',
@@ -29,6 +29,8 @@ type FlattenShortcutKeys = {
   index?: number;
 }[];
 
+type Observer = (actionShortcutInfo: ActionShortcutInfo) => void;
+type Subscribe = (fn: Observer) => void;
 // ======================== Determine if the shortcut key has been hit, And return the corresponding data ========================
 const getActionShortcutInfo = (
   shortcutKey: ShortcutKeys<number>,
@@ -122,18 +124,31 @@ const getFlattenShortcutKeys = (
   }, [] as FlattenShortcutKeys);
 };
 
+const useObservable = (): [React.RefObject<Observer | undefined>, Subscribe] => {
+  const observer = useRef<Observer>(undefined);
+  const subscribe = (fn: Observer) => {
+    observer.current = fn;
+  };
+  useEffect(() => {
+    return () => {
+      observer.current = undefined;
+    };
+  }, []);
+  return [observer, subscribe];
+};
 // ================== Monitor shortcut key triggering ======================
 const useShortcutKeys = <C extends keyof XComponentsConfig>(
   component: C,
   shortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>,
-): [ActionShortcutInfo?] => {
+): [ActionShortcutInfo, Subscribe] => {
   const contextConfig = useXComponentConfig(component);
   const flattenShortcutKeys = getFlattenShortcutKeys(
     component,
     contextConfig.shortcutKeys,
     shortcutKeys,
   );
-  const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>();
+  const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>(null);
+  const [observer, subscribe] = useObservable();
 
   useEffect(() => {
     if (flattenShortcutKeys.length === 0) return;
@@ -141,11 +156,13 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(
       for (const shortcutKeyInfo of flattenShortcutKeys) {
         const activeKeyInfo = getActionShortcutInfo(shortcutKeyInfo.shortcutKey, event);
         if (activeKeyInfo) {
-          setActionShortcutInfo({
+          const info = {
             ...activeKeyInfo,
             name: shortcutKeyInfo.name,
             index: shortcutKeyInfo?.index,
-          });
+          } as ActionShortcutInfo;
+          setActionShortcutInfo(info);
+          observer?.current?.(info);
         }
       }
     };
@@ -153,8 +170,8 @@ const useShortcutKeys = <C extends keyof XComponentsConfig>(
     return () => {
       document.removeEventListener('keydown', onKeydown);
     };
-  }, [flattenShortcutKeys.length]);
-  return [actionShortcutInfo];
+  }, [flattenShortcutKeys.length, observer]);
+  return [actionShortcutInfo, subscribe];
 };
 
 export default useShortcutKeys;

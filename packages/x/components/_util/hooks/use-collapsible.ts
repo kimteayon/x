@@ -70,7 +70,7 @@ const useCollapsible: UseCollapsible = (collapsible, prefixCls, rootPrefixCls) =
   // ============================ ExpandedKeys ============================
   const [mergedExpandedKeys, setMergedExpandedKeys] = useMergedState<
     RequiredCollapsibleOptions['expandedKeys']
-  >(defaultExpandedKeys, {
+  >(defaultExpandedKeys || [], {
     value: isThoughtChainUnControlled ? undefined : customizeExpandedKeys,
     onChange: customizeOnExpand,
   });
