@@ -23,12 +23,6 @@ export interface BaseConversation
   label?: React.ReactNode;
 
   /**
-   * @desc 会话时间戳
-   * @descEN Conversation timestamp
-   */
-  timestamp?: number;
-
-  /**
    * @desc 会话分组类型，与 {@link ConversationsProps.groupable} 联动
    * @descEN Conversation type
    */

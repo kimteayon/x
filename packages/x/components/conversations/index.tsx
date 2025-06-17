@@ -203,7 +203,13 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   const getItemNode = (itemData: Conversation[]) =>
     itemData.map((conversationInfo: Conversation, conversationIndex: number) => {
       if (conversationInfo.type === 'divider') {
-        return <Divider className={`${prefixCls}-divider`} dashed={conversationInfo.dashed} />;
+        return (
+          <Divider
+            key={`key-divider-${conversationIndex}`}
+            className={`${prefixCls}-divider`}
+            dashed={conversationInfo.dashed}
+          />
+        );
       }
       const baseConversationInfo = conversationInfo as BaseConversation;
       const { label: _, disabled: __, icon: ___, ...restInfo } = baseConversationInfo;
