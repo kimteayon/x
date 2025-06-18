@@ -66,7 +66,7 @@ const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
           })}
           onClick={expandFun}
         >
-          {labelNode && labelNode}
+          {labelNode && <div className={classnames(`${prefixCls}-group-label`)}>{labelNode}</div>}
           {mergeCollapsible && arrowRender()}
         </div>
       </li>
