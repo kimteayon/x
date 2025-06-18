@@ -1,6 +1,6 @@
-import { FieldTimeOutlined } from '@ant-design/icons';
 import { Conversations, type ConversationsProps } from '@ant-design/x';
-import { Flex, type GetProp, theme } from 'antd';
+import { theme } from 'antd';
+import type { GetProp } from 'antd';
 import React from 'react';
 
 const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 6 }).map((_, index) => ({

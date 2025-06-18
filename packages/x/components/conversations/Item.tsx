@@ -6,7 +6,7 @@ import React from 'react';
 
 import type { DirectionType } from 'antd/es/config-provider';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { ConversationsProps } from '.';
+import type { ConversationsProps } from '.';
 import type { BaseConversation } from './interface';
 
 export interface ConversationsItemProps

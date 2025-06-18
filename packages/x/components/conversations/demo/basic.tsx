@@ -6,7 +6,8 @@ import {
 } from '@ant-design/icons';
 import { Conversations } from '@ant-design/x';
 import type { ConversationsProps } from '@ant-design/x';
-import { Flex, type GetProp, Switch, theme } from 'antd';
+import type { GetProp } from 'antd';
+import { Flex, Switch, theme } from 'antd';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {
