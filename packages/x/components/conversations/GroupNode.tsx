@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import CSSMotion from 'rc-motion';
 import type { CSSMotionProps } from 'rc-motion';
 import React from 'react';
-import { GroupType } from './hooks/useGroupable';
+import type { GroupInfoType } from './hooks/useGroupable';
 
 export interface GroupTitleProps {
   children?: React.ReactNode;
@@ -16,8 +16,7 @@ interface GroupNodeContextType {
   expandedKeys: string[];
   onItemExpand: ((curKey: string) => void) | undefined;
   collapseMotion: CSSMotionProps;
-
-  groupInfo: Omit<GroupType, 'collapsible'> & { collapsible: boolean };
+  groupInfo: Omit<GroupInfoType, 'collapsible'> & { collapsible: boolean };
 }
 export const GroupNodeContext = React.createContext<GroupNodeContextType>(null!);
 
