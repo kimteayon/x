@@ -6,7 +6,6 @@ import warning from '../warning';
 import useXComponentConfig from './use-x-component-config';
 
 export const NumberKeyCode: number[] = Array.from({ length: 9 }, (_, i) => KeyCode.ONE + i);
-
 export type ActionShortcutInfo = {
   actionShortcutKey: ShortcutKeys<number>;
   actionKeyCode: number;
@@ -14,7 +13,7 @@ export type ActionShortcutInfo = {
   timeStamp: number;
   actionKeyCodeNumber: number | false;
   index?: number;
-} | null;
+};
 
 const PrefixKeys: PrefixKeysType = {
   Alt: 'altKey',
@@ -135,14 +134,14 @@ const useObservable = (): [React.RefObject<Observer | undefined>, Subscribe] => 
 const useShortcutKeys = <C extends keyof XComponentsConfig>(
   component: C,
   shortcutKeys?: Record<string, ShortcutKeys | ShortcutKeys[]>,
-): [ActionShortcutInfo, Subscribe] => {
+): [ActionShortcutInfo | null, Subscribe] => {
   const contextConfig = useXComponentConfig(component);
   const flattenShortcutKeys = getFlattenShortcutKeys(
     component,
     contextConfig.shortcutKeys,
     shortcutKeys,
   );
-  const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo>(null);
+  const [actionShortcutInfo, setActionShortcutInfo] = useState<ActionShortcutInfo | null>(null);
   const [observer, subscribe] = useObservable();
 
   useEffect(() => {
