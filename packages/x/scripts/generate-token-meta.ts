@@ -41,7 +41,7 @@ function getTokenList(list?: DeclarationReflection[], source?: string) {
 }
 
 const main = async () => {
-  const app = await Application.bootstrap(
+  const app = await (Application as any).bootstrap(
     {
       // typedoc options here
       entryPoints: ['components/theme/interface/index.ts', 'components/*/style/index.{ts,tsx}'],
@@ -125,9 +125,6 @@ const main = async () => {
       } else {
         acc.components = value;
       }
-      // if(!acc.global){
-      //   acc.global = {};
-      // }
       return acc;
     }, {} as any);
 
