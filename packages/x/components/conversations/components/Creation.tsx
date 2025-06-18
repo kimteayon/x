@@ -1,9 +1,13 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import type { ShortcutKeyInfoType } from '../../_util/hooks/use-shortcut-keys';
-import useCreation from '../hooks/useCreation';
+import useCreation, { CreationLabelProps } from '../hooks/useCreation';
+type CreationLabelInfo = {
+  shortcutKeyInfo?: ShortcutKeyInfoType;
+  components: { CreationLabel: React.ComponentType<CreationLabelProps> };
+};
 export interface CreationProps {
-  label?: React.ReactNode | ((info?: ShortcutKeyInfoType) => React.ReactNode);
+  label?: React.ReactNode | ((info: CreationLabelInfo) => React.ReactNode);
   align?: 'start' | 'center' | 'end';
   prefixCls?: string;
   className?: string;

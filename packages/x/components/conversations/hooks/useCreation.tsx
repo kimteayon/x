@@ -4,7 +4,7 @@ import React from 'react';
 import { useLocale } from '../../locale';
 import enUS from '../../locale/en_US';
 import type { CreationProps } from '../components/Creation';
-interface CreationLabelProps {
+export interface CreationLabelProps {
   shortcutKeysIcon?: string[];
   prefixCls: string;
 }
@@ -40,14 +40,21 @@ const useCreation = ({
   const { shortcutKeysIcon } = shortcutKeyInfo || {};
 
   const creationConfig: BaseConfig = {
-    label: <CreationLabel prefixCls={`${prefixCls}-label`} shortcutKeysIcon={shortcutKeysIcon} />,
+    label: (
+      <CreationLabel
+        prefixCls={`${prefixCls}-label`}
+        shortcutKeysIcon={shortcutKeysIcon as string[]}
+      />
+    ),
     icon: <PlusOutlined />,
     align: 'center',
   };
 
   if (label) {
     creationConfig.label =
-      typeof label === 'function' ? label(shortcutKeyInfo, { components: CreationLabel }) : label;
+      typeof label === 'function'
+        ? label({ shortcutKeyInfo, components: { CreationLabel } })
+        : label;
   }
   if (icon) {
     creationConfig.icon = typeof icon === 'function' ? icon() : icon;
