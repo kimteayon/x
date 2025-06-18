@@ -30,10 +30,7 @@ const App: React.FC = () => {
       );
     },
     collapsible: (group) => {
-      if (group === 'Today') {
-        return false;
-      }
-      return true;
+      return group !== 'Today';
     },
     expandedKeys: expandedKeys,
     onExpand: setExpandedKeys,

@@ -1,11 +1,12 @@
 import {
   CodeOutlined,
+  CodeSandboxOutlined,
   FileImageOutlined,
   FileSearchOutlined,
   SignatureOutlined,
 } from '@ant-design/icons';
 import { Conversations, ConversationsProps } from '@ant-design/x';
-import { Tag, theme } from 'antd';
+import { Flex, Tag, theme } from 'antd';
 import type { GetProp } from 'antd';
 import KeyCode from 'rc-util/lib/KeyCode';
 import React, { useState } from 'react';
@@ -29,6 +30,20 @@ const agentItems: GetProp<ConversationsProps, 'items'> = [
     key: 'deepSearch',
     label: 'Deep Search',
     icon: <FileSearchOutlined />,
+  },
+
+  {
+    key: 'inDepthResearch',
+    label: 'In-depth research',
+    group: 'More Features',
+  },
+  {
+    key: 'vincentFigure',
+    label: 'Vincent Figure',
+    group: 'More Features',
+  },
+  {
+    type: 'divider',
   },
 ];
 
@@ -86,6 +101,21 @@ const App: React.FC = () => {
         shortcutKeys={{
           creation: ['Meta', KeyCode.K],
           items: ['Alt', 'number'],
+        }}
+        groupable={{
+          label: (group) => {
+            return group !== 'Today' ? (
+              <Flex gap="small">
+                <CodeSandboxOutlined />
+                {group}
+              </Flex>
+            ) : (
+              group
+            );
+          },
+          collapsible: (group) => {
+            return group !== 'Today';
+          },
         }}
         items={items}
       />

@@ -80,6 +80,7 @@ const App: React.FC = () => {
       items={items}
       defaultActiveKey="write"
       style={style}
+      groupable
     />
   );
 };
