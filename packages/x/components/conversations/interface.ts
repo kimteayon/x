@@ -7,7 +7,7 @@ import type { GroupInfoType } from './hooks/useGroupable';
  * @desc 会话数据
  * @descEN Conversation data
  */
-export interface BaseConversation
+export interface ConversationItemType
   extends AnyObject,
     Omit<React.HTMLAttributes<HTMLLIElement>, 'onClick'> {
   /**
@@ -41,12 +41,13 @@ export interface BaseConversation
   disabled?: boolean;
 }
 
-type DividerConversation = {
+export interface DividerItemType {
   type: 'divider';
+  key?: string;
   dashed?: boolean;
-};
+}
 
-export type Conversation = BaseConversation | DividerConversation;
+export type ItemType = ConversationItemType | DividerItemType;
 
 export type GroupLabelInfo = {
   groupInfo: GroupInfoType;

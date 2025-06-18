@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import type { ConversationsProps } from '..';
 import type { CollapsibleOptions } from '../../_util/hooks/use-collapsible';
-import type { BaseConversation, Collapsible, Conversation, Groupable } from '../interface';
+import type { Collapsible, ConversationItemType, Groupable, ItemType } from '../interface';
 
 interface GroupConfig {
   label: Groupable['label'];
@@ -9,7 +9,7 @@ interface GroupConfig {
   collapsibleOptions: CollapsibleOptions;
 }
 export interface GroupInfoType {
-  data: Conversation[];
+  data: ItemType[];
   name: string;
   label: Groupable['label'];
   enableGroup: boolean;
@@ -19,7 +19,7 @@ type GroupList = GroupInfoType[];
 
 const useGroupable = (
   groupable?: ConversationsProps['groupable'],
-  items: Conversation[] = [],
+  items: ItemType[] = [],
 ): [groupList: GroupList, collapsibleOptions: CollapsibleOptions, keyList: string[]] => {
   const [label, collapsibleHandle, collapsibleOptions] = useMemo<
     [GroupConfig['label'], GroupConfig['collapsibleHandle'], collapsibleOptions: CollapsibleOptions]
@@ -52,7 +52,7 @@ const useGroupable = (
 
   return React.useMemo(() => {
     const groupList = items.reduce<GroupList>((currentGroupList, item) => {
-      if (item?.type === 'divider' || !(item as BaseConversation).group || !groupable) {
+      if (item?.type === 'divider' || !(item as ConversationItemType).group || !groupable) {
         currentGroupList.push({
           data: [item],
           name: '',
@@ -63,7 +63,7 @@ const useGroupable = (
         return currentGroupList;
       }
 
-      const baseItem = item as Required<BaseConversation>;
+      const baseItem = item as Required<ConversationItemType>;
       const isSome = currentGroupList.some((group, index) => {
         if (group.name === baseItem?.group) {
           currentGroupList[index].data.push(baseItem);
@@ -90,7 +90,7 @@ const useGroupable = (
     const keyList = groupList.reduce<string[]>((currentKeyList, group) => {
       group.data.forEach((item) => {
         if (item.type !== 'divider') {
-          currentKeyList.push((item as BaseConversation).key);
+          currentKeyList.push((item as ConversationItemType).key);
         }
       });
       return currentKeyList;

@@ -12,7 +12,7 @@ import useGroupable from './hooks/useGroupable';
 import useStyle from './style';
 
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { BaseConversation, Conversation, Groupable } from './interface';
+import type { ConversationItemType, DividerItemType, Groupable, ItemType } from './interface';
 
 import useShortcutKeys, { ActionShortcutInfo } from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
@@ -31,25 +31,25 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 会话列表数据源
    * @descEN Data source for the conversation list
    */
-  items?: Conversation[];
+  items?: ItemType[];
 
   /**
    * @desc 当前选中的值
    * @descEN Currently selected value
    */
-  activeKey?: BaseConversation['key'];
+  activeKey?: string;
 
   /**
    * @desc 默认选中值
    * @descEN Default selected value
    */
-  defaultActiveKey?: BaseConversation['key'];
+  defaultActiveKey?: ConversationItemType['key'];
 
   /**
    * @desc 选中变更回调
    * @descEN Callback for selection change
    */
-  onActiveChange?: (value?: string) => void;
+  onActiveChange?: (value: string) => void;
 
   /**
    * @desc 会话操作菜单
@@ -57,7 +57,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    */
   menu?:
     | ConversationsItemProps['menu']
-    | ((value: BaseConversation) => ConversationsItemProps['menu']);
+    | ((value: ConversationItemType) => ConversationsItemProps['menu']);
 
   /**
    * @desc 是否支持分组, 开启后默认按 {@link Conversation.group} 字段分组
@@ -139,7 +139,9 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
     {
       value: activeKey,
       onChange: (key) => {
-        onActiveChange?.(key);
+        if (key) {
+          onActiveChange?.(key);
+        }
       },
     },
   );
@@ -200,8 +202,8 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   subscribe(shortKeyAction);
 
   // ============================ Item Node ============================
-  const getItemNode = (itemData: Conversation[]) =>
-    itemData.map((conversationInfo: Conversation, conversationIndex: number) => {
+  const getItemNode = (itemData: ItemType[]) =>
+    itemData.map((conversationInfo: ItemType, conversationIndex: number) => {
       if (conversationInfo.type === 'divider') {
         return (
           <Divider
@@ -211,7 +213,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
           />
         );
       }
-      const baseConversationInfo = conversationInfo as BaseConversation;
+      const baseConversationInfo = conversationInfo as ConversationItemType;
       const { label: _, disabled: __, icon: ___, ...restInfo } = baseConversationInfo;
       return (
         <ConversationsItem
@@ -291,6 +293,6 @@ if (process.env.NODE_ENV !== 'production') {
   Conversations.displayName = 'Conversations';
 }
 
-export type { Conversation };
+export type { ItemType, ConversationItemType, DividerItemType };
 Conversations.Creation = Creation;
 export default Conversations;

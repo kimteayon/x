@@ -50,7 +50,6 @@ const App: React.FC = () => {
         activeKey={activeKey}
         onActiveChange={(v) => {
           setActiveKey(v);
-          console.log(v);
         }}
         items={items}
         style={style}

@@ -4,9 +4,9 @@ import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { fireEvent, render } from '../../../tests/utils';
 import Conversations from '../index';
-import type { Conversation } from '../index';
+import type { ItemType } from '../index';
 
-const items: Conversation[] = [
+const items: ItemType[] = [
   {
     key: 'demo1',
     label: 'What is Ant Design X ?',
