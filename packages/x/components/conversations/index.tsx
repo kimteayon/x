@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
 
-import GroupNode, { GroupNodeContext } from './GroupNode';
+import GroupTitle, { GroupTitleContext } from './GroupTitle';
 import ConversationsItem, { type ConversationsItemProps } from './Item';
 
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -260,7 +260,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
       {groupList.map((groupInfo, groupIndex) => {
         const itemNode = getItemNode(groupInfo.data);
         return groupInfo.enableGroup ? (
-          <GroupNodeContext.Provider
+          <GroupTitleContext.Provider
             key={groupInfo.name || `key-${groupIndex}`}
             value={{
               prefixCls,
@@ -271,7 +271,7 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
               collapseMotion,
             }}
           >
-            <GroupNode>
+            <GroupTitle>
               <ul
                 className={classnames(`${prefixCls}-list`, {
                   [`${prefixCls}-group-collapsible-list`]: groupInfo.collapsible,
@@ -279,8 +279,8 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
               >
                 {itemNode}
               </ul>
-            </GroupNode>
-          </GroupNodeContext.Provider>
+            </GroupTitle>
+          </GroupTitleContext.Provider>
         ) : (
           itemNode
         );

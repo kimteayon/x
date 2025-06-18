@@ -10,7 +10,7 @@ export interface GroupTitleProps {
   children?: React.ReactNode;
   enableGroup?: boolean;
 }
-interface GroupNodeContextType {
+interface GroupTitleContextType {
   prefixCls?: GetProp<ConfigProviderProps, 'prefixCls'>;
   enableCollapse: boolean;
   expandedKeys: string[];
@@ -18,11 +18,11 @@ interface GroupNodeContextType {
   collapseMotion: CSSMotionProps;
   groupInfo: Omit<GroupInfoType, 'collapsible'> & { collapsible: boolean };
 }
-export const GroupNodeContext = React.createContext<GroupNodeContextType>(null!);
+export const GroupTitleContext = React.createContext<GroupTitleContextType>(null!);
 
 const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
   const { prefixCls, groupInfo, enableCollapse, expandedKeys, onItemExpand, collapseMotion } =
-    React.useContext(GroupNodeContext) || {};
+    React.useContext(GroupTitleContext) || {};
   const { label, name, collapsible } = groupInfo || {};
 
   const labelNode =
