@@ -13,10 +13,13 @@ const CreationLabel: React.FC<CreationLabelProps> = ({ shortcutKeysIcon, prefixC
   return (
     <div className={classNames(prefixCls)}>
       <span>{contextLocale.create}</span>
-      <span className={classNames(`${prefixCls}-shortcut-keys`)}>
-        {shortcutKeysIcon?.length &&
-          shortcutKeysIcon.map((keyIcon) => <span key={keyIcon}>{keyIcon}</span>)}
-      </span>
+      {shortcutKeysIcon?.length && (
+        <span className={classNames(`${prefixCls}-shortcut-keys`)}>
+          {shortcutKeysIcon.map((keyIcon) => (
+            <span key={keyIcon}>{keyIcon}</span>
+          ))}
+        </span>
+      )}
     </div>
   );
 };
