@@ -14,7 +14,7 @@ import useStyle from './style';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { ConversationItemType, DividerItemType, Groupable, ItemType } from './interface';
 
-import useShortcutKeys, { ActionShortcutInfo } from '../_util/hooks/use-shortcut-keys';
+import useShortcutKeys, { ShortcutKeyActionType } from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
 
 import { Divider } from 'antd';
@@ -178,13 +178,13 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
   };
 
   // ============================ Short Key =========================
-  const [_, subscribe] = useShortcutKeys('conversations', customizeShortcutKeys);
+  const [_, shortcutKeysInfo, subscribe] = useShortcutKeys('conversations', customizeShortcutKeys);
 
-  const shortKeyAction = (actionShortcutInfo: ActionShortcutInfo) => {
-    switch (actionShortcutInfo?.name) {
+  const shortKeyAction = (shortcutKeyAction: ShortcutKeyActionType) => {
+    switch (shortcutKeyAction?.name) {
       case 'items':
         {
-          const index = actionShortcutInfo?.actionKeyCodeNumber ?? actionShortcutInfo?.index;
+          const index = shortcutKeyAction?.actionKeyCodeNumber ?? shortcutKeyAction?.index;
           const itemKey = typeof index === 'number' ? keyList?.[index] : mergedActiveKey;
           itemKey && setMergedActiveKey(itemKey);
         }
@@ -256,7 +256,13 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
       }}
       className={mergedCls}
     >
-      {!!creation && <Creation prefixCls={`${prefixCls}-creation`} {...creation} />}
+      {!!creation && (
+        <Creation
+          shortcutKeyInfo={shortcutKeysInfo?.creation}
+          prefixCls={`${prefixCls}-creation`}
+          {...creation}
+        />
+      )}
       {groupList.map((groupInfo, groupIndex) => {
         const itemNode = getItemNode(groupInfo.data);
         return groupInfo.enableGroup ? (

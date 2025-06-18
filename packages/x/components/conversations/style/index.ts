@@ -10,8 +10,21 @@ export interface ComponentToken {
    * @descEN New conversation button background color
    */
   creationBgColor: string;
+  /**
+   * @desc 新会话按钮边框颜色
+   * @descEN New conversation button border color
+   */
   creationBorderColor: string;
+  /**
+   * @desc 新会话按钮悬浮态背景颜色
+   * @descEN Background color of default new conversation button when hover
+   */
   creationHoverColor: string;
+  /**
+   * @desc 快捷键标识字体颜色
+   * @descEN Shortcut key identification font color
+   */
+  shortcutKeyTextColor: string;
 }
 export interface ConversationsToken extends FullToken<'Conversations'> {}
 
@@ -42,6 +55,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         fontSize: token.fontSize,
         cursor: 'pointer',
         display: 'flex',
+        gap: token.paddingXS,
         marginBlockEnd: token.marginSM,
         lineHeight: token.lineHeight,
         borderRadius: token.borderRadiusLG,
@@ -63,6 +77,25 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         [`&${componentCls}-creation-end`]: {
           justifyContent: 'flex-end',
         },
+      },
+
+      [`${componentCls}-creation-label`]: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      [`${componentCls}-creation-label-shortcut-keys`]: {
+        borderRadius: token.borderRadiusSM,
+        height: token.controlHeightXS,
+        fontSize: token.fontSizeSM,
+        paddingInline: token.paddingXXS,
+        color: token.shortcutKeyTextColor,
+        display: 'flex',
+        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: unit(4),
       },
       [`& ${componentCls}-rtl`]: {
         direction: 'rtl',
@@ -164,10 +197,12 @@ export const prepareComponentToken: GetDefaultToken<'Conversations'> = (token) =
   const creationBgColor = new FastColor(token.colorPrimary).setA(0.15);
   const creationBorderColor = new FastColor(token.colorPrimary).setA(0.22);
   const creationHoverColor = new FastColor(token.colorPrimary).setA(0.25);
+  const shortcutKeyTextColor = new FastColor(token.colorPrimary).setA(0.65);
   return {
     creationBgColor: creationBgColor.toRgbString(),
     creationBorderColor: creationBorderColor.toRgbString(),
     creationHoverColor: creationHoverColor.toRgbString(),
+    shortcutKeyTextColor: shortcutKeyTextColor.toRgbString(),
   };
 };
 

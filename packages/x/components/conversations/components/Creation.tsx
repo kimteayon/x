@@ -1,25 +1,39 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import type { ShortcutKeyInfoType } from '../../_util/hooks/use-shortcut-keys';
 import useCreation from '../hooks/useCreation';
 export interface CreationProps {
-  label?: React.ReactNode | (() => React.ReactNode);
+  label?: React.ReactNode | ((info?: ShortcutKeyInfoType) => React.ReactNode);
   align?: 'start' | 'center' | 'end';
   prefixCls?: string;
   className?: string;
+  shortcutKeyInfo?: ShortcutKeyInfoType;
   disabled?: boolean;
   icon?: React.ReactNode | (() => React.ReactNode);
   onClick?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export function Creation(props: CreationProps, ref: React.Ref<HTMLButtonElement>) {
-  const { className, icon, label, align, disabled, onClick, prefixCls } = props;
-
-  const [iconNode, labelNode, mergeAlign] = useCreation({ label, icon, align });
+const Creation: React.FC<CreationProps> = ({
+  className,
+  icon,
+  label,
+  align,
+  disabled,
+  onClick,
+  prefixCls,
+  shortcutKeyInfo,
+}) => {
+  const [iconNode, labelNode, mergeAlign] = useCreation({
+    prefixCls,
+    label,
+    icon,
+    align,
+    shortcutKeyInfo,
+  });
 
   return (
     <button
       type="button"
-      ref={ref}
       onClick={(e) => {
         if (disabled) {
           return;
@@ -30,12 +44,10 @@ export function Creation(props: CreationProps, ref: React.Ref<HTMLButtonElement>
         [`${prefixCls}-disabled`]: disabled,
       })}
     >
-      <span>
-        {iconNode}
-        {labelNode}
-      </span>
+      {iconNode}
+      {labelNode}
     </button>
   );
-}
+};
 
-export default React.forwardRef(Creation);
+export default Creation;
