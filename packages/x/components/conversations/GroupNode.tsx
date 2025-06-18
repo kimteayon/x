@@ -42,21 +42,6 @@ const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
 
   const groupOpen = mergeCollapsible && !!expandedKeys?.includes?.(name);
 
-  const arrowRender = () => {
-    return (
-      <>
-        <div
-          className={classnames(
-            `${prefixCls}-group-collapse-trigger `,
-            `${prefixCls}-group-collapse-trigger-${groupOpen ? 'open' : 'close'}`,
-          )}
-        >
-          <RightOutlined />
-        </div>
-      </>
-    );
-  };
-
   return (
     <>
       <li>
@@ -67,7 +52,16 @@ const GroupTitle: React.FC<GroupTitleProps> = ({ children }) => {
           onClick={expandFun}
         >
           {labelNode && <div className={classnames(`${prefixCls}-group-label`)}>{labelNode}</div>}
-          {mergeCollapsible && arrowRender()}
+          {mergeCollapsible && (
+            <div
+              className={classnames(
+                `${prefixCls}-group-collapse-trigger `,
+                `${prefixCls}-group-collapse-trigger-${groupOpen ? 'open' : 'close'}`,
+              )}
+            >
+              <RightOutlined />
+            </div>
+          )}
         </div>
       </li>
       <CSSMotion {...collapseMotion} visible={mergeCollapsible ? groupOpen : true}>

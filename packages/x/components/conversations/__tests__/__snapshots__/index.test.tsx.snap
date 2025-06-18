@@ -82,7 +82,11 @@ exports[`Conversations Component rtl render component should be rendered correct
     <div
       class="ant-conversations-group-title"
     >
-      pinned
+      <div
+        class="ant-conversations-group-label"
+      >
+        pinned
+      </div>
     </div>
   </li>
   <div
