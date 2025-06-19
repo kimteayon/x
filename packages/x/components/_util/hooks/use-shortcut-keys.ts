@@ -191,26 +191,39 @@ const useShortcutKeys = (
 
   const [shortcutAction, setShortcutAction] = useState<ShortcutKeyActionType | null>(null);
   const [observer, subscribe] = useObservable();
+  const keyLockRef = useRef(false);
+
+  const onKeydown = (event: KeyboardEvent) => {
+    for (const shortcutKeyInfo of flattenShortcutKeys) {
+      const activeKeyInfo = getShortcutAction(shortcutKeyInfo.shortcutKey, event);
+      if (activeKeyInfo) {
+        const info = {
+          ...activeKeyInfo,
+          name: shortcutKeyInfo.name,
+          index: shortcutKeyInfo?.index,
+        };
+        if (keyLockRef.current) {
+          return;
+        }
+        keyLockRef.current = true;
+        setShortcutAction(info);
+        observer?.current?.(info);
+      }
+    }
+  };
+
+  const onKeyup = () => {
+    keyLockRef.current = false;
+  };
 
   useEffect(() => {
     if (flattenShortcutKeys.length === 0) return;
-    const onKeydown = (event: KeyboardEvent) => {
-      for (const shortcutKeyInfo of flattenShortcutKeys) {
-        const activeKeyInfo = getShortcutAction(shortcutKeyInfo.shortcutKey, event);
-        if (activeKeyInfo) {
-          const info = {
-            ...activeKeyInfo,
-            name: shortcutKeyInfo.name,
-            index: shortcutKeyInfo?.index,
-          };
-          setShortcutAction(info);
-          observer?.current?.(info);
-        }
-      }
-    };
     document.addEventListener('keydown', onKeydown);
+    document.addEventListener('keyup', onKeyup);
+
     return () => {
       document.removeEventListener('keydown', onKeydown);
+      document.addEventListener('keyup', onKeyup);
     };
   }, [flattenShortcutKeys.length, observer]);
   return [shortcutAction, shortcutKeysInfo, subscribe];
