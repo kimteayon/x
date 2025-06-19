@@ -594,31 +594,29 @@ exports[`renders components/conversations/demo/custom-new-chat.tsx extend contex
     class="ant-conversations-creation ant-conversations-creation-start"
     type="button"
   >
-    <span>
-      <span
-        aria-label="appstore-add"
-        class="anticon anticon-appstore-add"
-        role="img"
+    <span
+      aria-label="appstore-add"
+      class="anticon anticon-appstore-add"
+      role="img"
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="appstore-add"
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        viewBox="64 64 896 896"
+        width="1em"
       >
-        <svg
-          aria-hidden="true"
-          data-icon="appstore-add"
-          fill="currentColor"
-          focusable="false"
-          height="1em"
-          viewBox="64 64 896 896"
-          width="1em"
-        >
-          <defs>
-            <style />
-          </defs>
-          <path
-            d="M464 144H160c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V160c0-8.8-7.2-16-16-16zm-52 268H212V212h200v200zm452-268H560c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V160c0-8.8-7.2-16-16-16zm-52 268H612V212h200v200zm52 132H560c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V560c0-8.8-7.2-16-16-16zm-52 268H612V612h200v200zM424 712H296V584c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v128H104c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h128v128c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V776h128c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
-          />
-        </svg>
-      </span>
-      Create a new chat
+        <defs>
+          <style />
+        </defs>
+        <path
+          d="M464 144H160c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V160c0-8.8-7.2-16-16-16zm-52 268H212V212h200v200zm452-268H560c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V160c0-8.8-7.2-16-16-16zm-52 268H612V212h200v200zm52 132H560c-8.8 0-16 7.2-16 16v304c0 8.8 7.2 16 16 16h304c8.8 0 16-7.2 16-16V560c0-8.8-7.2-16-16-16zm-52 268H612V612h200v200zM424 712H296V584c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v128H104c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h128v128c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V776h128c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
+        />
+      </svg>
     </span>
+    Create a new chat
   </button>
   <li
     class="ant-conversations-item ant-conversations-item-active"
@@ -1608,33 +1606,35 @@ exports[`renders components/conversations/demo/new-chat.tsx extend context corre
     class="ant-conversations-creation ant-conversations-creation-center"
     type="button"
   >
-    <span>
-      <span
-        aria-label="plus"
-        class="anticon anticon-plus"
-        role="img"
+    <span
+      aria-label="plus"
+      class="anticon anticon-plus"
+      role="img"
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="plus"
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        viewBox="64 64 896 896"
+        width="1em"
       >
-        <svg
-          aria-hidden="true"
-          data-icon="plus"
-          fill="currentColor"
-          focusable="false"
-          height="1em"
-          viewBox="64 64 896 896"
-          width="1em"
-        >
-          <path
-            d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
-          />
-          <path
-            d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
-          />
-        </svg>
-      </span>
+        <path
+          d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+        />
+        <path
+          d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
+        />
+      </svg>
+    </span>
+    <div
+      class="ant-conversations-creation-label"
+    >
       <span>
         New chat
       </span>
-    </span>
+    </div>
   </button>
   <li
     class="ant-conversations-item ant-conversations-item-active"
@@ -1843,36 +1843,48 @@ Array [
     style="width: 256px; background: #ffffff; border-radius: 6px;"
   >
     <button
-      class="ant-conversations-creation ant-conversations-creation-center"
+      class="ant-conversations-creation ant-conversations-creation-center ant-conversations-creation-disabled"
       type="button"
     >
-      <span>
-        <span
-          aria-label="plus"
-          class="anticon anticon-plus"
-          role="img"
+      <span
+        aria-label="plus"
+        class="anticon anticon-plus"
+        role="img"
+      >
+        <svg
+          aria-hidden="true"
+          data-icon="plus"
+          fill="currentColor"
+          focusable="false"
+          height="1em"
+          viewBox="64 64 896 896"
+          width="1em"
         >
-          <svg
-            aria-hidden="true"
-            data-icon="plus"
-            fill="currentColor"
-            focusable="false"
-            height="1em"
-            viewBox="64 64 896 896"
-            width="1em"
-          >
-            <path
-              d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
-            />
-            <path
-              d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
-            />
-          </svg>
-        </span>
+          <path
+            d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+          />
+          <path
+            d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
+          />
+        </svg>
+      </span>
+      <div
+        class="ant-conversations-creation-label"
+      >
         <span>
           New chat
         </span>
-      </span>
+        <span
+          class="ant-conversations-creation-label-shortcut-keys"
+        >
+          <span>
+            Win
+          </span>
+          <span>
+            K
+          </span>
+        </span>
+      </div>
     </button>
     <li
       class="ant-conversations-item ant-conversations-item-active"
