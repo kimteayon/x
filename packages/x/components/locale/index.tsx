@@ -34,7 +34,7 @@ const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
     warning(
       _ANT_MARK__ === ANT_MARK,
       'deprecated',
-      '`LocaleProvider` is deprecated. Please use `locale` with `ConfigProvider` instead: http://u.ant.design/locale',
+      '`LocaleProvider` is deprecated. Please use `locale` with `XProvider` instead: https://x.ant.design/components/x-provider-cn#x-provider-demo-locale',
     );
   }
 
