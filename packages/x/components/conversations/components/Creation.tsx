@@ -11,6 +11,7 @@ export interface CreationProps {
   align?: 'start' | 'center' | 'end';
   prefixCls?: string;
   className?: string;
+  style?: React.CSSProperties;
   shortcutKeyInfo?: ShortcutKeyInfoType;
   disabled?: boolean;
   icon?: React.ReactNode | (() => React.ReactNode);
@@ -22,6 +23,7 @@ const Creation: React.FC<CreationProps> = ({
   icon,
   label,
   align,
+  style,
   disabled,
   onClick,
   prefixCls,
@@ -44,6 +46,7 @@ const Creation: React.FC<CreationProps> = ({
         }
         onClick?.(e);
       }}
+      style={style}
       className={classNames(prefixCls, className, `${prefixCls}-${mergeAlign}`, {
         [`${prefixCls}-disabled`]: disabled,
       })}

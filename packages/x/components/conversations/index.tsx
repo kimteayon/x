@@ -69,13 +69,19 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 语义化结构 style
    * @descEN Semantic structure styles
    */
-  styles?: Partial<Record<'item', React.CSSProperties>>;
+  styles?: {
+    creation?: React.CSSProperties;
+    item?: React.CSSProperties;
+  };
 
   /**
    * @desc 语义化结构 className
    * @descEN Semantic structure class names
    */
-  classNames?: Partial<Record<'item', string>>;
+  classNames?: {
+    creation?: string;
+    item?: string;
+  };
 
   /**
    * @desc 自定义前缀
@@ -258,6 +264,11 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
     >
       {!!creation && (
         <Creation
+          className={classnames(classNames.creation, contextConfig.classNames.creation)}
+          style={{
+            ...contextConfig.styles.creation,
+            ...styles.creation,
+          }}
           shortcutKeyInfo={shortcutKeysInfo?.creation}
           prefixCls={`${prefixCls}-creation`}
           {...creation}
