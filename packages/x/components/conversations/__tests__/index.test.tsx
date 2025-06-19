@@ -234,5 +234,52 @@ describe('Conversations Component', () => {
         'Warning: [antd: conversations] Same shortcutKey Alt,49',
       );
     });
+    it('shortcut keys of items width error config', async () => {
+      render(
+        <Conversations
+          items={items}
+          shortcutKeys={{
+            items: {} as [],
+          }}
+          defaultActiveKey="demo1"
+        />,
+      );
+    });
+  });
+  describe('Creation', () => {
+    it('with Creation', async () => {
+      const onClick = jest.fn();
+      const { getByText, container } = render(
+        <Conversations
+          items={items}
+          creation={{
+            onClick,
+          }}
+          menu={menu}
+          defaultActiveKey="demo1"
+        />,
+      );
+      expect(getByText('New chat')).toBeTruthy();
+      fireEvent.click(getByText('New chat'));
+      expect(onClick).toHaveBeenCalled();
+    });
+  });
+
+  it('with Creation disable', async () => {
+    const onClick = jest.fn();
+    const { getByText, container } = render(
+      <Conversations
+        items={items}
+        creation={{
+          onClick,
+          disabled: true,
+        }}
+        menu={menu}
+        defaultActiveKey="demo1"
+      />,
+    );
+    expect(getByText('New chat')).toBeTruthy();
+    fireEvent.click(getByText('New chat'));
+    expect(onClick).toHaveBeenCalledTimes(0);
   });
 });
