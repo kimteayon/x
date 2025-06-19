@@ -130,14 +130,15 @@ const getFlattenShortcutKeys = (
 
       if (subShortcutKeys.every((item) => Array.isArray(item))) {
         subShortcutKeys.forEach((shortcutKey, index) => {
-          waringConfig(flattenShortcutKeys, shortcutKey as ShortcutKeys<number>, component);
+          const shortcutKeyArr = shortcutKey as ShortcutKeys<number>;
+          waringConfig(flattenShortcutKeys, shortcutKeyArr, component);
           flattenShortcutKeys.push({
             name: subName,
-            shortcutKey: shortcutKey as ShortcutKeys<number>,
+            shortcutKey: shortcutKeyArr,
             index,
           });
           (shortcutKeysInfo[subName].shortcutKeysIcon as string[][]).push(
-            shortcutKey.map((key) => getShortcutKeysIcon(key)),
+            shortcutKeyArr?.map((key) => getShortcutKeysIcon(key)),
           );
         });
       } else {
@@ -156,7 +157,7 @@ const getFlattenShortcutKeys = (
           });
         });
         shortcutKeysInfo[subName].shortcutKeysIcon = subShortcutKeys.map((key) =>
-          getShortcutKeysIcon(key),
+          getShortcutKeysIcon(key as CodeKeyType),
         );
       }
       return { flattenShortcutKeys, shortcutKeysInfo };

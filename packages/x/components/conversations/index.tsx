@@ -185,7 +185,6 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
 
   // ============================ Short Key =========================
   const [_, shortcutKeysInfo, subscribe] = useShortcutKeys('conversations', customizeShortcutKeys);
-
   const shortKeyAction = (shortcutKeyAction: ShortcutKeyActionType) => {
     switch (shortcutKeyAction?.name) {
       case 'items':

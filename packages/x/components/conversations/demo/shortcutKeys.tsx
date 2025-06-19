@@ -101,7 +101,10 @@ const App: React.FC = () => {
         }}
         shortcutKeys={{
           creation: ['Meta', KeyCode.K],
-          items: ['Alt', 'number'],
+          items: [
+            ['Alt', KeyCode.A],
+            ['Alt', KeyCode.B],
+          ],
         }}
         groupable={{
           label: (group) => {
