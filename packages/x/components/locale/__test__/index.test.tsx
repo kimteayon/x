@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import Conversations from '../../conversations';
 import LocaleProvider, { ANT_MARK } from '../index';
 import zh_CN from '../zh_CN';
-describe('LocaleProvider', () => {
-  const mockLocale = zh_CN;
 
+// ===================== test for LocaleProvider =====================
+describe('LocaleProvider', () => {
   it('should render children correctly', () => {
     const { container } = render(
-      <LocaleProvider locale={mockLocale}>
+      <LocaleProvider locale={zh_CN}>
         <div className="test-child">Test</div>
       </LocaleProvider>,
     );
@@ -17,7 +18,7 @@ describe('LocaleProvider', () => {
   it('should pass locale to context', () => {
     const TestComponent = () => {
       return (
-        <LocaleProvider locale={mockLocale}>
+        <LocaleProvider locale={zh_CN}>
           <div className="test-child">Test</div>
         </LocaleProvider>
       );
@@ -25,10 +26,8 @@ describe('LocaleProvider', () => {
     const { container } = render(<TestComponent />);
     expect(container.querySelector('.test-child')).toBeTruthy();
   });
-
   describe('dev warning', () => {
     const originalEnv = process.env.NODE_ENV;
-
     afterEach(() => {
       process.env.NODE_ENV = originalEnv;
     });
@@ -38,7 +37,7 @@ describe('LocaleProvider', () => {
       const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       render(
-        <LocaleProvider locale={mockLocale} _ANT_MARK__="wrong-mark">
+        <LocaleProvider locale={zh_CN} _ANT_MARK__="wrong-mark">
           <div />
         </LocaleProvider>,
       );
@@ -52,7 +51,7 @@ describe('LocaleProvider', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
       render(
-        <LocaleProvider locale={mockLocale} _ANT_MARK__={ANT_MARK}>
+        <LocaleProvider locale={zh_CN} _ANT_MARK__={ANT_MARK}>
           <div />
         </LocaleProvider>,
       );
@@ -66,7 +65,7 @@ describe('LocaleProvider', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
       render(
-        <LocaleProvider locale={mockLocale} _ANT_MARK__="wrong-mark">
+        <LocaleProvider locale={zh_CN} _ANT_MARK__="wrong-mark">
           <div />
         </LocaleProvider>,
       );
@@ -74,5 +73,22 @@ describe('LocaleProvider', () => {
       expect(spy).not.toHaveBeenCalled();
       spy.mockRestore();
     });
+  });
+});
+// ===================== test for Components =====================
+describe('Components', () => {
+  it('should Conversations zh_cn', async () => {
+    const onClick = jest.fn();
+    const { getByText } = render(
+      <LocaleProvider locale={zh_CN}>
+        <Conversations
+          items={[]}
+          creation={{
+            onClick,
+          }}
+        />
+      </LocaleProvider>,
+    );
+    expect(getByText('新对话')).toBeTruthy();
   });
 });
