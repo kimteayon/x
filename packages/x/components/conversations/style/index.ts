@@ -64,38 +64,39 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           color: token.colorPrimary,
           background: token.creationHoverColor,
         },
-        '> span': {
-          gap: token.marginXS,
-          display: 'flex',
-        },
-        [`&${componentCls}-creation-start`]: {
+        '&-start': {
           justifyContent: 'flex-start',
         },
-        [`&${componentCls}-creation-center`]: {
+        '&-center': {
           justifyContent: 'center',
         },
-        [`&${componentCls}-creation-end`]: {
+        '&-end': {
           justifyContent: 'flex-end',
         },
-      },
-
-      [`${componentCls}-creation-label`]: {
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      },
-      [`${componentCls}-creation-label-shortcut-keys`]: {
-        borderRadius: token.borderRadiusSM,
-        height: token.controlHeightXS,
-        fontSize: token.fontSizeSM,
-        paddingInline: token.paddingXXS,
-        color: token.shortcutKeyTextColor,
-        display: 'flex',
-        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: unit(4),
+        '&-label': {
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+        '&-label-shortcut-keys': {
+          borderRadius: token.borderRadiusSM,
+          height: token.controlHeightXS,
+          fontSize: token.fontSizeSM,
+          paddingInline: token.paddingXXS,
+          color: token.shortcutKeyTextColor,
+          display: 'flex',
+          border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: unit(4),
+        },
+        '&-disabled': {
+          cursor: 'not-allowed',
+          [`& ${componentCls}-label, ${componentCls}-icon, ${componentCls}-menu-icon`]: {
+            color: token.colorTextDisabled,
+          },
+        },
       },
       [`& ${componentCls}-rtl`]: {
         direction: 'rtl',
@@ -124,7 +125,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         },
         '&-disabled': {
           cursor: 'not-allowed',
-          [`& ${componentCls}-label, ${componentCls}-icon, ${componentCls}-menu-icon`]: {
+          [`& ${componentCls}-creation-label, ${componentCls}-creation-icon`]: {
             color: token.colorTextDisabled,
           },
         },
