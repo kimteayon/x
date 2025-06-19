@@ -3,17 +3,20 @@ import classNames from 'classnames';
 import React from 'react';
 import { useLocale } from '../../locale';
 import enUS from '../../locale/en_US';
-import type { CreationProps } from '../components/Creation';
+import type { CreationProps } from '../Creation';
 export interface CreationLabelProps {
   shortcutKeysIcon?: string[];
   prefixCls: string;
 }
 const CreationLabel: React.FC<CreationLabelProps> = ({ shortcutKeysIcon, prefixCls }) => {
   const [contextLocale] = useLocale('Conversations', enUS.Conversations);
+  const showShortcutKeys = !!shortcutKeysIcon?.length;
   return (
-    <div className={classNames(prefixCls)}>
+    <div
+      className={classNames(prefixCls, { [`${prefixCls}-shortcut-keys-show`]: showShortcutKeys })}
+    >
       <span>{contextLocale.create}</span>
-      {shortcutKeysIcon?.length && (
+      {showShortcutKeys && (
         <span className={classNames(`${prefixCls}-shortcut-keys`)}>
           {shortcutKeysIcon.map((keyIcon) => (
             <span key={keyIcon}>{keyIcon}</span>

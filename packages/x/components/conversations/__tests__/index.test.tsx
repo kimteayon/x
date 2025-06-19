@@ -249,7 +249,7 @@ describe('Conversations Component', () => {
   describe('Creation', () => {
     it('with Creation', async () => {
       const onClick = jest.fn();
-      const { getByText, container } = render(
+      const { getByText } = render(
         <Conversations
           items={items}
           creation={{
@@ -267,7 +267,7 @@ describe('Conversations Component', () => {
 
   it('with Creation disable', async () => {
     const onClick = jest.fn();
-    const { getByText, container } = render(
+    const { getByText } = render(
       <Conversations
         items={items}
         creation={{

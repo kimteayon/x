@@ -19,8 +19,8 @@ import type { ShortcutKeys } from '../_util/type';
 
 import { Divider } from 'antd';
 import useCollapsible from '../_util/hooks/use-collapsible';
-import Creation from './components/Creation';
-import type { CreationProps } from './components/Creation';
+import Creation from './Creation';
+import type { CreationProps } from './Creation';
 
 /**
  * @desc 会话列表组件参数

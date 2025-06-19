@@ -75,9 +75,11 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         },
         '&-label': {
           display: 'flex',
-          flex: 1,
           justifyContent: 'space-between',
           alignItems: 'center',
+        },
+        '&-label-shortcut-keys-show': {
+          flex: 1,
         },
         '&-label-shortcut-keys': {
           borderRadius: token.borderRadiusSM,
