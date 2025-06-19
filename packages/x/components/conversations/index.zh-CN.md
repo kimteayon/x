@@ -96,8 +96,8 @@ MenuProps & {
 ### GroupableProps
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- | --- |
-| label | 分组标题 | React.ReactNode\| ((group: string, info: { groupInfo: GroupInfoType}) => React.ReactNode) | - | - | - |
+| --- | --- | --- | --- | --- |
+| label | 分组标题 | React.ReactNode\| ((group: string, info: { groupInfo: GroupInfoType}) => React.ReactNode) | - | - |
 | collapsible | 可折叠配置 | boolean \| ((group: string) => boolean) | - | - |
 | defaultExpandedKeys | 默认展开或收起 | string[] | - | - |
 | onExpand | 展开或收起 | (expandedKeys: string[]) => void | - | - |

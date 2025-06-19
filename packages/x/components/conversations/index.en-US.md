@@ -70,6 +70,13 @@ type ItemType = ConversationItemType | DividerItemType;
 | icon | Conversation icon | React.ReactNode | - | - |
 | disabled | Whether to disable | boolean | - | - |
 
+#### DividerItemType
+
+| Property | Description    | Type      | Default   | Version |
+| -------- | -------------- | --------- | --------- | ------- |
+| type     | Divider type   | 'divider' | 'divider' | -       |
+| dashed   | Whether dashed | boolean   | false     | -       |
+
 ### GroupableProps
 
 | Property | Description | Type | Default | Version |
@@ -94,8 +101,12 @@ MenuProps & {
         ) => React.ReactNode);
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   };
+```
 
 ## Design Token
 
 <ComponentTokenTable component="Conversations"></ComponentTokenTable>
+
+```
+
 ```
