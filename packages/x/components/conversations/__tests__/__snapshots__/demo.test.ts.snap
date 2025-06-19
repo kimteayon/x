@@ -1409,7 +1409,7 @@ Array [
         </svg>
       </span>
       <div
-        class="ant-conversations-creation-label"
+        class="ant-conversations-creation-label ant-conversations-creation-label-shortcut-keys-show"
       >
         <span>
           New chat
