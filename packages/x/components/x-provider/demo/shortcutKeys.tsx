@@ -13,7 +13,6 @@ export default () => {
     <>
       <Flex gap={12} style={{ marginBottom: 16 }} align="center">
         <Typography.Text>
-          {' '}
           You can switch sessions using the shortcut key: <Tag>Alt/⌥</Tag> + <Tag>number</Tag>
         </Typography.Text>
       </Flex>
