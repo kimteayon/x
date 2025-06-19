@@ -103,8 +103,8 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
     items?: ShortcutKeys<'number'> | ShortcutKeys<number>[];
   };
   /**
-   * @desc 是否展示新建对话按钮
-   * @descEN  Display of the new conversation button
+   * @desc 新建对话按钮的配置
+   * @descEN  Config of the new chat button
    */
   creation?: CreationProps;
 }
