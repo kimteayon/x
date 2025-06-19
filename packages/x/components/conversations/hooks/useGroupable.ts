@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react';
 import type { ConversationsProps } from '..';
 import type { CollapsibleOptions } from '../../_util/hooks/use-collapsible';
-import type { Collapsible, ConversationItemType, Groupable, ItemType } from '../interface';
+import type { Collapsible, ConversationItemType, GroupableProps, ItemType } from '../interface';
 
 interface GroupConfig {
-  label: Groupable['label'];
+  label: GroupableProps['label'];
   collapsibleHandle: Collapsible;
   collapsibleOptions: CollapsibleOptions;
 }
 export interface GroupInfoType {
   data: ItemType[];
   name: string;
-  label: Groupable['label'];
+  label: GroupableProps['label'];
   enableGroup: boolean;
   collapsible: boolean;
 }

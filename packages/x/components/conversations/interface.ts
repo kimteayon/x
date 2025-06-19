@@ -49,17 +49,18 @@ export interface DividerItemType {
 
 export type ItemType = ConversationItemType | DividerItemType;
 
-export type GroupLabelInfo = {
-  groupInfo: GroupInfoType;
-};
-
 export type GroupLabel =
   | React.ReactNode
-  | ((group: string, info: GroupLabelInfo) => React.ReactNode)
+  | ((
+      group: string,
+      info: {
+        groupInfo: GroupInfoType;
+      },
+    ) => React.ReactNode)
   | undefined;
 
 export type Collapsible = boolean | ((group: string) => boolean);
-export interface Groupable extends CollapsibleOptions {
+export interface GroupableProps extends CollapsibleOptions {
   /**
    * @desc 自定义分组标签渲染
    * @descEN Semantic custom rendering

@@ -12,7 +12,7 @@ import useGroupable from './hooks/useGroupable';
 import useStyle from './style';
 
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { ConversationItemType, DividerItemType, Groupable, ItemType } from './interface';
+import type { ConversationItemType, DividerItemType, GroupableProps, ItemType } from './interface';
 
 import useShortcutKeys, { ShortcutKeyActionType } from '../_util/hooks/use-shortcut-keys';
 import type { ShortcutKeys } from '../_util/type';
@@ -37,7 +37,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 当前选中的值
    * @descEN Currently selected value
    */
-  activeKey?: string;
+  activeKey?: ConversationItemType['key'];
 
   /**
    * @desc 默认选中值
@@ -49,7 +49,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 选中变更回调
    * @descEN Callback for selection change
    */
-  onActiveChange?: (value: string) => void;
+  onActiveChange?: (value: ConversationItemType['key']) => void;
 
   /**
    * @desc 会话操作菜单
@@ -63,7 +63,7 @@ export interface ConversationsProps extends React.HTMLAttributes<HTMLUListElemen
    * @desc 是否支持分组, 开启后默认按 {@link Conversation.group} 字段分组
    * @descEN If grouping is supported, it defaults to the {@link Conversation.group} field
    */
-  groupable?: boolean | Groupable;
+  groupable?: boolean | GroupableProps;
 
   /**
    * @desc 语义化结构 style
