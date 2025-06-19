@@ -4,7 +4,6 @@ group:
   title: Common
   order: 0
 title: Conversations
-subtitle: Manage Conversations
 description: Used to switch between multiple agents, update conversation turns, and manage conversation history
 cover: https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*Oj-bTbVXtpQAAAAAAAAAAAAADgCCAQ/original
 coverDark: https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*qwdtSKWXeikAAAAAAAAAAAAADgCCAQ/original
