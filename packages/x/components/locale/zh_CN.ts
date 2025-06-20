@@ -1,6 +1,6 @@
 import type { Locale } from './index';
 
-const localeValues: Locale = {
+const localeValues: Required<Locale> = {
   locale: 'zh-cn',
   // locales for all components
   global: {

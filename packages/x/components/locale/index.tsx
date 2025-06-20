@@ -12,7 +12,6 @@ export interface Locale {
     placeholder?: string;
     close?: string;
   };
-  Icon?: Record<string, any>;
   Conversations?: {
     create: string;
   };
