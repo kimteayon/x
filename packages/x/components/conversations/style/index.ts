@@ -48,7 +48,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
       [`${componentCls}-creation`]: {
         backgroundColor: token.creationBgColor,
         color: token.colorPrimary,
-        border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
+        border: 'none',
         fontWeight: 500,
         paddingBlock: token.paddingXS,
         paddingInline: token.paddingSM,
@@ -60,7 +60,10 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         lineHeight: token.lineHeight,
         borderRadius: token.borderRadiusLG,
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
-        '&:hover': {
+        '&:not(&-disabled)': {
+          border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
+        },
+        '&:not(&-disabled):hover': {
           color: token.colorPrimary,
           background: token.creationHoverColor,
         },
@@ -95,7 +98,8 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         },
         '&-disabled': {
           cursor: 'not-allowed',
-          [`& ${componentCls}-label, ${componentCls}-icon, ${componentCls}-menu-icon`]: {
+          background: token.colorBgContainerDisabled,
+          [`& ${componentCls}-creation-label, ${componentCls}-creation-icon`]: {
             color: token.colorTextDisabled,
           },
         },
@@ -116,7 +120,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         borderRadius: token.borderRadiusLG,
         cursor: 'pointer',
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
-        '&:hover': {
+        '&:not(&-disabled):hover': {
           backgroundColor: token.colorBgTextHover,
         },
         '&-active': {
@@ -127,7 +131,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         },
         '&-disabled': {
           cursor: 'not-allowed',
-          [`& ${componentCls}-creation-label, ${componentCls}-creation-icon`]: {
+          [`& ${componentCls}-label, ${componentCls}-icon, ${componentCls}-menu-icon`]: {
             color: token.colorTextDisabled,
           },
         },
