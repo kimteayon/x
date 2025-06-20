@@ -246,9 +246,11 @@ const Conversations: React.FC<ConversationsProps> & CompoundedComponent = (props
 
   //  ============================ Item Collapsible ============================
 
+  const rootPrefixCls = getPrefixCls();
   const [enableCollapse, expandedKeys, onItemExpand, collapseMotion] = useCollapsible(
     collapsibleOptions,
     prefixCls,
+    rootPrefixCls,
   );
 
   // ============================ Render ============================
