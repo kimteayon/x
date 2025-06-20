@@ -60,12 +60,12 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         lineHeight: token.lineHeight,
         borderRadius: token.borderRadiusLG,
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
-        '&:not(&-disabled)': {
-          border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
-        },
-        '&:not(&-disabled):hover': {
+        [`&:not(${componentCls}-creation-disabled):hover`]: {
           color: token.colorPrimary,
           background: token.creationHoverColor,
+        },
+        [`&:not(${componentCls}-creation-disabled)`]: {
+          border: `${unit(token.lineWidth)} ${token.lineType}, ${token.creationBorderColor}`,
         },
         '&-start': {
           justifyContent: 'flex-start',
@@ -102,6 +102,10 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           [`& ${componentCls}-creation-label, ${componentCls}-creation-icon`]: {
             color: token.colorTextDisabled,
           },
+          [`& ${componentCls}-creation-label-shortcut-keys`]: {
+            color: token.colorTextDisabled,
+            border: `${unit(token.lineWidth)} ${token.lineType}, ${token.colorBgContainerDisabled}`,
+          },
         },
       },
       [`& ${componentCls}-rtl`]: {
@@ -120,7 +124,7 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
         borderRadius: token.borderRadiusLG,
         cursor: 'pointer',
         transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
-        '&:not(&-disabled):hover': {
+        [`&:not(${componentCls}-item-disabled):hover`]: {
           backgroundColor: token.colorBgTextHover,
         },
         '&-active': {
