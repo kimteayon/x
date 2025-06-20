@@ -141,6 +141,9 @@ const genConversationsStyle: GenerateStyle<ConversationsToken> = (token) => {
           opacity: 1,
         },
       },
+      [`& ${componentCls}-content-hidden`]: {
+        display: 'none',
+      },
       [`& ${componentCls}-label`]: {
         flex: 1,
         color: token.colorText,
