@@ -1,6 +1,6 @@
 import type { Locale } from '.';
 
-const localeValues: Locale = {
+const localeValues: Required<Locale> = {
   locale: 'en',
   global: {
     placeholder: 'Please select',
