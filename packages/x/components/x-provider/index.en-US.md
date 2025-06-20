@@ -39,6 +39,20 @@ If you are already using `ConfigProvider` from `antd`, please make the following
 <code src="./demo/theme.tsx" background="grey">Theme</code>
 <code src="./demo/shortcutKeys.tsx" background="grey">Shortcut Key</code>
 
+### Locale
+
+If your project uses antd, you need to merge antd's locale into XProvider
+
+```ts
+import { XProvider  } from '@ant-design/x';
+import zhCN from 'antd/locale/zh_CN';
+import zhCN_X from '@ant-design/x/locale/zh_CN';
+
+<XProvider locale={{...zhCN_X,..zhCN}}>
+  <App />
+</XProvider>
+```
+
 ## API
 
 `XProvider` fully extends `antd`'s `ConfigProvider`. Props ref：[Antd ConfigProvider](https://ant-design.antgroup.com/components/config-provider-cn#api)

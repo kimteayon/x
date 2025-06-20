@@ -30,6 +30,9 @@ const items_locale = {
 };
 export default () => {
   const [localeType, setLocaleType] = useState<'zh' | 'en'>('zh');
+
+  // 如果您的项目使用了antd 那么可以将antd的locale合并传入XProvider
+  // If your project uses antd, you need to merge antd's locale into XProvider
   const [locale, setLocal] = useState<Locale>({ ...zhCN, ...zhCN_X });
   const changeLocale = (e: RadioChangeEvent) => {
     const localeValue = e.target.value;

@@ -44,6 +44,20 @@ demo:
 
 `XProvider` 完全继承 `antd` 的 `ConfigProvider`, 属性参考：[Antd ConfigProvider](https://ant-design.antgroup.com/components/config-provider-cn#api)
 
+### 国际化
+
+如果您的项目使用了antd 那么需要将antd的locale合并传入XProvider
+
+```ts
+import { XProvider  } from '@ant-design/x';
+import zhCN from 'antd/locale/zh_CN';
+import zhCN_X from '@ant-design/x/locale/zh_CN';
+
+<XProvider locale={{...zhCN_X,..zhCN}}>
+  <App />
+</XProvider>
+```
+
 ### 组件配置
 
 <!-- prettier-ignore -->
