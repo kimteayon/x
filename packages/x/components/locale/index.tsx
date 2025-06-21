@@ -8,10 +8,6 @@ export const ANT_MARK = 'internalMark';
 
 export interface Locale {
   locale: string;
-  global?: {
-    placeholder?: string;
-    close?: string;
-  };
   Conversations?: {
     create: string;
   };
