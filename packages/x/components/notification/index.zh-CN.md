@@ -14,13 +14,15 @@ demo:
 
 ## 何时使用
 
-- 在模型或智能体运行过程中，可推送系统级别通知，让用户随时掌握运行进展
+- 在智能体执行复杂任务时，可推送系统级别通知，使用户随时掌握任务进展。
 
 ## 代码演示
 
-<code src="./demo/basic.tsx" background="grey">基本</code>
+<code src="./demo/hooks.tsx">Hooks调用</code>
 
 ## API
+
+成功发送通知需要确保已授权当前域名通知权限，
 
 通用属性参考：[通用属性](/docs/react/common-props)
 
