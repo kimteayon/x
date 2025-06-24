@@ -306,7 +306,7 @@ describe('Conversations Component', () => {
     expect(getByText('New chat')).toBeTruthy();
     expect(onClick).toHaveBeenCalledTimes(1);
   });
-  it('with Creation shortcutKeys disable', async () => {
+  it('should disable shortcutKeys', async () => {
     const onClick = jest.fn();
     const { getByText, container } = render(
       <Conversations
