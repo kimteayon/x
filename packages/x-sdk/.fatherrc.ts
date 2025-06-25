@@ -29,7 +29,7 @@ export default defineConfig({
     name: 'XSdk',
     output: {
       path: 'dist/',
-      filename: 'antd-x-sdk',
+      filename: 'x-sdk',
     },
     sourcemap: true,
     generateUnminified: true,

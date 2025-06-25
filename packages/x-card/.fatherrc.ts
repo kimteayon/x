@@ -29,7 +29,7 @@ export default defineConfig({
     name: 'XCard',
     output: {
       path: 'dist/',
-      filename: 'antd-x-card',
+      filename: 'x-card',
     },
     sourcemap: true,
     generateUnminified: true,

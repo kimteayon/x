@@ -29,7 +29,7 @@ export default defineConfig({
     name: 'XMarkdown',
     output: {
       path: 'dist/',
-      filename: 'antd-x-markdown',
+      filename: 'x-markdown',
     },
     sourcemap: true,
     generateUnminified: true,
