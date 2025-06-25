@@ -47,7 +47,7 @@ export default defineConfig({
         memo.plugin('codecov').use(CodecovWebpackPlugin, [
           {
             enableBundleAnalysis: true,
-            bundleName: 'antdxcard',
+            bundleName: 'XCard',
             uploadToken: process.env.CODECOV_TOKEN,
             gitService: 'github',
           },

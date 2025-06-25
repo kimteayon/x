@@ -26,7 +26,7 @@ export default defineConfig({
   },
   umd: {
     entry: 'src/index.ts',
-    name: 'antdxMarkdown',
+    name: 'XMarkdown',
     output: {
       path: 'dist/',
       filename: 'antd-x-markdown',
