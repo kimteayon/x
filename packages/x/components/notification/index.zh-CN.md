@@ -18,7 +18,7 @@ demo:
 
 ## 代码演示
 
-<code src="./demo/hooks.tsx">Hooks调用</code>
+<code src="./demo/hooks.tsx">Hooks调用</code> <code src="./demo/duration.tsx">自动关闭延迟</code> <code src="./demo/close_tag.tsx">关闭指定通知</code> <code src="./demo/static-method.tsx">静态方法</code>
 
 ## API
 

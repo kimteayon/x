@@ -10,12 +10,13 @@ const describeInfo: Record<NotificationPermission, string> = {
   default: 'Please Request Permission,After the request is approved, you can push notifications.',
 };
 const App = () => {
-  const [{ permission }, { open, requestPermission, close }] = notification.useNotification();
+  const [{ permission }, { open, requestPermission }] = notification.useNotification();
 
   const openClick = () => {
     open({
       title: 'Task completed',
       body: 'The task was completed at 13:12',
+      duration: 4.5,
       icon: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
       onClick: (event, close) => {
         console.log('onClick', event, close);
@@ -44,9 +45,6 @@ const App = () => {
         </Button>
         <Button disabled={permission !== 'granted'} type="primary" onClick={openClick}>
           Open a notification
-        </Button>
-        <Button danger disabled={permission !== 'granted'} onClick={() => close()}>
-          Destroy All
         </Button>
       </Flex>
     </Flex>

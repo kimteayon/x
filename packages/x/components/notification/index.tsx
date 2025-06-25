@@ -4,18 +4,18 @@ let uuid = 0;
 class XNotification {
   static permissionState: NotificationPermission;
   static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>>;
-  static permissionMap: Map<TypeOpen['key'], any> = new Map();
+  static permissionMap: Map<TypeOpen['tag'], any> = new Map();
   get permission() {
     return Notification?.permission;
   }
-  public open(arg: TypeOpen): void {
-    const { title, key, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
-    if (key && XNotification.permissionMap.has(key)) return;
-    uuid += 1;
-    const mergeKey = key || `x_notification_${uuid}`;
-    console.log(XNotification.permissionMap);
 
+  public open(arg: TypeOpen): void {
+    const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
+    if (tag && XNotification.permissionMap.has(tag)) return;
+    uuid += 1;
+    const mergeKey = tag || `x_notification_${uuid}`;
     const notification: Notification = new Notification(title, config || {});
+
     const close = notification.close.bind(notification);
     if (typeof duration === 'number') {
       const timeoutId = setTimeout(() => {
@@ -60,9 +60,14 @@ class XNotification {
       },
     ];
   }
-  public close() {
+  public close(tags?: TypeOpen['tag'][]) {
     Array.from(XNotification.permissionMap.keys()).forEach((key) => {
-      XNotification.permissionMap.get(key)?.close?.();
+      if (tags?.includes(key)) {
+        XNotification.permissionMap.get(key)?.close?.();
+      }
+      if (tags === undefined) {
+        XNotification.permissionMap.get(key)?.close?.();
+      }
     });
   }
 }

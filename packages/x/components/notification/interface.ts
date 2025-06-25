@@ -1,7 +1,6 @@
 import type { XNotification } from '.';
 
 export type TypeOpen = NotificationOptions & {
-  key?: string | number;
   title: string;
   onClick?: (event: Event, close?: Notification['close']) => void;
   onClose?: (event: Event) => void;
