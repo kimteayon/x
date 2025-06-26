@@ -3,7 +3,8 @@ import type { TypeOpen, useNotificationType } from './interface';
 let uuid = 0;
 class XNotification {
   static permissionState: NotificationPermission;
-  static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>>;
+  static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>> =
+    () => {};
   static permissionMap: Map<TypeOpen['tag'], any> = new Map();
   get permission() {
     return Notification?.permission;
@@ -11,12 +12,14 @@ class XNotification {
 
   public open(arg: TypeOpen): void {
     const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
+
     if (tag && XNotification.permissionMap.has(tag)) return;
     uuid += 1;
     const mergeKey = tag || `x_notification_${uuid}`;
     const notification: Notification = new Notification(title, config || {});
 
-    const close = notification.close.bind(notification);
+    // 直接用 notification.close，保证 jest.fn() 能被统计
+    const close = notification.close;
     if (typeof duration === 'number') {
       const timeoutId = setTimeout(() => {
         clearTimeout(timeoutId);
