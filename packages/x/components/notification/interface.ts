@@ -1,6 +1,6 @@
 import type { XNotification } from '.';
 
-export type TypeOpen = NotificationOptions & {
+type TypeOpen = NotificationOptions & {
   title: string;
   onClick?: (event: Event, close?: Notification['close']) => void;
   onClose?: (event: Event) => void;
@@ -10,10 +10,17 @@ export type TypeOpen = NotificationOptions & {
 };
 
 export type useNotificationType = [
-  { permission: NotificationPermission },
+  {
+    permission: NotificationPermission;
+  },
   {
     open: XNotification['open'];
     close: XNotification['close'];
-    requestPermission: XNotification['requestPermission'];
+    requestPermission: () => Promise<NotificationPermission>;
   },
 ];
+
+export type XNotificationArgs = {
+  openConfig: TypeOpen;
+  closeConfig: TypeOpen['tag'][];
+};

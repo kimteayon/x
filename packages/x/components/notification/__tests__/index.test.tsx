@@ -1,13 +1,12 @@
 import React from 'react';
 import { act, render } from '../../../tests/utils';
-import notification from '../index';
 
 class MockNotification {
   title: string;
   options?: NotificationOptions;
   close: jest.Mock;
-  onclick: ((this: Notification, ev: Event) => any) | null;
-  _onclose: ((this: Notification, ev: Event) => any) | null;
+  onclick: ((this: MockNotification, ev: Event) => any) | null;
+  _onclose: ((this: MockNotification, ev: Event) => any) | null;
   private _onshow: ((this: Notification, ev: Event) => any) | null;
   _onerror: ((this: Notification, ev: Event) => any) | null;
   badge: string;
@@ -15,7 +14,10 @@ class MockNotification {
   constructor(title: string, options?: NotificationOptions) {
     this.title = title;
     this.options = options;
-    this.close = jest.fn();
+    this.close = jest.fn(() => {
+      const event = new Event('show');
+      this.onclose?.(event);
+    });
     this.onclick = null;
     this._onclose = null;
     this._onshow = null;
@@ -34,15 +36,11 @@ class MockNotification {
     }
   }
 
-  get onclose(): (this: Notification, ev: Event) => any {
-    return this.onclose ?? (() => {});
+  get onclose(): (this: any, ev: Event) => any {
+    return this._onclose ?? (() => {});
   }
-  set onclose(callback: (this: Notification, ev: Event) => any) {
+  set onclose(callback: (this: MockNotification, ev: Event) => any) {
     this._onclose = callback;
-    if (this._onclose) {
-      const event = new Event('close');
-      this._onclose.call(this as unknown as Notification, event);
-    }
   }
   get onerror(): (this: Notification, ev: Event) => any {
     return this._onerror ?? (() => {});
@@ -61,21 +59,15 @@ class MockNotification {
   }
 }
 
-(global.Notification as any) = MockNotification;
+let notification: any = null;
+let XNotification: any = null;
 
 describe('XNotification', () => {
-  let mockNotification: jest.Mocked<Notification>;
   beforeEach(() => {
-    // Mock Notification API
-    mockNotification = new MockNotification('') as any;
-    global.Notification = MockNotification as any;
-    Object.defineProperty(global.Notification, 'permission', {
-      value: 'default',
-      writable: true,
-    });
-
-    // Reset static properties
-    (notification as any).permissionMap = new Map();
+    (globalThis.Notification as any) = MockNotification;
+    notification = require('../index').default;
+    XNotification = require('../index').XNotification;
+    (XNotification as any).permissionMap = new Map();
   });
 
   describe('open', () => {
@@ -84,18 +76,20 @@ describe('XNotification', () => {
       mockFn = jest
         .fn()
         .mockImplementation((title, options) => new MockNotification(title, options));
-      global.Notification = mockFn as any;
+      globalThis.Notification = mockFn as any;
+      notification = require('../index').default;
+      XNotification = require('../index').XNotification;
     });
 
     it('should create notification with title', () => {
       notification.open({ title: 'Test' });
-      expect(global.Notification).toHaveBeenCalledWith('Test', {});
+      expect(globalThis.Notification).toHaveBeenCalledWith('Test', {});
     });
 
     it('should not create duplicate notification with same key', () => {
       notification.open({ title: 'Test', tag: 'test-tag' });
       notification.open({ title: 'Test', tag: 'test-tag' });
-      expect(global.Notification).toHaveBeenCalledTimes(1);
+      expect(globalThis.Notification).toHaveBeenCalledTimes(1);
     });
 
     it('should call onClick callback', () => {
@@ -103,7 +97,7 @@ describe('XNotification', () => {
       notification.open({ title: 'Test', onClick });
 
       // 获取 open 创建的 Notification 实例
-      const instance = (global.Notification as unknown as jest.Mock).mock.results[0].value;
+      const instance = (globalThis.Notification as unknown as jest.Mock).mock.results[0].value;
       instance?.onclick?.({} as any);
       expect(onClick).toHaveBeenCalled();
     });
@@ -111,7 +105,7 @@ describe('XNotification', () => {
     it('should auto close after duration', () => {
       jest.useFakeTimers();
       notification.open({ title: 'Test', duration: 5 });
-      const instance = (global.Notification as unknown as jest.Mock).mock.results[0].value;
+      const instance = (globalThis.Notification as unknown as jest.Mock).mock.results[0].value;
       // 手动触发 onshow，保证 permissionMap 正确
       instance?.onshow?.({} as any);
       jest.advanceTimersByTime(5000);
@@ -121,18 +115,11 @@ describe('XNotification', () => {
 
   describe('close', () => {
     it('should close all notifications', () => {
-      // Create separate mock instances for each notification
-      const mockClose = jest.fn();
-      // First notification
-      global.Notification = jest.fn().mockImplementationOnce(() => ({
-        ...mockNotification,
-        close: mockClose,
-      })) as any;
-
       notification.open({ title: 'Test1', tag: 'key1' });
       notification.open({ title: 'Test2', tag: 'key2' });
+      expect(XNotification.permissionMap.size).toBe(2);
       notification.close();
-      expect(global.Notification).toHaveBeenCalledTimes(2);
+      expect(XNotification.permissionMap.size).toBe(0);
     });
   });
 
@@ -145,6 +132,13 @@ describe('XNotification', () => {
   });
 
   describe('useNotification', () => {
+    beforeEach(() => {
+      (globalThis as any).Notification = MockNotification;
+      MockNotification.permission = 'default';
+
+      (XNotification as any).permissionMap = new Map();
+    });
+
     it('should return permission state and methods', () => {
       const TestComponent = () => {
         const [{ permission }, { open }] = notification.useNotification();
@@ -167,14 +161,14 @@ describe('XNotification', () => {
           const [{ permission }] = notification.useNotification();
           return <div data-testid="permission">{permission}</div>;
         };
-        const { getByTestId, rerender } = render(<TestComponent />);
+        const { getByTestId } = render(<TestComponent />);
         expect(getByTestId('permission').textContent).toBe('default');
 
         await act(async () => {
           await notification.requestPermission();
         });
-        rerender(<TestComponent />);
-        expect(getByTestId('permission').textContent).toBe('granted');
+
+        expect(globalThis.Notification.permission).toBe('granted');
       });
 
       it('should share state between components', () => {
@@ -209,5 +203,18 @@ describe('XNotification', () => {
         expect(() => unmount()).not.toThrow();
       });
     });
+  });
+});
+
+describe('XNotification with not permission able', () => {
+  beforeEach(() => {
+    (globalThis.Notification as any) = null;
+    notification = require('../index').default;
+    XNotification = require('../index').XNotification;
+    XNotification.permissionAble = !!globalThis.Notification;
+  });
+  it('should permission is denied', async () => {
+    notification.requestPermission();
+    expect(notification.permission).toBe('denied');
   });
 });

@@ -14,7 +14,6 @@ const open = () => {
   notification.open({
     title: 'Task completed',
     body: 'The task was completed at 13:12',
-    tag: 'tag_123',
     badge:
       'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
     icon: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
@@ -38,7 +37,7 @@ const close = () => {
 };
 
 const App = () => {
-  const [permission, setPermission] = useState<NotificationPermission | undefined>();
+  const [permission, setPermission] = useState<NotificationPermission>();
   useEffect(() => {
     setPermission(notification.permission);
   }, []);

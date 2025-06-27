@@ -1,25 +1,33 @@
 import { useState } from 'react';
-import type { TypeOpen, useNotificationType } from './interface';
+import type { XNotificationArgs, useNotificationType } from './interface';
 let uuid = 0;
+
 class XNotification {
-  static permissionState: NotificationPermission;
-  static setPermissionState: React.Dispatch<React.SetStateAction<NotificationPermission>> =
-    () => {};
-  static permissionMap: Map<TypeOpen['tag'], any> = new Map();
-  get permission() {
-    return Notification?.permission;
+  private static permissionMap: Map<XNotificationArgs['openConfig']['tag'], any> = new Map();
+  static permissionAble: boolean;
+  constructor() {
+    XNotification.permissionAble = !!globalThis?.Notification;
+    if (!XNotification.permissionAble) {
+      console.warn('Notification API is not supported in this environment.');
+    }
   }
 
-  public open(arg: TypeOpen): void {
-    const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
+  public get permission(): NotificationPermission {
+    if (!XNotification.permissionAble) {
+      return 'denied';
+    }
+    return globalThis.Notification?.permission;
+  }
 
+  public open(arg: XNotificationArgs['openConfig']): void {
+    if (!XNotification.permissionAble) return;
+    const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
     if (tag && XNotification.permissionMap.has(tag)) return;
     uuid += 1;
     const mergeKey = tag || `x_notification_${uuid}`;
-    const notification: Notification = new Notification(title, config || {});
+    const notification: Notification = new globalThis.Notification(title, config || {});
+    const close = notification.close.bind(notification);
 
-    // 直接用 notification.close，保证 jest.fn() 能被统计
-    const close = notification.close;
     if (typeof duration === 'number') {
       const timeoutId = setTimeout(() => {
         clearTimeout(timeoutId);
@@ -29,41 +37,53 @@ class XNotification {
     notification.onclick = (event) => {
       onClick?.(event, close);
     };
-    notification.onclose = (event) => {
-      onClose?.(event);
-      XNotification.permissionMap.delete(mergeKey);
-    };
+
     notification.onshow = (event) => {
       onShow?.(event);
       XNotification.permissionMap.set(mergeKey, {
         close,
       });
     };
+
+    notification.onclose = (event) => {
+      onClose?.(event);
+      XNotification.permissionMap.delete(mergeKey);
+    };
+
     notification.onerror = (event) => {
       onError?.(event);
     };
   }
 
-  public async requestPermission(): Promise<NotificationPermission> {
-    const permissionRes = await Notification.requestPermission();
-    XNotification.setPermissionState(permissionRes);
+  public async requestPermission(
+    setPermissionState?: React.Dispatch<React.SetStateAction<NotificationPermission>>,
+  ): Promise<NotificationPermission> {
+    if (!XNotification.permissionAble) {
+      return 'denied';
+    }
+    const permissionRes = await globalThis.Notification.requestPermission();
+
+    if (typeof setPermissionState === 'function') {
+      setPermissionState?.(permissionRes);
+    }
     return permissionRes;
   }
 
   public useNotification(): useNotificationType {
-    const [permission, setPermission] = useState<NotificationPermission>(Notification?.permission);
-    XNotification.permissionState = permission;
-    XNotification.setPermissionState = setPermission;
+    const [permission, setPermission] = useState<NotificationPermission>(this?.permission);
     return [
-      { permission },
+      {
+        permission,
+      },
       {
         open: this.open,
         close: this.close,
-        requestPermission: this.requestPermission,
+        requestPermission: () => this.requestPermission.call(this, setPermission),
       },
     ];
   }
-  public close(tags?: TypeOpen['tag'][]) {
+  public close(tags?: XNotificationArgs['closeConfig']): void {
+    if (!XNotification.permissionAble) return;
     Array.from(XNotification.permissionMap.keys()).forEach((key) => {
       if (tags?.includes(key)) {
         XNotification.permissionMap.get(key)?.close?.();
@@ -75,7 +95,6 @@ class XNotification {
   }
 }
 
-const notification = new XNotification();
-
-export type { XNotification };
-export default notification;
+export type { XNotificationArgs };
+export default new XNotification();
+export { XNotification };
