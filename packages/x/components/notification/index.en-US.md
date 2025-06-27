@@ -1,8 +1,8 @@
 ---
 category: Components
 group:
-  title: Confirmation
-  order: 3
+  title: Common
+  order: 0
 title: Notification
 description: System-level notifications displayed outside the page.
 cover: https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*Oj-bTbVXtpQAAAAAAAAAAAAADgCCAQ/original

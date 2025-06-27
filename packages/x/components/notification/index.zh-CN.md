@@ -1,8 +1,8 @@
 ---
 category: Components
 group:
-  title: 确认
-  order: 3
+  title: 通用
+  order: 0
 title: Notification
 subtitle: 系统通知
 description: 系统级别发送在页面外部显示的通知。
