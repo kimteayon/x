@@ -1,15 +1,16 @@
 import classnames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
-import ThoughtChainItem from './Item';
 
 import useCollapsible, { Collapsible } from '../_util/hooks/use-collapsible';
 import { useXProviderContext } from '../x-provider';
 import useStyle from './style';
 
 import useXComponentConfig from '../_util/hooks/use-x-component-config';
+import ThoughtChainNode, { ThoughtChainNodeContext } from './Item';
 
 import type { ConfigProviderProps } from 'antd';
+import type { ThoughtChainItem } from './Item';
 
 export type SemanticType = 'item' | 'itemHeader' | 'itemContent' | 'itemFooter';
 export interface ThoughtChainProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -17,7 +18,7 @@ export interface ThoughtChainProps extends Omit<React.HTMLAttributes<HTMLDivElem
    * @desc 思维节点集合
    * @descEN chain items
    */
-  items?: any[];
+  items?: ThoughtChainItem[];
 
   /**
    * @desc 是否可折叠
@@ -56,11 +57,7 @@ export interface ThoughtChainProps extends Omit<React.HTMLAttributes<HTMLDivElem
   rootClassName?: string;
 }
 
-type CompoundedComponent = {
-  Item: typeof ThoughtChainItem;
-};
-
-const ThoughtChain: React.FC<ThoughtChainProps> & CompoundedComponent = (props) => {
+const ThoughtChain: React.FC<ThoughtChainProps> = (props) => {
   const {
     prefixCls: customizePrefixCls,
     rootClassName,
@@ -115,14 +112,48 @@ const ThoughtChain: React.FC<ThoughtChainProps> & CompoundedComponent = (props) 
 
   // ============================ Render ============================
   return wrapCSSVar(
-    <div {...domProps} className={mergedCls} style={{ ...contextConfig.style, ...style }}></div>,
+    <div {...domProps} className={mergedCls} style={{ ...contextConfig.style, ...style }}>
+      <ThoughtChainNodeContext.Provider
+        value={{
+          prefixCls,
+          enableCollapse,
+          collapseMotion,
+          expandedKeys,
+          direction,
+          classNames: {
+            itemHeader: classnames(contextConfig.classNames.itemHeader, classNames.itemHeader),
+            itemContent: classnames(contextConfig.classNames.itemContent, classNames.itemContent),
+            itemFooter: classnames(contextConfig.classNames.itemFooter, classNames.itemFooter),
+          },
+          styles: {
+            itemHeader: { ...contextConfig.styles.itemHeader, ...styles.itemHeader },
+            itemContent: { ...contextConfig.styles.itemContent, ...styles.itemContent },
+            itemFooter: { ...contextConfig.styles.itemFooter, ...styles.itemFooter },
+          },
+        }}
+      >
+        {items?.map((item, index) => (
+          <ThoughtChainNode
+            key={item.key || `key_${index}`}
+            className={classnames(contextConfig.classNames.item, classNames.item)}
+            style={{ ...contextConfig.styles.item, ...styles.item }}
+            info={{
+              ...item,
+              icon: item.icon || index + 1,
+            }}
+            onClick={onItemExpand}
+            nextStatus={items[index + 1]?.status || item.status}
+          />
+        ))}
+      </ThoughtChainNodeContext.Provider>
+    </div>,
   );
 };
 
 if (process.env.NODE_ENV !== 'production') {
   ThoughtChain.displayName = 'ThoughtChain';
 }
-ThoughtChain.Item = ThoughtChainItem;
+
 export type { ThoughtChainItem };
 
 export default ThoughtChain;
