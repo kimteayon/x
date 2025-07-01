@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import type { XNotificationArgs, useNotificationType } from './interface';
+import type { XNotificationOpenArgs, useNotificationType } from './interface';
 let uuid = 0;
 
 class XNotification {
-  private static permissionMap: Map<XNotificationArgs['openConfig']['tag'], any> = new Map();
+  private static permissionMap: Map<string, any> = new Map();
   static permissible: boolean;
   constructor() {
     XNotification.permissible = !!globalThis?.Notification;
@@ -19,7 +19,7 @@ class XNotification {
     return globalThis.Notification?.permission;
   }
 
-  public open(arg: XNotificationArgs['openConfig']): void {
+  public open(arg: XNotificationOpenArgs): void {
     if (!XNotification.permissible) return;
     const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
     if (tag && XNotification.permissionMap.has(tag)) return;
@@ -85,7 +85,7 @@ class XNotification {
       },
     ];
   }
-  public close(tags?: XNotificationArgs['closeConfig']): void {
+  public close(tags?: string[]): void {
     if (!XNotification.permissible) return;
     Array.from(XNotification.permissionMap.keys()).forEach((key) => {
       if (tags === undefined) {
@@ -98,6 +98,6 @@ class XNotification {
   }
 }
 
-export type { XNotificationArgs };
+export type { XNotificationOpenArgs };
 export default new XNotification();
 export { XNotification };

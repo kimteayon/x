@@ -20,7 +20,4 @@ export type useNotificationType = [
   },
 ];
 
-export type XNotificationArgs = {
-  openConfig: TypeOpen;
-  closeConfig: TypeOpen['tag'][];
-};
+export type XNotificationOpenArgs = TypeOpen;

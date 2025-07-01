@@ -1,4 +1,4 @@
-import { XNotificationArgs, notification } from '@ant-design/x';
+import { XNotificationOpenArgs, notification } from '@ant-design/x';
 import { Button, Flex } from 'antd';
 import React from 'react';
 
@@ -10,7 +10,7 @@ const DescribeInfo: Record<NotificationPermission, string> = {
   default: 'Please Request Permission,After the request is approved, you can push notifications.',
 };
 
-const openData: XNotificationArgs['openConfig'] = {
+const openData: XNotificationOpenArgs = {
   title: 'Task completed',
   body: 'The task was completed at 13:12',
   icon: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*eco6RrQhxbMAAAAAAAAAAAAADgCCAQ/original',
