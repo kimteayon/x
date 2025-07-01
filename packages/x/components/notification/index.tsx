@@ -55,7 +55,10 @@ class XNotification {
     };
   }
 
-  public async requestPermission(
+  public async requestPermission(): Promise<NotificationPermission> {
+    return this._requestPermission();
+  }
+  private async _requestPermission(
     setPermissionState?: React.Dispatch<React.SetStateAction<NotificationPermission>>,
   ): Promise<NotificationPermission> {
     if (!XNotification.permissible) {
@@ -78,7 +81,7 @@ class XNotification {
       {
         open: this.open,
         close: this.close,
-        requestPermission: () => this.requestPermission.call(this, setPermission),
+        requestPermission: () => this._requestPermission.call(this, setPermission),
       },
     ];
   }
