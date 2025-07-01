@@ -4,23 +4,23 @@ let uuid = 0;
 
 class XNotification {
   private static permissionMap: Map<XNotificationArgs['openConfig']['tag'], any> = new Map();
-  static permissionAble: boolean;
+  static permissible: boolean;
   constructor() {
-    XNotification.permissionAble = !!globalThis?.Notification;
-    if (!XNotification.permissionAble) {
+    XNotification.permissible = !!globalThis?.Notification;
+    if (!XNotification.permissible) {
       console.warn('Notification API is not supported in this environment.');
     }
   }
 
   public get permission(): NotificationPermission {
-    if (!XNotification.permissionAble) {
+    if (!XNotification.permissible) {
       return 'denied';
     }
     return globalThis.Notification?.permission;
   }
 
   public open(arg: XNotificationArgs['openConfig']): void {
-    if (!XNotification.permissionAble) return;
+    if (!XNotification.permissible) return;
     const { title, tag, onClick, duration, onClose, onError, onShow, ...config } = arg || {};
     if (tag && XNotification.permissionMap.has(tag)) return;
     uuid += 1;
@@ -58,7 +58,7 @@ class XNotification {
   public async requestPermission(
     setPermissionState?: React.Dispatch<React.SetStateAction<NotificationPermission>>,
   ): Promise<NotificationPermission> {
-    if (!XNotification.permissionAble) {
+    if (!XNotification.permissible) {
       return 'denied';
     }
     const permissionRes = await globalThis.Notification.requestPermission();
@@ -83,12 +83,12 @@ class XNotification {
     ];
   }
   public close(tags?: XNotificationArgs['closeConfig']): void {
-    if (!XNotification.permissionAble) return;
+    if (!XNotification.permissible) return;
     Array.from(XNotification.permissionMap.keys()).forEach((key) => {
-      if (tags?.includes(key)) {
+      if (tags === undefined) {
         XNotification.permissionMap.get(key)?.close?.();
       }
-      if (tags === undefined) {
+      if (tags?.includes(key)) {
         XNotification.permissionMap.get(key)?.close?.();
       }
     });

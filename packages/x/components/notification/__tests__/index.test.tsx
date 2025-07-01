@@ -211,7 +211,7 @@ describe('XNotification with not permission able', () => {
     (globalThis.Notification as any) = null;
     notification = require('../index').default;
     XNotification = require('../index').XNotification;
-    XNotification.permissionAble = !!globalThis.Notification;
+    XNotification.permissible = !!globalThis.Notification;
   });
   it('should permission is denied', async () => {
     notification.requestPermission();
