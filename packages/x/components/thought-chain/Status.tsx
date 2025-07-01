@@ -1,4 +1,9 @@
-import { CheckOutlined, CloseOutlined, LoadingOutlined, MinusOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  LoadingOutlined,
+  MinusCircleOutlined,
+} from '@ant-design/icons';
 import classnames from 'classnames';
 import React from 'react';
 
@@ -48,18 +53,18 @@ export interface StatusProps {
 
 const StatusIcon = {
   [THOUGHT_CHAIN_ITEM_STATUS.LOADING]: <LoadingOutlined />,
-  [THOUGHT_CHAIN_ITEM_STATUS.ERROR]: <CloseOutlined />,
-  [THOUGHT_CHAIN_ITEM_STATUS.SUCCESS]: <CheckOutlined />,
-  [THOUGHT_CHAIN_ITEM_STATUS.ABORT]: <MinusOutlined />,
+  [THOUGHT_CHAIN_ITEM_STATUS.ERROR]: <CloseCircleOutlined />,
+  [THOUGHT_CHAIN_ITEM_STATUS.SUCCESS]: <CheckCircleOutlined />,
+  [THOUGHT_CHAIN_ITEM_STATUS.ABORT]: <MinusCircleOutlined />,
 };
 
 const Status: React.FC<StatusProps> = (props) => {
-  const { prefixCls, icon, status = THOUGHT_CHAIN_ITEM_STATUS.SUCCESS } = props;
+  const { prefixCls, icon, status } = props;
 
   // ============================ Style ============================
   const statusCls = `${prefixCls}-status`;
 
-  const IconNode = icon ? icon : StatusIcon[status];
+  const IconNode = status ? StatusIcon[status] : icon;
 
   // ============================ Render ============================
   return (

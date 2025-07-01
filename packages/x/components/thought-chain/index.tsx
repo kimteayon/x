@@ -10,6 +10,7 @@ import useStyle from './style';
 import useXComponentConfig from '../_util/hooks/use-x-component-config';
 
 import type { ConfigProviderProps } from 'antd';
+import ThoughtChainNode, { ThoughtChainNodeContext } from './Node';
 
 export type SemanticType = 'item' | 'itemHeader' | 'itemContent' | 'itemFooter';
 export interface ThoughtChainProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -24,12 +25,6 @@ export interface ThoughtChainProps extends Omit<React.HTMLAttributes<HTMLDivElem
    * @descEN Whether collapsible
    */
   collapsible?: Collapsible;
-
-  /**
-   * @desc 组件大小
-   * @descEN Component size
-   */
-  size?: ConfigProviderProps['componentSize'];
 
   /**
    * @desc 语义化结构 style
@@ -70,7 +65,6 @@ const ThoughtChain: React.FC<ThoughtChainProps> & CompoundedComponent = (props) 
     styles = {},
     style,
     classNames = {},
-    size = 'middle',
     ...restProps
   } = props;
 
@@ -83,19 +77,10 @@ const ThoughtChain: React.FC<ThoughtChainProps> & CompoundedComponent = (props) 
   // ============================ Prefix ============================
   const { getPrefixCls, direction } = useXProviderContext();
 
-  const rootPrefixCls = getPrefixCls();
-
   const prefixCls = getPrefixCls('thought-chain', customizePrefixCls);
 
   // ===================== Component Config =========================
   const contextConfig = useXComponentConfig('thoughtChain');
-
-  // ============================ UseCollapsible ============================
-  const [enableCollapse, expandedKeys, onItemExpand, collapseMotion] = useCollapsible(
-    collapsible,
-    prefixCls,
-    rootPrefixCls,
-  );
 
   // ============================ Style ============================
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
@@ -110,12 +95,41 @@ const ThoughtChain: React.FC<ThoughtChainProps> & CompoundedComponent = (props) 
     {
       [`${prefixCls}-rtl`]: direction === 'rtl',
     },
-    `${prefixCls}-${size}`,
   );
 
   // ============================ Render ============================
   return wrapCSSVar(
-    <div {...domProps} className={mergedCls} style={{ ...contextConfig.style, ...style }}></div>,
+    <div {...domProps} className={mergedCls} style={{ ...contextConfig.style, ...style }}>
+      <ThoughtChainNodeContext.Provider
+        value={{
+          prefixCls,
+          direction,
+          classNames: {
+            itemHeader: classnames(contextConfig.classNames.itemHeader, classNames.itemHeader),
+            itemContent: classnames(contextConfig.classNames.itemContent, classNames.itemContent),
+            itemFooter: classnames(contextConfig.classNames.itemFooter, classNames.itemFooter),
+          },
+          styles: {
+            itemHeader: { ...contextConfig.styles.itemHeader, ...styles.itemHeader },
+            itemContent: { ...contextConfig.styles.itemContent, ...styles.itemContent },
+            itemFooter: { ...contextConfig.styles.itemFooter, ...styles.itemFooter },
+          },
+        }}
+      >
+        {items?.map((item, index) => (
+          <ThoughtChainNode
+            key={item.key || `key_${index}`}
+            className={classnames(contextConfig.classNames.item, classNames.item)}
+            style={{ ...contextConfig.styles.item, ...styles.item }}
+            info={{
+              ...item,
+              icon: item.icon || index + 1,
+            }}
+            nextStatus={items[index + 1]?.status || item.status}
+          />
+        ))}
+      </ThoughtChainNodeContext.Provider>
+    </div>,
   );
 };
 

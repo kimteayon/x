@@ -3,13 +3,15 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
 import { useXProviderContext } from '../x-provider';
 import Status, { THOUGHT_CHAIN_ITEM_STATUS } from './Status';
+import useStyle from './style';
 
 enum VARIANT {
   SOLID = 'solid',
   OUTLINED = 'outlined',
   TEXT = 'text',
 }
-export interface ThoughtChainItemProp {
+export interface ThoughtChainItemProp
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
   /**
    * @desc 思维节点唯一标识符
    * @descEN Unique identifier
@@ -63,7 +65,6 @@ export interface ThoughtChainItemProp {
    */
   prefixCls?: string;
   variant?: `${VARIANT}`;
-  onClick?: (key: string) => void;
 }
 
 const Item: React.FC<ThoughtChainItemProp> = (props) => {
@@ -72,8 +73,10 @@ const Item: React.FC<ThoughtChainItemProp> = (props) => {
     variant = 'solid',
     prefixCls: customizePrefixCls,
     title,
+    icon,
     status,
     onClick,
+    description,
     ...restProps
   } = props;
 
@@ -90,22 +93,27 @@ const Item: React.FC<ThoughtChainItemProp> = (props) => {
   const { getPrefixCls, direction } = useXProviderContext();
 
   const prefixCls = getPrefixCls('thought-chain', customizePrefixCls);
-
+  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
   // ============================ Style ============================
   const itemCls = `${prefixCls}-item`;
-
   // ============================ Render ============================
-  return (
+  return wrapCSSVar(
     <div
       key={key || id}
+      onClick={onClick}
       {...domProps}
-      className={classnames(itemCls, {
+      className={classnames(prefixCls, hashId, cssVarCls, itemCls, {
         [`${itemCls}-${variant}`]: variant,
+        [`${itemCls}-click`]: onClick,
+        [`${itemCls}-error`]: status === THOUGHT_CHAIN_ITEM_STATUS.ERROR,
       })}
     >
-      <Status prefixCls={itemCls} status={status} />
-      {title}
-    </div>
+      <Status prefixCls={itemCls} icon={icon} status={status} />
+      <div className={classnames(`${itemCls}-content`)}>
+        {title && <div className={classnames(`${itemCls}-title`)}>{title}</div>}
+        {description && <div className={classnames(`${itemCls}-description`)}>{description}</div>}
+      </div>
+    </div>,
   );
 };
 

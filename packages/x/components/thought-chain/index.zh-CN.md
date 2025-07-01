@@ -21,7 +21,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" background="grey">基本</code>
-<code src="./demo/simple.tsx" background="grey">简洁思维链</code>
+<code src="./demo/simple.tsx" >简洁思维链</code>
 <code src="./demo/size.tsx" background="grey">尺寸</code>
 <code src="./demo/status.tsx" background="grey">节点状态</code>
 <code src="./demo/collapsible.tsx" background="grey">可折叠的</code>
