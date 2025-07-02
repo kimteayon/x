@@ -19,6 +19,12 @@ export interface ThoughtChainItemProp
   key?: string;
 
   /**
+   * @desc 自定义前缀
+   * @descEN Prefix
+   */
+  prefixCls?: string;
+
+  /**
    * @desc 思维节点图标
    * @descEN Thought chain item icon
    */
@@ -37,37 +43,19 @@ export interface ThoughtChainItemProp
   description?: React.ReactNode;
 
   /**
-   * @desc 思维节点额外内容
-   * @descEN Thought chain item extra content
-   */
-  extra?: React.ReactNode;
-
-  /**
-   * @desc 思维节点内容
-   * @descEN Thought chain item content
-   */
-  content?: React.ReactNode;
-
-  /**
-   * @desc 思维节点脚注
-   * @descEN Thought chain item footer
-   */
-  footer?: React.ReactNode;
-
-  /**
    * @desc 思维节点状态
    * @descEN Thought chain item status
    */
   status?: `${THOUGHT_CHAIN_ITEM_STATUS}`;
   /**
-   * @desc 自定义前缀
-   * @descEN Prefix
+   * @desc 思维节点变体
+   * @descEN Thought chain item variant
    */
-  prefixCls?: string;
   variant?: `${VARIANT}`;
 }
 
 const Item: React.FC<ThoughtChainItemProp> = (props) => {
+  // ============================ Info ============================
   const {
     key,
     variant = 'solid',
@@ -86,16 +74,16 @@ const Item: React.FC<ThoughtChainItemProp> = (props) => {
     data: true,
   });
 
-  // ============================ Info ============================
   const id = React.useId();
 
   // ============================ Prefix ============================
+
   const { getPrefixCls, direction } = useXProviderContext();
 
   const prefixCls = getPrefixCls('thought-chain', customizePrefixCls);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
-  // ============================ Style ============================
   const itemCls = `${prefixCls}-item`;
+
   // ============================ Render ============================
   return wrapCSSVar(
     <div
@@ -106,9 +94,10 @@ const Item: React.FC<ThoughtChainItemProp> = (props) => {
         [`${itemCls}-${variant}`]: variant,
         [`${itemCls}-click`]: onClick,
         [`${itemCls}-error`]: status === THOUGHT_CHAIN_ITEM_STATUS.ERROR,
+        [`${itemCls}-rtl`]: direction === 'rtl',
       })}
     >
-      <Status prefixCls={itemCls} icon={icon} status={status} />
+      {(status || icon) && <Status prefixCls={prefixCls} icon={icon} status={status} />}
       <div className={classnames(`${itemCls}-content`)}>
         {title && <div className={classnames(`${itemCls}-title`)}>{title}</div>}
         {description && <div className={classnames(`${itemCls}-description`)}>{description}</div>}

@@ -49,6 +49,16 @@ export interface StatusProps {
    * @descEN Prefix
    */
   prefixCls?: string;
+  /**
+   * @desc 语义化结构 className
+   * @descEN Semantic structure class names
+   */
+  className?: string;
+  /**
+   * @desc 语义化结构 style
+   * @descEN Semantic structure styles
+   */
+  style?: React.CSSProperties;
 }
 
 const StatusIcon = {
@@ -59,7 +69,7 @@ const StatusIcon = {
 };
 
 const Status: React.FC<StatusProps> = (props) => {
-  const { prefixCls, icon, status } = props;
+  const { prefixCls, icon, status, className, style } = props;
 
   // ============================ Style ============================
   const statusCls = `${prefixCls}-status`;
@@ -69,9 +79,10 @@ const Status: React.FC<StatusProps> = (props) => {
   // ============================ Render ============================
   return (
     <div
-      className={classnames(statusCls, {
+      className={classnames(statusCls, className, {
         [`${statusCls}-${status}`]: status,
       })}
+      style={style}
     >
       {IconNode}
     </div>

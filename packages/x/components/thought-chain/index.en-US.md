@@ -20,7 +20,6 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" background="grey">Basic</code>
-<code src="./demo/size.tsx" background="grey">Size</code>
 <code src="./demo/status.tsx" background="grey">Item Status</code>
 <code src="./demo/collapsible.tsx" background="grey">Collapsible</code>
 <code src="./demo/customization.tsx" background="grey">Item Customization</code>

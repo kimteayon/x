@@ -1,84 +1,20 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Avatar, Typography } from 'antd';
+import type { ConfigProviderProps, GetProp } from 'antd';
 import classnames from 'classnames';
 import CSSMotion from 'rc-motion';
+import type { CSSMotionProps } from 'rc-motion';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
+import Status from './Status';
+import type { ThoughtChainItem, ThoughtChainProps } from './interface';
 
-import type { ConfigProviderProps, GetProp } from 'antd';
-import type { CSSMotionProps } from 'rc-motion';
-import type { ThoughtChainProps } from './';
+// ================= ThoughtChainContext ====================
 
-export enum THOUGHT_CHAIN_ITEM_STATUS {
-  /**
-   * @desc 等待状态
-   */
-  PENDING = 'pending',
-  /**
-   * @desc 成功状态
-   */
-  SUCCESS = 'success',
-  /**
-   * @desc 错误状态
-   */
-  ERROR = 'error',
-}
-
-export interface ThoughtChainItem {
-  /**
-   * @desc 思维节点唯一标识符
-   * @descEN Unique identifier
-   */
-  key?: string;
-
-  /**
-   * @desc 思维节点图标
-   * @descEN Thought chain item icon
-   */
-  icon?: React.ReactNode;
-
-  /**
-   * @desc 思维节点标题
-   * @descEN Thought chain item title
-   */
-  title?: React.ReactNode;
-
-  /**
-   * @desc 思维节点描述
-   * @descEN Thought chain item description
-   */
-  description?: React.ReactNode;
-
-  /**
-   * @desc 思维节点额外内容
-   * @descEN Thought chain item extra content
-   */
-  extra?: React.ReactNode;
-
-  /**
-   * @desc 思维节点内容
-   * @descEN Thought chain item content
-   */
-  content?: React.ReactNode;
-
-  /**
-   * @desc 思维节点脚注
-   * @descEN Thought chain item footer
-   */
-  footer?: React.ReactNode;
-
-  /**
-   * @desc 思维节点状态
-   * @descEN Thought chain item status
-   */
-  status?: `${THOUGHT_CHAIN_ITEM_STATUS}`;
-}
-
-export const ThoughtChainNodeContext = React.createContext<{
+export const ThoughtChainContext = React.createContext<{
   prefixCls?: string;
-  collapseMotion?: CSSMotionProps;
-  enableCollapse?: boolean;
   expandedKeys?: string[];
+  collapseMotion?: CSSMotionProps;
+  onItemExpand?: (curKey: string) => void;
   direction?: GetProp<ConfigProviderProps, 'direction'>;
   styles?: ThoughtChainProps['styles'];
   classNames?: ThoughtChainProps['classNames'];
@@ -86,34 +22,33 @@ export const ThoughtChainNodeContext = React.createContext<{
 
 interface ThoughtChainNodeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'> {
   info?: ThoughtChainItem;
+  line?: ThoughtChainProps['line'];
   nextStatus?: ThoughtChainItem['status'];
   onClick?: (key: string) => void;
+  index: number;
 }
 
 const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
-  const { info = {}, nextStatus, onClick, ...restProps } = props;
-
+  // ================= info ====================
+  const id = React.useId();
+  const { info = {}, line, nextStatus, onClick, index, className, ...restProps } = props;
   const domProps = pickAttrs(restProps, {
     attr: true,
     aria: true,
     data: true,
   });
 
-  // ================= ThoughtChainNodeContext ====================
   const {
     prefixCls,
-    collapseMotion,
-    enableCollapse,
     expandedKeys,
     direction,
+    collapseMotion,
+    onItemExpand,
     classNames = {},
     styles = {},
-  } = React.useContext(ThoughtChainNodeContext);
+  } = React.useContext(ThoughtChainContext) || {};
 
-  // ============================ Info ============================
-  const id = React.useId();
-
-  const { key = id, icon, title, extra, content, footer, status, description } = info;
+  const { collapsible, key = id, icon, title, content, footer, status, description } = info;
 
   // ============================ Style ============================
   const nodeCls = `${prefixCls}-node`;
@@ -124,30 +59,38 @@ const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
   // ============================ Content Open ============================
   const contentOpen = expandedKeys?.includes(key);
 
+  const iconNode = icon ? (
+    icon
+  ) : (
+    <div className={classnames(`${nodeCls}-index-icon`)}>{index + 1}</div>
+  );
   // ============================ Render ============================
   return (
-    <div {...domProps} className={classnames(nodeCls, props.className)} style={props.style}>
-      {/* Header */}
-      <div
-        className={classnames(`${nodeCls}-header`, classNames.itemHeader)}
-        style={styles.itemHeader}
-        onClick={onThoughtChainNodeClick}
-      >
+    <div
+      {...domProps}
+      className={classnames(nodeCls, className, classNames.item)}
+      style={props.style}
+    >
+      <Status
+        className={classnames(`${nodeCls}-icon`, classNames.itemIcon, {
+          [`${nodeCls}-icon-${line}`]: typeof line !== 'boolean',
+        })}
+        style={styles.itemIcon}
+        prefixCls={prefixCls}
+        icon={iconNode}
+        status={status}
+      />
+      <div className={classnames(`${nodeCls}-box`)}>
         {/* Header */}
         <div
-          className={classnames(`${nodeCls}-header-box`, {
-            [`${nodeCls}-collapsible`]: enableCollapse && content,
-          })}
+          className={classnames(`${nodeCls}-header`, classNames.itemHeader)}
+          style={styles.itemHeader}
+          onClick={onThoughtChainNodeClick}
         >
-          {/* Title */}
-          <Typography.Text
-            strong
-            ellipsis={{
-              tooltip: { placement: direction === 'rtl' ? 'topRight' : 'topLeft', title },
-            }}
-            className={`${nodeCls}-title`}
-          >
-            {enableCollapse &&
+          {/* Header */}
+          <div className={classnames(`${nodeCls}-title`)} onClick={() => onItemExpand?.(key)}>
+            {title}
+            {collapsible &&
               content &&
               (direction === 'rtl' ? (
                 <LeftOutlined
@@ -160,55 +103,38 @@ const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
                   rotate={contentOpen ? 90 : 0}
                 />
               ))}
-            {title}
-          </Typography.Text>
-          {/* Description */}
-          {description && (
-            <Typography.Text
-              className={`${nodeCls}-desc`}
-              ellipsis={{
-                tooltip: {
-                  placement: direction === 'rtl' ? 'topRight' : 'topLeft',
-                  title: description,
-                },
-              }}
-              type="secondary"
-            >
-              {description}
-            </Typography.Text>
-          )}
+          </div>
+          {description && <div className={`${nodeCls}-description`}>{description}</div>}
         </div>
-        {/* Extra */}
-        {extra && <div className={`${nodeCls}-extra`}>{extra}</div>}
-      </div>
-      {/* Content */}
-      {content && (
-        <CSSMotion {...collapseMotion} visible={enableCollapse ? contentOpen : true}>
-          {({ className: motionClassName, style }, motionRef) => (
-            <div
-              className={classnames(`${nodeCls}-content`, motionClassName)}
-              ref={motionRef}
-              style={style}
-            >
+        {/* Content */}
+        {content && (
+          <CSSMotion {...collapseMotion} visible={collapsible ? contentOpen : true}>
+            {({ className: motionClassName, style }, motionRef) => (
               <div
-                className={classnames(`${nodeCls}-content-box`, classNames.itemContent)}
-                style={styles.itemContent}
+                className={classnames(`${nodeCls}-content`, motionClassName)}
+                ref={motionRef}
+                style={style}
               >
-                {content}
+                <div
+                  className={classnames(`${nodeCls}-content-box`, classNames.itemContent)}
+                  style={styles.itemContent}
+                >
+                  {content}
+                </div>
               </div>
-            </div>
-          )}
-        </CSSMotion>
-      )}
-      {/* Footer */}
-      {footer && (
-        <div
-          className={classnames(`${nodeCls}-footer`, classNames.itemFooter)}
-          style={styles.itemFooter}
-        >
-          {footer}
-        </div>
-      )}
+            )}
+          </CSSMotion>
+        )}
+        {/* Footer */}
+        {footer && (
+          <div
+            className={classnames(`${nodeCls}-footer`, classNames.itemFooter)}
+            style={styles.itemFooter}
+          >
+            {footer}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

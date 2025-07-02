@@ -6,6 +6,20 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
   const { componentCls, calc } = token;
   const itemCls = `${componentCls}-item`;
   return {
+    [componentCls]: {
+      [`& ${componentCls}-status`]: {
+        color: token.colorText,
+      },
+      [`& ${componentCls}-status-error`]: {
+        color: token.colorError,
+      },
+      [`& ${componentCls}-status-success`]: {
+        color: token.colorSuccess,
+      },
+      [`& ${componentCls}-status-loading`]: {
+        color: token.colorPrimary,
+      },
+    },
     [itemCls]: {
       display: 'inline-flex',
       gap: token.marginXS,
@@ -17,12 +31,14 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
       paddingInline: token.paddingSM,
       boxSizing: 'border-box',
       lineHeight: token.lineHeight,
-      borderRadius: token.borderRadius,
+      borderRadius: token.itemBorderRadius,
+      [`&${itemCls}-rtl`]: {
+        direction: 'rtl',
+      },
       [`&${itemCls}-solid`]: {
         background: token.itemSolidBg,
         [`&${itemCls}-click:hover`]: {
           background: token.itemSolidHoverBg,
-          color: token.itemHoverTextColor,
           [`&${itemCls}-error:hover`]: {
             color: token.colorError,
             background: token.colorErrorBgFilledHover,
@@ -39,7 +55,6 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
         border: `${unit(token.lineWidth)} ${token.lineType}, ${token.colorBorder}`,
 
         [`&${itemCls}-click:hover`]: {
-          color: token.itemHoverTextColor,
           background: token.itemOutlinedHoverBg,
           [`&${itemCls}-error:hover`]: {
             color: token.colorError,
@@ -54,7 +69,6 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
       },
       [`&${itemCls}-text`]: {
         [`&${itemCls}-click:hover`]: {
-          color: token.itemHoverTextColor,
           background: token.itemSolidHoverBg,
           [`&${itemCls}-error:hover`]: {
             color: token.colorError,
@@ -64,16 +78,6 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
         [`&${itemCls}-error`]: {
           color: token.colorError,
         },
-      },
-
-      [`& ${itemCls}-status`]: {
-        color: token.colorText,
-      },
-      [`& ${itemCls}-status-error`]: {
-        color: token.colorError,
-      },
-      [`& ${itemCls}-status-loading`]: {
-        color: token.colorText,
       },
 
       [`&${itemCls}-click`]: {
@@ -86,7 +90,6 @@ const genThoughtChainItemStyle: GenerateStyle<ThoughtChainToken> = (token) => {
         cursor: 'pointer',
         transition: `all ${token.motionDurationMid}  ${token.motionEaseInOut}`,
       },
-      [`& ${itemCls}-content`]: {},
       [`& ${itemCls}-title`]: {
         display: 'inline-block',
       },
