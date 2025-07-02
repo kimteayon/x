@@ -51,7 +51,7 @@ Common props ref：[Common props](/docs/react/common-props)
 | footer | Thought chain item footer | React.ReactNode | None | - |
 | icon | Thought chain item icon | React.ReactNode | None | - |
 | key | Unique identifier | string | None | - |
-| status | Thought chain item status | 'pending' \| 'success' \| 'error' | None | - |
+| status | Thought chain item status | 'loading' \| 'success' \| 'error' | None | - |
 | title | Thought chain item title | React.ReactNode | None | - |
 
 ### CollapsibleOptions

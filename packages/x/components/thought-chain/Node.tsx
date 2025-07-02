@@ -24,14 +24,13 @@ interface ThoughtChainNodeProps extends Omit<React.HTMLAttributes<HTMLDivElement
   info?: ThoughtChainItem;
   line?: ThoughtChainProps['line'];
   nextStatus?: ThoughtChainItem['status'];
-  onClick?: (key: string) => void;
   index: number;
 }
 
 const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
   // ================= info ====================
   const id = React.useId();
-  const { info = {}, line, nextStatus, onClick, index, className, ...restProps } = props;
+  const { info = {}, line, nextStatus, index, className, ...restProps } = props;
   const domProps = pickAttrs(restProps, {
     attr: true,
     aria: true,
@@ -52,9 +51,6 @@ const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
 
   // ============================ Style ============================
   const nodeCls = `${prefixCls}-node`;
-
-  // ============================ Event ============================
-  const onThoughtChainNodeClick = () => onClick?.(key);
 
   // ============================ Content Open ============================
   const contentOpen = expandedKeys?.includes(key);
@@ -85,7 +81,6 @@ const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
         <div
           className={classnames(`${nodeCls}-header`, classNames.itemHeader)}
           style={styles.itemHeader}
-          onClick={onThoughtChainNodeClick}
         >
           {/* Header */}
           <div className={classnames(`${nodeCls}-title`)} onClick={() => onItemExpand?.(key)}>

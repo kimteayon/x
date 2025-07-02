@@ -53,7 +53,7 @@ demo:
 | footer      | 思维节点脚注       | React.ReactNode                   | -      | -    |
 | icon        | 思维节点图标       | React.ReactNode                   | -      | -    |
 | key         | 思维节点唯一标识符 | string                            | -      | -    |
-| status      | 思维节点状态       | 'pending' \| 'success' \| 'error' | -      | -    |
+| status      | 思维节点状态       | 'loading' \| 'success' \| 'error' | -      | -    |
 | title       | 思维节点标题       | React.ReactNode                   | -      | -    |
 
 ### CollapsibleOptions

@@ -94,19 +94,19 @@ const genThoughtChainStyle: GenerateStyle<ThoughtChainToken> = (token) => {
           content: '""',
           position: 'absolute',
           height: unit(calc('100%').sub(calc(token.iconSize).mul(token.lineHeight)).equal()),
-          borderLeft: `${token.lineWidth} solid ${token.colorFillContent}`,
-          left: unit(calc(token.iconSize).sub(1).div(2).equal()),
+          borderInlineStart: `${unit(token.lineWidth)} solid ${token.colorFillContent}`,
+          insetInlineStart: unit(calc(token.iconSize).sub(1).div(2).equal()),
           top: unit(calc(token.iconSize).mul(token.lineHeight).equal()),
         },
       },
       [`& ${componentCls}-node-icon-dashed`]: {
         '&:after': {
-          borderLeft: `${token.lineWidth} dashed ${token.colorFillContent}`,
+          borderInlineStart: `${unit(token.lineWidth)} dashed ${token.colorFillContent}`,
         },
       },
       [`& ${componentCls}-node-icon-dotted‌`]: {
         '&:after': {
-          borderLeft: `${token.lineWidth} dotted‌ ${token.colorFillContent}`,
+          borderInlineStart: `${unit(token.lineWidth)} dotted‌ ${token.colorFillContent}`,
         },
       },
       [`& ${componentCls}-node-index-icon`]: {
@@ -125,8 +125,8 @@ const genThoughtChainStyle: GenerateStyle<ThoughtChainToken> = (token) => {
         direction: 'rtl',
         [`& ${componentCls}-node-icon`]: {
           '&:after': {
-            left: 'unset',
-            right: unit(calc(token.iconSize).sub(1).div(2).equal()),
+            insetInlineStart: 'unset',
+            insetInlineEnd: unit(calc(token.iconSize).sub(1).div(2).equal()),
           },
         },
       },
