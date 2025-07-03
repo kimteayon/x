@@ -15,6 +15,13 @@ demo:
 
 - Push system-level notifications to keep users informed of task progress, especially when agents are performing complex tasks.
 
+## Notes
+
+- **`Notification` is a system-level feature. Please ensure that notifications are enabled for the browser application on your device.**
+- XNotification is an extension of `window.Notification`. If the browser does not support Notification, all XNotification methods will have no effect.
+- The style and effect of XNotification notifications depend on the browser's support for Notification. For example, the `dir` property is ignored by most browsers.
+- XNotification can only manage notifications sent in the current instance. After the instance changes (e.g., page refresh), it cannot manage or close previously sent notifications.
+
 ## Examples
 
 <!-- prettier-ignore -->
@@ -91,14 +98,8 @@ type useNotification = [
 ];
 ```
 
-# Notes
+## FAQ
 
-- XNotification is an extension of `window.Notification`. If the browser does not support Notification, all XNotification methods will have no effect.
-- The style and effect of XNotification notifications depend on the browser's support for Notification. For example, the `dir` property is ignored by most browsers.
-- XNotification can only manage notifications sent in the current instance. After the instance changes (e.g., page refresh), it cannot manage or close previously sent notifications.
-
-# FAQ
-
-## I have granted notification permission for the current origin and the `onShow` callback is triggered, but why can't I see the notification?
+### I have granted notification permission for the current origin and the `onShow` callback is triggered, but why can't I see the notification?
 
 `Notification` is a system-level feature. Please ensure that notifications are enabled for the browser application on your device.

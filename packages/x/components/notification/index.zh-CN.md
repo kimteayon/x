@@ -14,7 +14,15 @@ demo:
 
 ## 何时使用
 
-- 在智能体执行复杂任务时，可推送系统级别通知，使用户随时掌握任务进展。
+- 在智能体执行复杂任务时，可推送系统应用级别通知，使用户随时掌握任务进展。
+
+## 注意
+
+- \*\*`Notification`为系统应用通知，受操作系统通知权限管控，推荐仅用于弱推荐通知使用，[系统权限设置](#section1)。
+- XNotification 是由扩展 `window.Notification`实现的，如果浏览器环境不支持Notification，XNotification的方法调用将无任何效果。
+
+- XNotification 通知样式与效果均已当前浏览器环境对Notification的支持为准，例如`dir`属性会被大部分浏览器忽略。
+- XNotification 仅对当前实例下的通知进行关闭管理，实例变更后（例：浏览器页面刷新）对已发送的通知无管理关闭能力。
 
 ## 代码演示
 
@@ -92,14 +100,10 @@ type useNotification = [
 ];
 ```
 
-# 注意
+## 系统权限设置 {$}
 
-- XNotification 是由扩展 `window.Notification`实现的，如果浏览器环境不支持Notification，XNotification的方法调用将无任何效果。
-- XNotification 通知样式与效果均已当前浏览器环境对Notification的支持为准，例如`dir`属性会被大部分浏览器忽略。
-- XNotification 仅对当前实例下的通知进行关闭管理，实例变更后（例：浏览器页面刷新）对已发送的通知无管理关闭能力。
+## FAQ
 
-# FAQ
+### 已经获取了当前来源 `origin` 显示系统通知的权限，`onShow` 回调也触发了，为何还是无法展示推送的通知？
 
-## 已经获取了当前来源`origin`显示系统通知的权限，`onShow` 回调也触发了，为何还是无法展示推送的通知？
-
-`Notification`为系统通知，需要确保设备开启了对应浏览器应用的通知权限。
+`Notification` 为系统通知，需要确保设备开启了对应浏览器应用的通知权限。
