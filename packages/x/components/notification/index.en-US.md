@@ -4,7 +4,6 @@ group:
   title: General
   order: 0
 title: Notification
-subtitle: System Notification
 description: Send system-level notifications that are displayed outside the page.
 cover: https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*Oj-bTbVXtpQAAAAAAAAAAAAADgCCAQ/original
 coverDark: https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*qwdtSKWXeikAAAAAAAAAAAAADgCCAQ/original
@@ -41,10 +40,10 @@ To successfully send a notification, you need to ensure that the current domain 
 <!-- prettier-ignore -->
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| permission | Indicates whether the current user has granted the current origin permission to display web notifications. | NotificationPermission | - | - |
-| requestPermission| Requests permission from the user to display notifications for the current origin. | ()=> Promise\<NotificationPermission\> | - | - |
-|open |Pushes a notification to the user|(arg: XNotificationArgs['openConfig'])=> void | - | - |
-|close|Closes the pushed notification. You can pass a list of tags to close specified notifications. If there are no parameters, all notifications will be closed.|(arg?: XNotificationArgs['closeConfig'])=> void | - | - |
+| permission | Indicates whether the user has granted permission to display web notifications for the current origin. | NotificationPermission | - | - |
+| requestPermission| Requests permission from the user to display notifications for the current origin. | ()=> Promise</NotificationPermission/> | - | - |
+| open |Push a notification to the user| (config: XNotificationOpenArgs)=> void | - | - |
+| close|Close pushed notifications. You can pass a tag list to close specific notifications, or call without arguments to close all.| (config?: string[])=> void | - | - |
 
 #### NotificationPermission
 
@@ -55,10 +54,10 @@ type NotificationPermission =
   | 'default'; // The user's decision is unknown; in this case, the application behaves as if the permission was "denied".
 ```
 
-#### XNotificationArgs
+#### XNotificationOpenArgs
 
 ```tsx | pure
-type XNotificationArgs = {
+type XNotificationOpenArgs = {
   openConfig: NotificationOptions & {
     title: string;
     onClick?: (event: Event, close?: Notification['close']) => void;

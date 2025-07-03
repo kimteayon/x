@@ -8,8 +8,8 @@
     "lint:deps": "antd-tools run deps-lint",
     "lint:md": "remark . -f -q",
     "lint:script": "biome lint",
-     "test": "jest --config .jest.js --no-cache --collect-coverage",
-     "coverage": "jest --config .jest.js --no-cache --collect-coverage --coverage"
+    "test": "jest --config .jest.js --no-cache --collect-coverage",
+    "coverage": "jest --config .jest.js --no-cache --collect-coverage --coverage"
   },
   "sideEffects": false,
   "main": "lib/index.js",

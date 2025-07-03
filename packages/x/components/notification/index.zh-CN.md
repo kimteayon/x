@@ -44,8 +44,8 @@ demo:
 | --- | --- | --- | --- | --- |
 | permission | 表明当前用户是否授予当前来源（origin）显示 web 通知的权限。 | NotificationPermission | - | - |
 | requestPermission| 向用户为当前来源请求显示通知的权限。 | ()=> Promise\<NotificationPermission\> | - | - |
-|open |向用户推送一个通知|(arg: XNotificationArgs['openConfig'])=> void | - | - |
-|close|关闭已推送的通知，可以传入tag列表关闭指定通知，没有参数则会关闭所有通知|(arg?: XNotificationArgs['closeConfig'])=> void | - | - |
+|open |向用户推送一个通知|(config: XNotificationOpenArgs)=> void | - | - |
+|close|关闭已推送的通知，可以传入tag列表关闭指定通知，没有参数则会关闭所有通知|(config?: string[])=> void | - | - |
 
 #### NotificationPermission
 
@@ -56,10 +56,10 @@ type NotificationPermission =
   | 'default'; // 用户决定未知；在这种情况下，应用程序的行为就像权限被“拒绝”一样。
 ```
 
-#### XNotificationArgs
+#### XNotificationOpenArgs
 
 ```tsx | pure
-type XNotificationArgs = {
+type XNotificationOpenArgs = {
   openConfig: NotificationOptions & {
     title: string;
     onClick?: (event: Event, close?: Notification['close']) => void;
