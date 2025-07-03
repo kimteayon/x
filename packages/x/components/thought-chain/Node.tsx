@@ -1,12 +1,12 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { ConfigProviderProps, GetProp } from 'antd';
 import classnames from 'classnames';
-import CSSMotion from 'rc-motion';
 import type { CSSMotionProps } from 'rc-motion';
+import CSSMotion from 'rc-motion';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
-import Status from './Status';
 import type { ThoughtChainItem, ThoughtChainProps } from './interface';
+import Status from './Status';
 
 // ================= ThoughtChainContext ====================
 
@@ -23,14 +23,13 @@ export const ThoughtChainContext = React.createContext<{
 interface ThoughtChainNodeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'> {
   info?: ThoughtChainItem;
   line?: ThoughtChainProps['line'];
-  nextStatus?: ThoughtChainItem['status'];
   index: number;
 }
 
 const ThoughtChainNode: React.FC<ThoughtChainNodeProps> = (props) => {
   // ================= info ====================
   const id = React.useId();
-  const { info = {}, line, nextStatus, index, className, ...restProps } = props;
+  const { info = {}, line, index, className, ...restProps } = props;
   const domProps = pickAttrs(restProps, {
     attr: true,
     aria: true,

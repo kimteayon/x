@@ -1,16 +1,4 @@
 import {
-  Bubble,
-  Conversations,
-  Prompts,
-  Sender,
-  Suggestion,
-  ThoughtChain,
-  XProvider,
-} from '@ant-design/x';
-import { Card, Divider, Flex, Radio, Typography } from 'antd';
-import React from 'react';
-
-import {
   AlipayCircleOutlined,
   BulbOutlined,
   CheckCircleOutlined,
@@ -19,7 +7,18 @@ import {
   SmileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import {
+  Bubble,
+  Conversations,
+  Prompts,
+  Sender,
+  Suggestion,
+  ThoughtChain,
+  XProvider,
+} from '@ant-design/x';
 import type { ConfigProviderProps, GetProp } from 'antd';
+import { Card, Divider, Flex, Radio, Typography } from 'antd';
+import React from 'react';
 
 export default () => {
   const [value, setValue] = React.useState('');
@@ -128,7 +127,7 @@ export default () => {
                   icon: <CheckCircleOutlined />,
                 },
                 {
-                  title: 'Pending...',
+                  title: 'Loading...',
                   status: 'loading',
                   description: 'status: loading',
                   icon: <LoadingOutlined />,
