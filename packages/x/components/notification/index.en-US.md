@@ -1,7 +1,7 @@
 ---
 category: Components
 group:
-  title: General
+  title: Common
   order: 0
 title: Notification
 description: Send system-level notifications that are displayed outside the page.
