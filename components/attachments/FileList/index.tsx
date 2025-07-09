@@ -23,7 +23,7 @@ export interface FileListProps {
   itemStyle?: React.CSSProperties;
 
   uploadClassName?: string;
-  uploadStyle: React.CSSProperties;
+  uploadStyle?: React.CSSProperties;
 }
 
 const TOLERANCE = 1;
