@@ -21,14 +21,12 @@ const ForwardActions = React.forwardRef<ActionsRef, ActionsProps>((props, ref) =
     footer,
     dropdownProps = {},
     variant = 'borderless',
-
     prefixCls: customizePrefixCls,
     classNames = {},
     rootClassName = '',
     className = '',
     styles = {},
     style = {},
-
     ...otherHtmlProps
   } = props;
 
@@ -44,6 +42,7 @@ const ForwardActions = React.forwardRef<ActionsRef, ActionsProps>((props, ref) =
   const contextConfig = useXComponentConfig('actions');
   const [hashId, cssVarCls] = useStyle(prefixCls);
 
+  // ============================= Class =============================
   const mergedCls = classnames(
     prefixCls,
     contextConfig.className,
@@ -71,6 +70,8 @@ const ForwardActions = React.forwardRef<ActionsRef, ActionsProps>((props, ref) =
       nativeElement: containerRef.current!,
     };
   });
+
+  // ============================= Render =============================
 
   return (
     <div ref={containerRef} {...domProps} className={mergedCls} style={mergedStyle}>

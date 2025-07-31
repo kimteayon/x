@@ -50,6 +50,10 @@ export default function SenderHeader(props: SenderHeaderProps) {
 
   const headerCls = `${prefixCls}-header`;
 
+  const onOpenClick = () => {
+    onOpenChange?.(!open);
+  };
+
   return (
     <CSSMotion
       motionEnter
@@ -92,9 +96,7 @@ export default function SenderHeader(props: SenderHeaderProps) {
                       type="text"
                       icon={<CloseOutlined />}
                       size="small"
-                      onClick={() => {
-                        onOpenChange?.(!open);
-                      }}
+                      onClick={onOpenClick}
                     />
                   </div>
                 )}
