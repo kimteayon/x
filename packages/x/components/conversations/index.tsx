@@ -133,7 +133,7 @@ const ForwardConversations = React.forwardRef<ConversationsRef, ConversationsPro
     });
 
     // ============================= Refs =============================
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<any>(null);
 
     useProxyImperativeHandle(ref, () => {
       return {
@@ -264,7 +264,6 @@ const ForwardConversations = React.forwardRef<ConversationsRef, ConversationsPro
     // ============================ Render ============================
     return (
       <ul
-        ref={containerRef}
         {...domProps}
         style={{
           ...contextConfig.style,
@@ -273,6 +272,7 @@ const ForwardConversations = React.forwardRef<ConversationsRef, ConversationsPro
           ...styles.root,
         }}
         className={mergedCls}
+        ref={containerRef}
       >
         {!!creation && (
           <Creation
