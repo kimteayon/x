@@ -1,17 +1,20 @@
 import classnames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React from 'react';
-
+import useProxyImperativeHandle from '../_util/hooks/use-proxy-imperative-handle';
 import useXComponentConfig from '../_util/hooks/use-x-component-config';
 import { useXProviderContext } from '../x-provider';
 import ActionsFeedback from './ActionsFeedback';
 import { ActionsContext } from './context';
 import Item from './Item';
 import type { ActionsProps } from './interface';
-
 import useStyle from './style';
 
-const ForwardActions: React.FC<ActionsProps> = (props) => {
+type ActionsRef = {
+  nativeElement: HTMLDivElement;
+};
+
+const ForwardActions = React.forwardRef<ActionsRef, ActionsProps>((props, ref) => {
   const {
     items = [],
     onClick,
@@ -60,8 +63,17 @@ const ForwardActions: React.FC<ActionsProps> = (props) => {
     ...style,
   };
 
+  // ============================= Refs =============================
+  const containerRef = React.useRef<any>(null);
+
+  useProxyImperativeHandle(ref, () => {
+    return {
+      nativeElement: containerRef.current!,
+    };
+  });
+
   return (
-    <div {...domProps} className={mergedCls} style={mergedStyle}>
+    <div ref={containerRef} {...domProps} className={mergedCls} style={mergedStyle}>
       <ActionsContext.Provider
         value={{
           prefixCls,
@@ -92,7 +104,7 @@ const ForwardActions: React.FC<ActionsProps> = (props) => {
       </ActionsContext.Provider>
     </div>
   );
-};
+});
 
 type CompoundedActions = typeof ForwardActions & {
   Feedback: typeof ActionsFeedback;
