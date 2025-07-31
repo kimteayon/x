@@ -22,7 +22,7 @@ describe('Sender Component', () => {
   });
 
   it('action as ReactNode', () => {
-    const { container } = render(<Sender actions={<div className="bamboo" />} />);
+    const { container } = render(<Sender suffix={<div className="bamboo" />} />);
     expect(container.querySelector('.bamboo')).toBeTruthy();
   });
 
@@ -32,7 +32,7 @@ describe('Sender Component', () => {
     const onClear = jest.fn();
     const { container, getByText } = render(
       <Sender
-        actions={(_, info) => {
+        suffix={(_, info) => {
           const { SendButton, ClearButton } = info.components;
           return (
             <div className="bamboo">
@@ -82,7 +82,7 @@ describe('Sender Component', () => {
     const { container } = render(
       <Sender
         onChange={onChange}
-        actions={(_, { components: { ClearButton } }) => <ClearButton />}
+        suffix={(_, { components: { ClearButton } }) => <ClearButton />}
       />,
     );
 
@@ -148,7 +148,7 @@ describe('Sender Component', () => {
       const onSubmit = jest.fn();
       const { container, getByText } = render(
         <Sender
-          footer={({ components }) => {
+          footer={(_, { components }) => {
             const { SendButton, ClearButton } = components;
             return (
               <div className="sender-footer-test">
