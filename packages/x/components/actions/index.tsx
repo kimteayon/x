@@ -63,7 +63,7 @@ const ForwardActions = React.forwardRef<ActionsRef, ActionsProps>((props, ref) =
   };
 
   // ============================= Refs =============================
-  const containerRef = React.useRef<any>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   useProxyImperativeHandle(ref, () => {
     return {

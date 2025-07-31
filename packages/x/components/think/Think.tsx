@@ -80,7 +80,7 @@ const Think = React.forwardRef<ThinkRef, ThinkProps>((props, ref) => {
   });
 
   // ============================= Refs =============================
-  const thinkRef = React.useRef<any>(null);
+  const thinkRef = React.useRef<HTMLDivElement>(null);
   useProxyImperativeHandle(ref, () => {
     return {
       nativeElement: thinkRef.current!,

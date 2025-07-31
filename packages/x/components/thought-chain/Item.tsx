@@ -88,7 +88,7 @@ const Item = React.forwardRef<ItemRef, ThoughtChainItemProp>((props, ref) => {
   const id = React.useId();
 
   // ============================= Refs =============================
-  const itemRef = React.useRef<any>(null);
+  const itemRef = React.useRef<HTMLDivElement>(null);
   useProxyImperativeHandle(ref, () => {
     return {
       nativeElement: itemRef.current!,

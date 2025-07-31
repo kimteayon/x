@@ -133,7 +133,7 @@ const ForwardConversations = React.forwardRef<ConversationsRef, ConversationsPro
     });
 
     // ============================= Refs =============================
-    const containerRef = React.useRef<any>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     useProxyImperativeHandle(ref, () => {
       return {

@@ -83,7 +83,7 @@ const ForwardThoughtChain = React.forwardRef<any, ThoughtChainProps>((props, ref
 
   // ============================= Refs =============================
 
-  const thoughtChainRef = React.useRef<any>(null);
+  const thoughtChainRef = React.useRef<HTMLDivElement>(null);
 
   useProxyImperativeHandle(ref, () => {
     return {
